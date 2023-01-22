@@ -22,4 +22,4 @@ class Ronde:
 
 
     def __repr__(self):
-        return f"Match de la ronde n° {self.ronde_id}:"
+        return f"Match de la ronde n° {self.ronde_id}: "

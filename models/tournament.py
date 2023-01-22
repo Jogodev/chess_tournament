@@ -9,7 +9,7 @@ class Tournament:
         location,
         start_date,
         end_date,
-        player_list,
+        player_list: [],
         description="",
     ):
         self.id = secrets.token_hex(8)
@@ -37,8 +37,18 @@ class Tournament:
         return tournament
 
     def save_tournament(self):
-        with open("databases/tournament", "a") as database_tournament:
-            json.dump(self.serialize_tournament(), database_tournament, ensure_ascii=False)
+        with open("database/tournament.json", "a") as database_tournament:
+            json.dump(
+                self.serialize_tournament(),
+                database_tournament,
+                ensure_ascii=False,
+                indent=2,
+                separators=(",", ":"),
+                sort_keys=True,
+            )
+
+    def __repr__(self):
+        return f"Le tournoi n° {self.id} {self.name} viens de commencé à {self.location}"
 
     def add_round(self):
         ronde = Ronde(player_list)

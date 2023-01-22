@@ -3,11 +3,11 @@ import json
 
 class Player:
     def __init__(
-            self,
-            player_id: str,
-            lastname: str,
-            firstname: str,
-            birthday: str,
+        self,
+        player_id: str,
+        lastname: str,
+        firstname: str,
+        birthday: str,
     ):
         self.player_id = player_id
         self.lastname = lastname
@@ -31,13 +31,15 @@ class Player:
 
     def save_player(self):
         """Sauvegarde d'un joueur"""
-        with open("database/players.json", 'a') as players_database:
-            json.dump(self.serialize_player(), players_database, ensure_ascii=False, indent=2, sort_keys=True)
-
+        with open("database/players.json", "a") as players_database:
+            json.dump(
+                self.serialize_player(),
+                players_database,
+                ensure_ascii=False,
+                indent=2,
+                sort_keys=True,
+            )
 
     def update_player(self):
         """Mise à jour du fichier json"""
         pass
-
-
-
