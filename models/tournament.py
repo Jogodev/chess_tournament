@@ -37,7 +37,7 @@ class Tournament:
         return tournament
 
     def save_tournament(self):
-        with open("database/tournament.json", "a") as database_tournament:
+        with open("database/tournament.json", "w") as database_tournament:
             json.dump(
                 self.serialize_tournament(),
                 database_tournament,
@@ -46,6 +46,9 @@ class Tournament:
                 separators=(",", ":"),
                 sort_keys=True,
             )
+
+    def update_tournament(self):
+        pass
 
     def __repr__(self):
         return f"Le tournoi n° {self.id} {self.name} viens de commencé à {self.location}"

@@ -31,7 +31,7 @@ class Player:
 
     def save_player(self):
         """Sauvegarde d'un joueur"""
-        with open("database/players.json", "a") as players_database:
+        with open("database/players.json", "w") as players_database:
             json.dump(
                 self.serialize_player(),
                 players_database,

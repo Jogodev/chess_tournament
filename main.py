@@ -20,11 +20,16 @@ def main():
     player_2.save_player()
     player_3.save_player()
     player_4.save_player()
+    player_5.save_player()
+    player_6.save_player()
+    player_7.save_player()
+    player_8.save_player()
     player_list = {player_1, player_2, player_3, player_4, player_5, player_6, player_7, player_8}
     first_ronde = Ronde(1, player_list, '10/02/2023', '10/02/2023')
     print(first_ronde)
     first_tournament = Tournament("Pemier tournoi", "Paris", "21/02/2023", "21/02/2023", player_list, "C'est parti")
     print(first_tournament)
+    first_tournament.save_tournament()
 
 
 if __name__ == "__main__":
