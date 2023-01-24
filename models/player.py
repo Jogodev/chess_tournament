@@ -7,7 +7,7 @@ class Player:
         self,
         lastname: str,
         firstname: str = "-",
-        birthday: str  = "-" ,
+        birthday: str = "-",
     ):
         self.player_id = secrets.token_hex(16)
         self.lastname = lastname
@@ -20,7 +20,7 @@ class Player:
 
     def serialize_player(self):
         """Formatage d'un joueur"""
-        
+
         player = {
             "id": self.player_id,
             "Nom": self.lastname,
@@ -33,7 +33,7 @@ class Player:
     def save_player(self):
         """Sauvegarde d'un joueur"""
         
-        with open("database/players.json", "w") as players_database:
+        with open("database/players.json", "a") as players_database:
             json.dump(
                 self.serialize_player(),
                 players_database,
@@ -44,5 +44,7 @@ class Player:
 
     def update_player(self):
         """Mise à jour du fichier json"""
-        
+        pass
+
+    def load_player(self):
         pass

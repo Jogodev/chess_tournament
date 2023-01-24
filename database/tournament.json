@@ -2,4 +2,38 @@
   "Date de début":"21/02/2023",
   "Date de fin":"21/02/2023",
   "Lieu":"Paris",
-  "Liste des joueurs":
+  "Liste des joueurs":[
+    "julie lafont",
+    "john gage",
+    "Fournier Alain",
+    "vanessa dupont",
+    "Yves georges",
+    "bernard sebastien",
+    "jean renaud",
+    "vanessa dupont"
+  ],
+  "Liste des rondes":[],
+  "Nom":"Pemier tournoi",
+  "Notes":"C'est parti",
+  "Ronde en cours":-1,
+  "id":"b7e90d08420b666e"
+}{
+  "Date de début":"21/02/2023",
+  "Date de fin":"21/02/2023",
+  "Lieu":"Paris",
+  "Liste des joueurs":[
+    "julie lafont",
+    "john gage",
+    "Fournier Alain",
+    "vanessa dupont",
+    "Yves georges",
+    "bernard sebastien",
+    "jean renaud",
+    "vanessa dupont"
+  ],
+  "Liste des rondes":[],
+  "Nom":"Pemier tournoi",
+  "Notes":"C'est parti",
+  "Ronde en cours":-1,
+  "id":"ef5f5fb81b0f7ab7"
+}
