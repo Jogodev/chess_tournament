@@ -1,25 +1,26 @@
 import json
+import secrets
 
 
 class Player:
     def __init__(
         self,
-        player_id: str,
         lastname: str,
-        firstname: str,
-        birthday: str,
+        firstname: str = "-",
+        birthday: str  = "-" ,
     ):
-        self.player_id = player_id
+        self.player_id = secrets.token_hex(16)
         self.lastname = lastname
         self.firstname = firstname
         self.birthday = birthday
         self.score = 0.0
 
     def __repr__(self):
-        return f"Le joueur suivant a été créé {self.lastname} {self.firstname}"
+        return f"Player {self.lastname} {self.firstname}"
 
     def serialize_player(self):
         """Formatage d'un joueur"""
+        
         player = {
             "id": self.player_id,
             "Nom": self.lastname,
@@ -31,6 +32,7 @@ class Player:
 
     def save_player(self):
         """Sauvegarde d'un joueur"""
+        
         with open("database/players.json", "w") as players_database:
             json.dump(
                 self.serialize_player(),
@@ -42,4 +44,5 @@ class Player:
 
     def update_player(self):
         """Mise à jour du fichier json"""
+        
         pass
