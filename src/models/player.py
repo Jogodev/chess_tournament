@@ -44,6 +44,7 @@ class Player:
 
         return f"Player({self.__dict__})"
 
+    @property
     def serialize(self):
         """Formatage d'un joueur"""
 
@@ -54,7 +55,7 @@ class Player:
 
         with open(DATA_FILE, "a") as f:
             json.dump(
-                self.serialize_player(),
+                self.serialize,
                 f,
                 ensure_ascii=False,
                 indent=2,
@@ -91,15 +92,18 @@ class Player:
         # return p
 
     @classmethod
-    def list_all(self):
+    def list_all(self) -> list:
         """return list of dict with all entries """
 
         # TODO load DB
         # TODO transform in list of dict
         # TODO return the result
 
+        # DEFAULT BEFORE CODING => RETURN EMPLY LIST
+        return []
+
     @classmethod
-    def delete_all(self):
+    def delete_all(self) -> None:
         """delete all """
 
         # TODO load DB
