@@ -108,3 +108,10 @@ class Player:
 
         # TODO load DB
         # drop everything
+
+    @classmethod
+    def init_db(self):
+        """boot db with vanessa """
+
+        p = Player(last_name="carlsen", elo=2890)
+        p.create()
