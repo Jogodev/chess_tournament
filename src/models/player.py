@@ -1,3 +1,4 @@
+import logging
 import json
 import secrets
 
@@ -9,8 +10,8 @@ class Player:
 
     def __init__(
         self,
-        lastname: str,
-        firstname: str = "-",
+        last_name: str,
+        first_name: str = "-",
         birthday: str = "-",
         sex: str = "-",
         elo: int = 0,
@@ -18,11 +19,22 @@ class Player:
     ):
         """init method """
 
-        self.lastname = lastname.upper()
-        self.firstname = firstname.capitalize()
+        # last name
+        self.last_name = last_name.upper()
+
+        # first name
+        self.first_name = first_name.capitalize()
+
+        # birth day
         self.birthday = birthday
+
+        # sex
+        self.sex = sex
+
+        # elo
         self.elo = elo
 
+        # player id
         if player_id == "-":
             player_id = secrets.token_hex(4)
         self.player_id = player_id
@@ -32,7 +44,7 @@ class Player:
 
         return f"Player({self.__dict__})"
 
-    def serialize_player(self):
+    def serialize(self):
         """Formatage d'un joueur"""
 
         return self.__dict__
