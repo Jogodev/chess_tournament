@@ -51,7 +51,12 @@ class Tournament:
         pass
 
     def load_tournament(self):
-        pass
+        return json.load(
+            open("database/tournament.json"),
+            parse_float=str,
+            parse_int=str,
+        )
+
 
     def __repr__(self):
         return (

@@ -47,6 +47,7 @@ def main():
     )
     print(first_tournament)
     first_tournament.save_tournament()
+    first_tournament.load_tournament()
 
 
 if __name__ == "__main__":
