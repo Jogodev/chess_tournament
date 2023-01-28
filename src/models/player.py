@@ -6,7 +6,7 @@ DATA_FILE = "./database/players.json"
 
 
 class Player:
-    """Player Class """
+    """Player Class"""
 
     def __init__(
         self,
@@ -17,7 +17,7 @@ class Player:
         elo: int = 0,
         player_id: str = "-",
     ):
-        """init method """
+        """init method"""
 
         # last name
         self.last_name = last_name.upper()
@@ -40,7 +40,7 @@ class Player:
         self.player_id = player_id
 
     def __repr__(self):
-        """repr method """
+        """repr method"""
 
         return f"Player({self.__dict__})"
 
@@ -49,6 +49,7 @@ class Player:
         """Formatage d'un joueur"""
 
         return self.__dict__
+
 
     def create(self):
         """Sauvegarde d'un joueur"""
@@ -70,17 +71,30 @@ class Player:
         # TODO delete this player from db
         # TODO create the 'new' player
         # self.create()
+        with open(DATA_FILE) as f:
+            data = json.load(f)
+            print(data)
+        for player in data:
+            print(player[1])
+        # for player in players_dict:
+        # print(player)
 
     def delete(self):
-        """delete a specific player """
+        """delete a specific player"""
 
         # TODO load db and all files
         # TODO Find the player in the Db loaded
         # TODO delete this player from db
 
+    # with open(DATA_FILE) as f:
+    #     players_dict = json.load(f)
+    #     for player in players_dict:
+    #         if player == players_dict["player_id"]:
+    #             del player["GLASS"]
+
     @classmethod
     def find(self, key_value_dict: dict):
-        """ for a key_value_dict with {id : '12a'} find the palyer in the db and return an instace"""
+        """for a key_value_dict with {id : '12a'} find the palyer in the db and return an instace"""
 
         # TODO load db and all files
         # TODO Find the player in the Db loaded
@@ -93,7 +107,7 @@ class Player:
 
     @classmethod
     def list_all(self) -> list:
-        """return list of dict with all entries """
+        """return list of dict with all entries"""
 
         # TODO load DB
         # TODO transform in list of dict
@@ -104,14 +118,14 @@ class Player:
 
     @classmethod
     def delete_all(self) -> None:
-        """delete all """
+        """delete all"""
 
         # TODO load DB
         # drop everything
 
     @classmethod
     def init_db(self):
-        """boot db with vanessa """
+        """boot db with vanessa"""
 
         p = Player(last_name="carlsen", elo=2890)
         p.create()
