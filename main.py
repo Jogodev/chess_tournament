@@ -8,8 +8,7 @@ import json
 def main():
     player1 = Player('Glass')
     player1.create()
-
-    player1.update()
+    player1.init_db()
 
 
 if __name__ == "__main__":

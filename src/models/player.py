@@ -2,7 +2,7 @@ import logging
 import json
 import secrets
 
-DATA_FILE = "./database/players.json"
+PLAYERS_DATA_FILE = "./database/players.json"
 
 
 class Player:
@@ -51,55 +51,72 @@ class Player:
         return self.__dict__
 
 
+
     def create(self):
         """Sauvegarde d'un joueur"""
 
-        with open(DATA_FILE, "a") as f:
+        with open(PLAYERS_DATA_FILE, "a") as f:
             json.dump(
                 self.serialize,
                 f,
                 ensure_ascii=False,
                 indent=2,
                 sort_keys=True,
-            )
+                )
 
     def update(self):
         """Mise à jour du fichier json"""
-
+        last_name = input('entrez le nom du joueur :')
         # TODO load db and all files
+        with open(PLAYERS_DATA_FILE) as f:
+            players_db = json.load(f)
+            print(players_db)
         # TODO Find the player in the Db loaded
+        for player in players_db:
+            if player['lastname'] == last_name:
+                return player
         # TODO delete this player from db
+        if last_name == players_db["last_name"]:
+            del players_db['last_name']
         # TODO create the 'new' player
-        # self.create()
-        with open(DATA_FILE) as f:
-            data = json.load(f)
-            print(data)
-        for player in data:
-            print(player[1])
-        # for player in players_dict:
-        # print(player)
+        self.create()
+
+
 
     def delete(self):
         """delete a specific player"""
-
+        last_name = input('entrez le nom du joueur que vous voulez supprimez')
         # TODO load db and all files
+        with open(PLAYERS_DATA_FILE) as f:
+            players_db = json.load(f)
         # TODO Find the player in the Db loaded
+            for player in players_db:
+                if player['lastname'] == last_name:
+                    return player
         # TODO delete this player from db
+        if last_name == players_db["last_name"]:
+            del players_db["last_name"]
 
-    # with open(DATA_FILE) as f:
-    #     players_dict = json.load(f)
-    #     for player in players_dict:
-    #         if player == players_dict["player_id"]:
-    #             del player["GLASS"]
+
+
+
 
     @classmethod
     def find(self, key_value_dict: dict):
         """for a key_value_dict with {id : '12a'} find the palyer in the db and return an instace"""
-
+        _id = input("Entrez l'id du joueur :")
         # TODO load db and all files
+        with open(PLAYERS_DATA_FILE) as f:
+            player_db = json.load(f)
         # TODO Find the player in the Db loaded
-
+            for player in player_db:
+                if player_db["player_id"] == _id:
+                    return player
         # TODO find in db where key_value_dict {id : '12a'} ==> find the good one
+            for player in player_db:
+                if player_db["player_id"] == _id:
+                    return player
+
         # p_dict = {"firstname" : "alex", "lastname": "gaz"}
         # p = Player(**p_dict)
 
@@ -110,10 +127,13 @@ class Player:
         """return list of dict with all entries"""
 
         # TODO load DB
+        with open(PLAYERS_DATA_FILE) as f:
+            player_db = json.load(f)
         # TODO transform in list of dict
+
         # TODO return the result
 
-        # DEFAULT BEFORE CODING => RETURN EMPLY LIST
+        # DEFAULT BEFORE CODING => RETURN EMPTY LIST
         return []
 
     @classmethod
@@ -121,8 +141,10 @@ class Player:
         """delete all"""
 
         # TODO load DB
+        with open(PLAYERS_DATA_FILE) as f:
+            player_db = json.load(f)
         # drop everything
-
+            del player_db
     @classmethod
     def init_db(self):
         """boot db with vanessa"""
