@@ -1,6 +1,8 @@
 import logging
 import json
 import secrets
+from random import random
+
 from tinydb import TinyDB, Query
 
 PLAYERS_DATA_FILE = "./database/players.json"
@@ -11,15 +13,17 @@ class Player:
 
     def __init__(
         self,
+        player_id: int,
         last_name: str,
         first_name: str = "-",
         birthday: str = "-",
         sex: str = "-",
         elo: int = 0,
-        player_id: str = "-",
+        rank: int = 0,
     ):
         """init method"""
-
+        # player id
+        self.player_id = player_id
         # last name
         self.last_name = last_name.upper()
 
@@ -35,17 +39,19 @@ class Player:
         # elo
         self.elo = elo
 
-        # player id
-        if player_id == "-":
-            player_id = secrets.token_hex(4)
-        self.player_id = player_id
-        self.players_db = TinyDB("database/players.json")
+        self.rank = rank
+
+        # database
+        self.players_db = TinyDB(
+            "database/players.json", sort_keys=True, indent=4, separators=(",", ": ")
+        )
 
     def __repr__(self):
         """repr method"""
 
         return f"Player({self.__dict__})"
 
+    @property
     def serialize(self):
         """Formatage d'un joueur"""
 
@@ -60,33 +66,27 @@ class Player:
         """Sauvegarde d'un joueur"""
 
         db = self.players_db
-        db.insert(self.serialize())
+        db.insert(self.serialize)
 
     def update(self):
         """Mise à jour du fichier json"""
-        last_name = input("entrez le nom du joueur :")
         # TODO load db and all files
         # TODO Find the player in the Db loaded
         # TODO delete this player from db
+        # TODO create the 'new' player
         db = self.players_db
         db.all()
-        for player in db:
-            if player["last_name"] == last_name:
-                db.update({"last_name": self.last_name}, doc_ids=[self.elo])
-        # TODO create the 'new' player
+        db.update(self.serialize)
         self.create()
 
     def delete(self):
         """delete a specific player"""
-        last_name = input("entrez le nom du joueur que vous voulez supprimez")
         # TODO load db and all files
         # TODO Find the player in the Db loaded
         # TODO delete this player from db
         players_db = self.players_db
         players_db.all()
-        for player in players_db:
-            if player["last_name"] == last_name:
-                players_db.remove(doc_ids=[1])
+        players_db.remove(doc_ids=[self.player_id])
 
     @classmethod
     def find(self, key_value_dict: dict):
@@ -109,8 +109,12 @@ class Player:
         # TODO transform in list of dict
         # TODO return the result
         players_db = TinyDB("database/players.json")
-        # DEFAULT BEFORE CODING => RETURN EMPTY LIST
-        return [players_db.all()]
+        # print(list(players_db.all()))
+        players_db.all()
+        player_list = []
+        for player in players_db:
+            player_list.append(player)
+        return print(player_list)
 
     @classmethod
     def delete_all(self) -> None:

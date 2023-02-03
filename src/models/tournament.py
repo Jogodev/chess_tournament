@@ -1,4 +1,5 @@
 import json
+from tinydb import TinyDB
 import secrets
 
 
@@ -21,41 +22,34 @@ class Tournament:
         self.round_list = []
         self.player_list = player_list
         self.description = description
+        self.players_db = TinyDB("database/players.json")
 
     def serialize_tournament(self):
-        tournament = {
+        """"""
+        return {
             "id": self.id,
-            "Nom": self.name,
-            "Lieu": self.location,
-            "Date de début": self.start_date,
-            "Date de fin": self.end_date,
-            "Ronde en cours": self.id_current_round,
-            "Liste des rondes": self.round_list,
-            "Liste des joueurs": self.player_list,
-            "Notes": self.description,
+            "name": self.name,
+            "location": self.location,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "current_round": self.id_current_round,
+            "round_list": self.round_list,
+            "player_list": self.player_list,
+            "description": self.description,
         }
-        return tournament
 
     def save_tournament(self):
-        with open("database/tournament.json", "a") as database_tournament:
-            json.dump(
-                self.serialize_tournament(),
-                database_tournament,
-                ensure_ascii=False,
-                indent=2,
-                separators=(",", ":"),
-                sort_keys=True,
-            )
+        """"""
+
+        db = self.players_db
+        db.insert(self.serialize_tournament())
 
     def update_tournament(self):
+        """"""
         pass
 
     def load_tournament(self):
-        return json.load(
-            open("database/tournament.json"),
-            parse_float=str,
-            parse_int=str,
-        )
+        """"""
 
 
     def __repr__(self):

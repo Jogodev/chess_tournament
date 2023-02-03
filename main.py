@@ -8,12 +8,15 @@ import json
 
 def main():
 
-    # player1 = Player("Alain")
-    # player2 = Player("Patrick")
-    player3 = Player("David")
+    player1 = Player(1, "Matt")
+    # player2 = Player(2, "Patrick")
+    # player3 = Player(3, "David")
     # player1.create()
     # player2.create()
-    player3.delete()
+    # player3.create()
+    player1.update()
+
+
 
 
 
