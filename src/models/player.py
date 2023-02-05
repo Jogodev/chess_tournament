@@ -60,6 +60,8 @@ class Player:
             "player_id": self.player_id,
             "last_name": self.last_name,
             "first_name": self.first_name,
+            "birthday": self.birthday,
+            "sex": self.sex,
             "elo": self.elo,
             "rank": self.rank
         }

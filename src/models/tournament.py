@@ -38,8 +38,8 @@ class Tournament:
             "end_date": self.end_date,
             "current_round": self.id_current_round,
             "round_list": self.round_list,
-            "player_list": self.player_list,
             "time_control": self.time_control,
+            "player_list": self.player_list,
             "description": self.description,
         }
 
@@ -58,15 +58,23 @@ class Tournament:
         db.update({"current_round": self.id_current_round}, doc_ids=[self.tournament_id])
 
 
-
     def load_tournament(self):
         """"""
+
+        db = self.tournaments_db
+        db.all()
+        tournament_list = []
+        for tournament in db:
+            tournament_list.append(tournament)
+        print(tournament_list)
+        return tournament_list
 
 
     def __repr__(self):
         return (
             f"Le tournoi n° {self.id} {self.name} viens de commencé à {self.location}"
         )
+
 
     def add_round(self):
         ronde = Ronde(player_list)
