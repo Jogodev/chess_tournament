@@ -1,67 +1,80 @@
-import json
+
+from tinydb import TinyDB
 import secrets
 
 
 class Tournament:
     def __init__(
         self,
-        name,
-        location,
-        start_date,
-        end_date,
-        player_list: [],
+        name: str,
+        tournament_id: str = secrets.token_hex(8),
+        location: str = '',
+        start_date: str = '',
+        end_date: str = '',
+        time_control: int = '',
+        player_list: list = [],
         description="",
     ):
-        self.id = secrets.token_hex(8)
+        self.tournament_id = tournament_id
         self.name = name
         self.location = location
         self.start_date = start_date
         self.end_date = end_date
         self.id_current_round = -1
         self.round_list = []
+        self.time_control = time_control
         self.player_list = player_list
         self.description = description
+        self.tournaments_db = TinyDB("database/tournaments.json", sort_keys=True, indent=4, separators=(',', ': '))
 
     def serialize_tournament(self):
-        tournament = {
-            "id": self.id,
-            "Nom": self.name,
-            "Lieu": self.location,
-            "Date de début": self.start_date,
-            "Date de fin": self.end_date,
-            "Ronde en cours": self.id_current_round,
-            "Liste des rondes": self.round_list,
-            "Liste des joueurs": self.player_list,
-            "Notes": self.description,
+        """"""
+
+        return {
+            "id": self.tournament_id,
+            "name": self.name,
+            "location": self.location,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "current_round": self.id_current_round,
+            "round_list": self.round_list,
+            "time_control": self.time_control,
+            "player_list": self.player_list,
+            "description": self.description,
         }
-        return tournament
 
     def save_tournament(self):
-        with open("database/tournament.json", "a") as database_tournament:
-            json.dump(
-                self.serialize_tournament(),
-                database_tournament,
-                ensure_ascii=False,
-                indent=2,
-                separators=(",", ":"),
-                sort_keys=True,
-            )
+        """ Save tournament """
+
+        db = self.tournaments_db
+        db.insert(self.serialize_tournament())
 
     def update_tournament(self):
-        pass
+        """"""
+
+        db = self.tournaments_db
+        db.all()
+        db.update({"time_control": self.time_control}, doc_ids=[self.tournament_id])
+        db.update({"current_round": self.id_current_round}, doc_ids=[self.tournament_id])
+
 
     def load_tournament(self):
-        return json.load(
-            open("database/tournament.json"),
-            parse_float=str,
-            parse_int=str,
-        )
+        """"""
+
+        db = self.tournaments_db
+        db.all()
+        tournament_list = []
+        for tournament in db:
+            tournament_list.append(tournament)
+        print(tournament_list)
+        return tournament_list
 
 
     def __repr__(self):
         return (
             f"Le tournoi n° {self.id} {self.name} viens de commencé à {self.location}"
         )
+
 
     def add_round(self):
         ronde = Ronde(player_list)
