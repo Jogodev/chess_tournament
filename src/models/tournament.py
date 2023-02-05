@@ -1,4 +1,4 @@
-import json
+
 from tinydb import TinyDB
 import secrets
 
@@ -6,28 +6,32 @@ import secrets
 class Tournament:
     def __init__(
         self,
-        name,
-        location,
-        start_date,
-        end_date,
-        player_list: [],
+        name: str,
+        tournament_id: str = secrets.token_hex(8),
+        location: str = '',
+        start_date: str = '',
+        end_date: str = '',
+        time_control: int = '',
+        player_list: list = [],
         description="",
     ):
-        self.id = secrets.token_hex(8)
+        self.tournament_id = tournament_id
         self.name = name
         self.location = location
         self.start_date = start_date
         self.end_date = end_date
         self.id_current_round = -1
         self.round_list = []
+        self.time_control = time_control
         self.player_list = player_list
         self.description = description
-        self.players_db = TinyDB("database/players.json")
+        self.tournaments_db = TinyDB("database/tournaments.json", sort_keys=True, indent=4, separators=(',', ': '))
 
     def serialize_tournament(self):
         """"""
+
         return {
-            "id": self.id,
+            "id": self.tournament_id,
             "name": self.name,
             "location": self.location,
             "start_date": self.start_date,
@@ -35,18 +39,25 @@ class Tournament:
             "current_round": self.id_current_round,
             "round_list": self.round_list,
             "player_list": self.player_list,
+            "time_control": self.time_control,
             "description": self.description,
         }
 
     def save_tournament(self):
-        """"""
+        """ Save tournament """
 
-        db = self.players_db
+        db = self.tournaments_db
         db.insert(self.serialize_tournament())
 
     def update_tournament(self):
         """"""
-        pass
+
+        db = self.tournaments_db
+        db.all()
+        db.update({"time_control": self.time_control}, doc_ids=[self.tournament_id])
+        db.update({"current_round": self.id_current_round}, doc_ids=[self.tournament_id])
+
+
 
     def load_tournament(self):
         """"""

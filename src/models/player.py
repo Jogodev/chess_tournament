@@ -1,12 +1,7 @@
 import logging
 import json
 import secrets
-from random import random
-
 from tinydb import TinyDB, Query
-
-PLAYERS_DATA_FILE = "./database/players.json"
-
 
 class Player:
     """Player Class"""
@@ -46,12 +41,18 @@ class Player:
             "database/players.json", sort_keys=True, indent=4, separators=(",", ": ")
         )
 
+    @classmethod
+    def get(self):
+        """"""
+        return TinyDB(
+            "database/players.json", sort_keys=True, indent=4, separators=(",", ": ")
+        )
+
     def __repr__(self):
         """repr method"""
 
         return f"Player({self.__dict__})"
 
-    @property
     def serialize(self):
         """Formatage d'un joueur"""
 
@@ -60,24 +61,27 @@ class Player:
             "last_name": self.last_name,
             "first_name": self.first_name,
             "elo": self.elo,
+            "rank": self.rank
         }
 
     def create(self):
         """Sauvegarde d'un joueur"""
 
         db = self.players_db
-        db.insert(self.serialize)
+        db.insert(self.serialize())
+        db.update({'id': self.player_id}, doc_ids=[self.player_id])
 
-    def update(self):
-        """Mise à jour du fichier json"""
+    def update_player(self, last_name):
+        """Update player db"""
+
         # TODO load db and all files
         # TODO Find the player in the Db loaded
         # TODO delete this player from db
         # TODO create the 'new' player
         db = self.players_db
-        db.all()
-        db.update(self.serialize)
-        self.create()
+        query = Query()
+        db.update({'last_name': last_name}, query.player_id == self.player_id)
+        # self.create()
 
     def delete(self):
         """delete a specific player"""
