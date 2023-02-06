@@ -1,5 +1,4 @@
-import logging
-import json
+
 import secrets
 from tinydb import TinyDB, Query
 
@@ -13,7 +12,6 @@ class Player:
         first_name: str = "-",
         birthday: str = "-",
         sex: str = "-",
-        elo: int = 0,
         rank: int = 0,
     ):
         """init method"""
@@ -32,7 +30,7 @@ class Player:
         self.sex = sex
 
         # elo
-        self.elo = elo
+        self.score = 0.0
 
         self.rank = rank
 
@@ -62,7 +60,7 @@ class Player:
             "first_name": self.first_name,
             "birthday": self.birthday,
             "sex": self.sex,
-            "elo": self.elo,
+            "score": self.score,
             "rank": self.rank
         }
 
