@@ -14,7 +14,12 @@ $ git clone https://github.com/Jogodev/chess_tournament.git
 $ cd chess_tournament
 ````
 ### Linux
-`````bash
+````bash
 $ git clone https://github.com/Jogodev/chess_tournament.git
 $ cd chess_tournament
+````
+
+### Install the virtual environment
+````bash
+$ pip install -r requirements.txt
 ````
