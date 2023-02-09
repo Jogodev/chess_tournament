@@ -1,4 +1,4 @@
-# Chess tournament projection
+# Chess tournament project
 ## Start
 
 ### first clone the project

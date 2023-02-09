@@ -10,9 +10,5 @@ class Game:
         self.player_2 = player_2
 
 
-    def game_tuple(self):
-        game = ([self.player_1["score"]], [self.player_2["score"]])
-
-
     def __repr__(self):
         return f"Match entre {self.player_1} et {self.player_2}"
