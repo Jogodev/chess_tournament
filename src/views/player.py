@@ -19,6 +19,8 @@ def menu_player_view():
 
 def create_player_view():
     """Menu create player"""
+    title = "----------CRÉER UN JOUEUR----------"
+    print(title)
 
     last_name = input(
         """
@@ -56,15 +58,19 @@ def create_player_view():
         --> """
     )
 
-    return {"Nom": {last_name}, "Prénom": {first_name}, "Date de naissance": {birthday}, "Genre": {gender}
+    return {"Nom": {last_name}, "Prénom": {first_name}, "Date de naissance": {birthday}, "Genre": {gender},
             "Score": {score}, "Classement": {rank}}
 
 
 def update_player_view():
     """"""
+    title = "----------MODIFIER UN JOUEUR----------"
+    print(title)
     pass
 
 
 def delete_player_view():
     """"""
+    title = "----------SUPPRIMER UN JOUEUR----------"
+    print(title)
     pass

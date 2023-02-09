@@ -1,5 +1,6 @@
 """Player controller"""
-from src.views.player import *
+from src.views.player import menu_player_view, create_player_view, update_player_view, delete_player_view
+from src.models.player import Player
 
 
 def menu_player_controller():
@@ -14,12 +15,16 @@ def menu_player_controller():
         return "delete_player"
     elif choice == "b":
         return "main_menu"
-    else:
-        raise AttributeError("Aucun choix ne correspond")
+
+    raise AttributeError("Aucun choix ne correspond")
+
 
 def create_player_controller():
+    """"""
+    player = create_player_view()
 
-    player_dict = create_player_view()
+    print(player)
+    return "menu_player1"
 
 
 def update_player_controller():

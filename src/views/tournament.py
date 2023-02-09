@@ -1,17 +1,25 @@
+"""tournament views"""
 
-def menu_tournament():
+
+def menu_tournament_view():
     """"""
-    title = "--------------------------------MENU TOURNOI--------------------------------"
+    title = "----------MENU TOURNOI----------"
     txt = """ 
     [1] - Créer un nouveau tournoi
-    [2] - rapport d'un tournoi en cours
+    [2] - Rapport d'un tournoi en cours
+    [b] - Retour au menu principal
     --> """
 
     print(title)
     print(txt)
 
-def create_tournament():
+    choice = input("Faites votre choix : ")
+    return choice
+
+def create_tournament_view():
     """"""
+    title = "----------CRÉATION TOURNOI----------"
+    print(title)
 
     name = input(
         """
@@ -25,30 +33,33 @@ def create_tournament():
         --> """
     )
 
-    name = input(
+    description = input(
         """
         Nom du tournoi ?
         --> """
     )
 
-    name = input(
-        """
-        Nom du tournoi ?
-        --> """
-    )
+    # name = input(
+    #     """
+    #     Nom du tournoi ?
+    #     --> """
+    # )
+    #
+    # name = input(
+    #     """
+    #     Nom du tournoi ?
+    #     --> """
+    # )
+    #
+    # name = input(
+    #     """
+    #     Nom du tournoi ?
+    #     --> """
+    # )
 
-    name = input(
-        """
-        Nom du tournoi ?
-        --> """
-    )
 
-    name = input(
-        """
-        Nom du tournoi ?
-        --> """
-    )
-
-
+def update_tournament_view():
+    """"""
+    pass
 
 

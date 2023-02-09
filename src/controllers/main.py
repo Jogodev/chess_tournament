@@ -1,7 +1,6 @@
-
-"""Main controller function"""
+"""Main controller functions"""
 from src.views.main import main_menu_view
-from src.views.player import *
+
 
 
 def main_menu_controller():
@@ -11,8 +10,7 @@ def main_menu_controller():
     if choice == "1":
         return "menu_player"
     elif choice == "2":
-        print("vide pour le moment")
+        return "tournament_menu"
     elif choice == "b":
-        print("retour au menu principal")
-    else:
-        raise AttributeError("aucun choix ne correspond")
+        return "main_menu"
+
