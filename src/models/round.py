@@ -1,5 +1,6 @@
+
 from src.models.game import Game
-import itertools
+from src.models.player import Player
 
 
 class Round:
@@ -8,7 +9,7 @@ class Round:
             self,
             round_id: int,
             round_name: str,
-            match_list: list,
+            match_list: list = [],
             start_datetime: str = '',
             end_datetime: str = '',
 
@@ -28,10 +29,18 @@ class Round:
             self.end_datetime
         ]
 
-    def pairring_player(self, player_list):
+    def first_round(self, player_list):
         """Création des paires de la 1ere ronde"""
-        results_of_pairring = itertools.combinations(list(player_list), 2)
-        return results_of_pairring
+        pass
 
     def __repr__(self):
         return f"Match de la ronde n° {self.round_id}: "
+
+    def game_tuple(self):
+        """Match as tuple"""
+        game = ([self.player_1["score"]], [self.player_2["score"]])
+
+
+# round_1 = Round(1, "1ere ronde")
+#round_1.first_round([{"last_name": "Alain, "rank": 1, "score": 0.0}, {"last_name": "Stan", "rank": 2, "score": 0.0}, {"last_name": "David", "rank": 3, "score": 0.0}, {"last_name": "Scott", "rank": 4, "score": 0.0}, {"last_name": "Kevin", "rank": 5, "score": 0.0}, {"last_name": "Lucie", "rank": 6, "score": 0.0}, {"last_name": "Elodie", "rank": 7, "score": 0.0}, {"Julie", "rank": 8, "score": 0.0}])
+# print(round_1.first_round(["Alain", "Stan", "David", "Scott", "Kevin", "Lucie", "Elodie", "Julie"]))
