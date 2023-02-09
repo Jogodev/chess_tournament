@@ -1,5 +1,4 @@
-import logging
-import json
+
 import secrets
 from tinydb import TinyDB, Query
 
@@ -12,40 +11,26 @@ class Player:
         last_name: str,
         first_name: str = "-",
         birthday: str = "-",
-        sex: str = "-",
-        elo: int = 0,
+        gender: str = "-",
         rank: int = 0,
     ):
-        """init method"""
-        # player id
         self.player_id = player_id
-        # last name
         self.last_name = last_name.upper()
-
-        # first name
         self.first_name = first_name.capitalize()
-
-        # birth day
         self.birthday = birthday
-
-        # sex
-        self.sex = sex
-
-        # elo
-        self.elo = elo
-
+        self.gender = gender
+        self.score = 0.0
         self.rank = rank
 
-        # database
         self.players_db = TinyDB(
-            "database/players.json", sort_keys=True, indent=4, separators=(",", ": ")
+            "database/players.json", indent=4, separators=(",", ": ")
         )
 
     @classmethod
     def get(self):
         """"""
         return TinyDB(
-            "database/players.json", sort_keys=True, indent=4, separators=(",", ": ")
+            "database/players.json", indent=4, separators=(",", ": ")
         )
 
     def __repr__(self):
@@ -61,8 +46,8 @@ class Player:
             "last_name": self.last_name,
             "first_name": self.first_name,
             "birthday": self.birthday,
-            "sex": self.sex,
-            "elo": self.elo,
+            "gender": self.gender,
+            "score": self.score,
             "rank": self.rank
         }
 
@@ -71,25 +56,18 @@ class Player:
 
         db = self.players_db
         db.insert(self.serialize())
-        db.update({'id': self.player_id}, doc_ids=[self.player_id])
 
-    def update_player(self, last_name):
+    def update_player(self, key, value):
         """Update player db"""
 
-        # TODO load db and all files
-        # TODO Find the player in the Db loaded
-        # TODO delete this player from db
-        # TODO create the 'new' player
         db = self.players_db
         query = Query()
-        db.update({'last_name': last_name}, query.player_id == self.player_id)
+        db.update({key: value}, query.player_id == self.player_id)
         # self.create()
 
     def delete(self):
         """delete a specific player"""
-        # TODO load db and all files
-        # TODO Find the player in the Db loaded
-        # TODO delete this player from db
+
         players_db = self.players_db
         players_db.all()
         players_db.remove(doc_ids=[self.player_id])
