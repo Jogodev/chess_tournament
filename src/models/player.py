@@ -92,7 +92,5 @@ class Player:
     @classmethod
     def delete_all(cls):
         """delete all"""
-        # TODO load DB
-        # drop everything
-        players_db = TinyDB("database/players.json", indent=4, separators=(',', ': '))
+        players_db = cls.table()
         return players_db.truncate()
