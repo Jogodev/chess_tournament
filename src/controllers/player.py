@@ -1,5 +1,6 @@
 """Player controller"""
-from src.views.player import menu_player_view, create_player_view, update_player_view, delete_player_view
+from src.views.player import menu_player_view, create_player_view, update_player_view, update_player_view_field, \
+    delete_player_view, delete_player_view_confirmation, list_all_players_db_view
 from src.models.player import Player
 
 
@@ -13,25 +14,53 @@ def menu_player_controller():
         return "update_player"
     elif choice == "3":
         return "delete_player"
+    elif choice == "4":
+        return "all_players"
     elif choice == "b":
         return "main_menu"
-
     raise AttributeError("Aucun choix ne correspond")
 
 
 def create_player_controller():
-    """"""
-    player = create_player_view()
-
-    print(player)
-    return "menu_player1"
+    """Insert a player in db"""
+    player_dict = create_player_view()
+    print(player_dict)
+    player = Player(**player_dict)
+    player_insert_in_db = player.create()
+    print(f"{player.last_name} {player.first_name} ajouté à la base de données avec l'id {player.player_id}")
+    return "menu_player"
 
 
 def update_player_controller():
+    """Update any fields of a player"""
+    player_id = update_player_view()
+    player_find = Player.find(player_id)
+    player_field_update = update_player_view_field(player_find)
+    Player.update(player_field_update[0], player_field_update[1], player_field_update[2])
 
-    player = update_player_view()
+    return "menu_player"
 
 
 def delete_player_controller():
+    """Delete a player by id"""
 
-    player = delete_player_view()
+    player_id = delete_player_view()
+    player_find = Player.find(player_id)
+    choice = delete_player_view_confirmation(player_find)
+
+    if choice == "y":
+        Player.delete(player_id)
+        print(f"Le joueur {player_id} à été supprimé")
+    elif choice == 'n':
+        return "menu_player"
+    return "menu_player"
+
+
+def all_players_controller():
+    """list all players"""
+    choice = list_all_players_db_view(Player.list_all())
+
+    if choice == "y":
+        Player.delete_all()
+
+
