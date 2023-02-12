@@ -1,7 +1,6 @@
 # Chess tournament project
-## Start
 
-### first clone the project
+## first clone the project
 
 ### Windows
 ````bash
@@ -19,7 +18,17 @@ $ git clone https://github.com/Jogodev/chess_tournament.git
 $ cd chess_tournament
 ````
 
-### Install the virtual environment
+### Create the virtual environment
+````bash
+$ python -m venv env
+````
+
+### Activate the virtual environment
+````bash
+$ . env\scripts\activate 
+````
+
+### Install the requirements
 ````bash
 $ pip install -r requirements.txt
 ````
