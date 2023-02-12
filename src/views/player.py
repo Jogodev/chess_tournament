@@ -133,23 +133,17 @@ def delete_player_view_confirmation(player_find):
 def list_all_players_db_view(all_players):
     """all players"""
     print("----------LISTE DE TOUT LES JOUEURS----------")
-    print("Vous avez la possibilité de supprimer tout les joueurs."
-          "!!!ATTENTION CETTE ACTION EST IRRÉVERSIBLE!!!")
     print(all_players)
 
-    input(
+
+def delete_all_players_db_view():
+    print("Vous avez la possibilité de supprimer tout les joueurs"
+          "!!!ATTENTION CETTE ACTION EST IRRÉVERSIBLE!!!")
+    choice = input(
         """
         Voulez-vous supprimer la base de données ?
         y -> [oui] ou n -> [non] 
         --> """
     )
 
-    delete_db_confirm = input(
-        """
-        Vous êtes sur le point de supprimer tout les joueurs êtes vous vraiment sûre ?
-        y -> [oui] ou n -> [non] 
-        --> """
-    )
-
-    print(f"Tout les joueurs ont été supprimer")
-    return delete_db_confirm
+    return choice

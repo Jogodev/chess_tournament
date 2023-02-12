@@ -56,11 +56,27 @@ def delete_player_controller():
     return "menu_player"
 
 
-def all_players_controller():
+def list_all_players_controller():
     """list all players"""
-    choice = list_all_players_db_view(Player.list_all())
+    all_players = list_all_players_db_view(Player.list_all())
+    print(all_players)
+
+
+def delete_all_players_db_view():
+    pass
+
+
+def delete_all_players_controller():
+    """delete all players"""
+    choice = delete_all_players_db_view()
 
     if choice == "y":
         Player.delete_all()
+        print("Tou les joueurs ont été supprimé")
+    elif choice == "n":
+        return "menu_player"
+    else:
+        raise AttributeError("Aucun choix ne correspond")
+    return "menu_player"
 
 
