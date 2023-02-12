@@ -9,6 +9,7 @@ def menu_player_view():
             [2] - Modifier un joueur 
             [3] - Supprimer un joueur 
             [4] - Liste de tous les joueurs
+            [5] - Supprimer tous les joueurs
             [b] - retour au menu principal
             """
     print(title)

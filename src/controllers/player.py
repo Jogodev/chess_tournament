@@ -1,6 +1,6 @@
 """Player controller"""
 from src.views.player import menu_player_view, create_player_view, update_player_view, update_player_view_field, \
-    delete_player_view, delete_player_view_confirmation, list_all_players_db_view
+    delete_player_view, delete_player_view_confirmation, list_all_players_db_view, delete_all_players_db_view
 from src.models.player import Player
 
 
@@ -15,7 +15,9 @@ def menu_player_controller():
     elif choice == "3":
         return "delete_player"
     elif choice == "4":
-        return "all_players"
+        return "list_all_players"
+    elif choice == "5":
+        return "delete_all_players"
     elif choice == "b":
         return "main_menu"
     raise AttributeError("Aucun choix ne correspond")
@@ -60,10 +62,6 @@ def list_all_players_controller():
     """list all players"""
     all_players = list_all_players_db_view(Player.list_all())
     print(all_players)
-
-
-def delete_all_players_db_view():
-    pass
 
 
 def delete_all_players_controller():

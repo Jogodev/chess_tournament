@@ -41,7 +41,7 @@ class Player:
 
         return self.__dict__
 
-    def create_player(self):
+    def create(self):
         """Create player"""
 
         db = self.table()
