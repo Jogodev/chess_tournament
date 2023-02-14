@@ -1,6 +1,14 @@
 """Player controller"""
-from src.views.player import menu_player_view, create_player_view, update_player_view, update_player_view_field, \
-    delete_player_view, delete_player_view_confirmation, list_all_players_db_view, delete_all_players_db_view
+from src.views.player import (
+    menu_player_view,
+    create_player_view,
+    update_player_view,
+    update_player_view_field,
+    delete_player_view,
+    delete_player_view_confirmation,
+    list_all_players_db_view,
+    delete_all_players_db_view,
+)
 from src.models.player import Player
 
 
@@ -29,7 +37,9 @@ def create_player_controller():
     print(player_dict)
     player = Player(**player_dict)
     player_insert_in_db = player.create()
-    print(f"{player.last_name} {player.first_name} ajouté à la base de données avec l'id {player.player_id}")
+    print(
+        f"{player.last_name} {player.first_name} ajouté à la base de données avec l'id {player.player_id}"
+    )
     return "menu_player"
 
 
@@ -53,7 +63,7 @@ def delete_player_controller():
     if choice == "y":
         Player.delete(player_id)
         print(f"Le joueur {player_id} à été supprimé")
-    elif choice == 'n':
+    elif choice == "n":
         return "menu_player"
     return "menu_player"
 
@@ -76,5 +86,3 @@ def delete_all_players_controller():
     else:
         raise AttributeError("Aucun choix ne correspond")
     return "menu_player"
-
-
