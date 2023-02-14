@@ -47,7 +47,33 @@ def update_player_controller():
     """Update any fields of a player"""
     player_id = update_player_view()
     player_find = Player.find(player_id)
+
+    # WARNING
+
+    # le retour de Player.find(player_id), c'est une liste de dictionnaires (en fait c'est pas des dictionnaires mais des 'Documents')
+    # tu peux faire print(player_find)
+
+    # il faut à minima qqch de type p = player_find[0]
+    # idem print(type(p)) ==> document
+    # pour en avoir le dict il faut passer par dict(p)
+    # ensuite tu devras faire p = Player(**p)
+    # puis p_dict = p.__dict__
+    # c'est ce p_dict que tu envoies à ta vue
+    # les vues ne doivent livre que de dict
+
     player_field_update = update_player_view_field(player_find)
+
+    # variables intermédiaires == Good
+    # key, val, p_id = player_field_update
+
+    # comme on a instancié un objet de classe Player, on aimerait faire diretctemt :
+    # p.key = val,  puis  p.update()
+    # p.key ca ne marche pas ici
+    # donc c'est soit setattr(p, key, val)
+    # puis p.update
+    # soit p.update(key, val)
+    # et Dans ta méthode update, tu fais setattr(selfn key, val) puis tu peux juste suppr le player de la base de donnée et en recréer un (moche mais fonctionnel)
+
     Player.update(player_field_update[0], player_field_update[1], player_field_update[2])
 
     return "menu_player"

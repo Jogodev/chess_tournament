@@ -60,8 +60,14 @@ def create_player_view():
         --> """
     )
 
-    return {"last_name": last_name, "first_name": first_name, "birthday": birthday, "gender": gender, "score": score,
-            "rank": rank}
+    return {
+        "last_name": last_name,
+        "first_name": first_name,
+        "birthday": birthday,
+        "gender": gender,
+        "score": score,
+        "rank": rank,
+    }
 
 
 def update_player_view():
@@ -78,12 +84,13 @@ def update_player_view():
     return player_id
 
 
-def update_player_view_field(player_find):
+def update_player_view_field(player_find):  # mettre p_dict à la place
     """Update player view"""
     title = "----------MODIFIER UN JOUEUR----------"
     print(title)
     print(f"Vous allez modifier ce joueur : {player_find}")
 
+    # comme on recoit un dict ==> ON peut suppr le [0]
     player_id = player_find[0]["player_id"]
 
     key = input(
@@ -138,8 +145,10 @@ def list_all_players_db_view(all_players):
 
 
 def delete_all_players_db_view():
-    print("Vous avez la possibilité de supprimer tout les joueurs"
-          "!!!ATTENTION CETTE ACTION EST IRRÉVERSIBLE!!!")
+    print(
+        "Vous avez la possibilité de supprimer tout les joueurs"
+        "!!!ATTENTION CETTE ACTION EST IRRÉVERSIBLE!!!"
+    )
     choice = input(
         """
         Voulez-vous supprimer la base de données ?
