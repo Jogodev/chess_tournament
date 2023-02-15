@@ -7,14 +7,14 @@ class Player:
     """Player Class"""
 
     def __init__(
-            self,
-            last_name: str,
-            first_name: str = "-",
-            birthday: str = "-",
-            gender: str = "-",
-            rank: int = 0,
-            score: float = 0.0,
-            player_id: int = 0,
+        self,
+        last_name: str,
+        first_name: str = "-",
+        birthday: str = "-",
+        gender: str = "-",
+        rank: int = 0,
+        score: float = 0.0,
+        player_id: int = 0,
     ):
         self.player_id = player_id if player_id else secrets.token_hex(2)
         self.last_name = last_name.upper()
@@ -27,9 +27,7 @@ class Player:
     @classmethod
     def table(cls):
         """"""
-        return TinyDB(
-            "database/players.json", indent=4, separators=(',', ': ')
-        )
+        return TinyDB("database/players.json", indent=4, separators=(",", ": "))
 
     def __repr__(self):
         """repr method"""
@@ -57,7 +55,7 @@ class Player:
         if key == "rank":
             db.update({key: int(value)}, query.player_id == player_id)
         else:
-            db.update({key: value}, query.player_id == player_id )
+            db.update({key: value}, query.player_id == player_id)
 
     @classmethod
     def delete(cls, player_id):
@@ -84,9 +82,20 @@ class Player:
         players_db = cls.table()
         # print(list(players_db.all()))
         players_db.all()
+
+        ####### Ca OK mais mieux avec une comprehésenion de liste
+        # p_list = [i for i in  players_db.all()]
         player_list = []
+
         for player in players_db:
             player_list.append(player)
+
+        #### !!!!! :) :) Allo !!!! :) :) :)
+        # return sans print
+        # # et idem, meme si pas obligatoire je te conseille de faire
+        # p_list = [Player(**i) for i in player_list]
+        # return p_list
+        # de return une liste de instance Player()
         return print(player_list)
 
     @classmethod
