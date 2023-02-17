@@ -84,14 +84,13 @@ def update_player_view():
     return player_id
 
 
-def update_player_view_field(player_find):  # mettre p_dict à la place
+def update_player_view_field(player_dict):  # mettre p_dict à la place
     """Update player view"""
     title = "----------MODIFIER UN JOUEUR----------"
     print(title)
-    print(f"Vous allez modifier ce joueur : {player_find}")
+    print(f"Vous allez modifier ce joueur : {player_dict}")
 
     # comme on recoit un dict ==> ON peut suppr le [0]
-    player_id = player_find[0]["player_id"]
 
     key = input(
         """
@@ -105,7 +104,7 @@ def update_player_view_field(player_find):  # mettre p_dict à la place
         --> """
     )
 
-    return [key, value, player_id]
+    return {key: value}
 
 
 def delete_player_view():
@@ -122,11 +121,11 @@ def delete_player_view():
     return player_id
 
 
-def delete_player_view_confirmation(player_find):
+def delete_player_view_confirmation(player):
     """Delete player view confirmation"""
     title = "----------SUPPRIMER UN JOUEUR----------"
     print(title)
-    print(f"Vous allez supprimer ce joueur : {player_find}")
+    print(f"Vous allez supprimer ce joueur : {player}")
 
     choice = input(
         """
@@ -134,17 +133,28 @@ def delete_player_view_confirmation(player_find):
         y -> [oui] ou n -> [non]
         --> """
     )
-
+    print(f"{player} supprimé")
     return choice
 
 
 def list_all_players_db_view(all_players):
     """all players"""
     print("----------LISTE DE TOUT LES JOUEURS----------")
+    txt = """
+    [b] - retour au menu joueur
+    [m] - retour au menu principal
+    """
     print(all_players)
-
+    print(txt)
+    choice = input(
+        """
+        --> """
+    )
+    return choice
 
 def delete_all_players_db_view():
+
+
     print(
         "Vous avez la possibilité de supprimer tout les joueurs"
         "!!!ATTENTION CETTE ACTION EST IRRÉVERSIBLE!!!"
@@ -155,5 +165,4 @@ def delete_all_players_db_view():
         y -> [oui] ou n -> [non] 
         --> """
     )
-
     return choice

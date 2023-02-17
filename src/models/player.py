@@ -1,5 +1,5 @@
 """Player model"""
-import secrets
+import secrets, logging
 from tinydb import TinyDB, Query
 
 
@@ -45,26 +45,22 @@ class Player:
         db = self.table()
         db.insert(self.serialize())
 
-    @classmethod
-    def update(cls, key, value, player_id):
+    def update(self, kwargs=None):
         """Update player"""
+        if isinstance(kwargs, dict):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+        self.delete()
+        self.create()
 
-        db = cls.table()
-        db.all()
-        query = Query()
-        if key == "rank":
-            db.update({key: int(value)}, query.player_id == player_id)
-        else:
-            db.update({key: value}, query.player_id == player_id)
-
-    @classmethod
-    def delete(cls, player_id):
+    def delete(self):
         """delete a specific player"""
 
-        db = cls.table()
-        db.all()
+        db = self.table()
         query = Query()
-        return db.remove(query.player_id == player_id)
+        kwargs = {"player_id": self.player_id}
+        db.remove(query.fragment(kwargs))
+        logging.warning(f"Joueur {self.player_id} supprimé")
 
     @classmethod
     def find(cls, player_id):
@@ -73,30 +69,18 @@ class Player:
         db.all()
         query = Query()
         player_find = db.search(query.player_id == player_id)
-        return player_find
+        player_list = [Player(**dict(player)) for player in player_find]
+        return player_list
 
     @classmethod
     def list_all(cls):
         """return list of dict with all entries"""
 
         players_db = cls.table()
-        # print(list(players_db.all()))
         players_db.all()
-
-        ####### Ca OK mais mieux avec une comprehésenion de liste
-        # p_list = [i for i in  players_db.all()]
-        player_list = []
-
-        for player in players_db:
-            player_list.append(player)
-
-        #### !!!!! :) :) Allo !!!! :) :) :)
-        # return sans print
-        # # et idem, meme si pas obligatoire je te conseille de faire
-        # p_list = [Player(**i) for i in player_list]
-        # return p_list
-        # de return une liste de instance Player()
-        return print(player_list)
+        player_list = [player for player in players_db.all()]
+        player_instance_list = [Player(**player) for player in player_list]
+        return player_instance_list
 
     @classmethod
     def delete_all(cls):
