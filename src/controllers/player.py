@@ -8,6 +8,7 @@ from src.views.player import (
     delete_player_view_confirmation,
     list_all_players_db_view,
     delete_all_players_db_view,
+    players_db_test_view
 )
 from src.models.player import Player
 
@@ -26,6 +27,8 @@ def menu_player_controller():
         return "list_all_players"
     elif choice == "5":
         return "delete_all_players"
+    elif choice == "6":
+        return "create_test_db"
     elif choice == "b":
         return "main_menu"
     raise ValueError("Aucun choix ne correspond")
@@ -84,7 +87,6 @@ def list_all_players_controller():
         raise ValueError("Aucun choix ne correspond")
 
 
-
 def delete_all_players_controller():
     """delete all players"""
     choice = delete_all_players_db_view()
@@ -93,6 +95,21 @@ def delete_all_players_controller():
         Player.delete_all()
     elif choice == "n":
         return "menu_player"
+    else:
+        raise ValueError("Aucun choix ne correspond")
+    return "menu_player"
+
+
+def players_db_test_controller():
+    """Create a test db of 8 players"""
+    choice = players_db_test_view()
+
+    if choice == "y":
+        Player.boot()
+    elif choice == "b":
+        return "menu_player"
+    elif choice == "m":
+        return "main_menu"
     else:
         raise ValueError("Aucun choix ne correspond")
     return "menu_player"

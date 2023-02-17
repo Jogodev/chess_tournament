@@ -2,7 +2,7 @@
 
 from src.controllers.main import main_menu_controller
 from src.controllers.player import menu_player_controller, create_player_controller, update_player_controller, \
-    delete_player_controller, list_all_players_controller, delete_all_players_controller
+    delete_player_controller, list_all_players_controller, delete_all_players_controller, players_db_test_controller
 from src.controllers.tournament import menu_tournament_controller, create_tournament_controller
 
 controller_dict = {
@@ -15,6 +15,7 @@ controller_dict = {
     "delete_player": delete_player_controller,
     "list_all_players": list_all_players_controller,
     "delete_all_players": delete_all_players_controller,
+    "create_test_db": players_db_test_controller,
     # Tournament
     "tournament_menu": menu_tournament_controller,
     "create_tournament": create_tournament_controller,

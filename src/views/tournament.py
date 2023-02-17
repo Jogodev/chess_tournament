@@ -16,6 +16,7 @@ def menu_tournament_view():
     choice = input("Faites votre choix : ")
     return choice
 
+
 def create_tournament_view():
     """"""
     title = "----------CRÉATION TOURNOI----------"
@@ -61,5 +62,3 @@ def create_tournament_view():
 def update_tournament_view():
     """"""
     pass
-
-

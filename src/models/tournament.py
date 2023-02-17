@@ -1,4 +1,3 @@
-
 from src.models.player import Player
 from tinydb import TinyDB
 import secrets
@@ -6,14 +5,21 @@ import secrets
 
 class Tournament:
     def __init__(
-        self,
-        name: str,
-        tournament_id: str = secrets.token_hex(8),
-        location: str = '',
-        start_date: str = '',
-        end_date: str = '',
-        player_list: list = [{"last_name": "Alain", "rank": 1, "score": 0.0}, {"last_name": "Stan", "rank": 2, "score": 0.0}, {"last_name": "David", "rank": 3, "score": 0.0}, {"last_name": "Scott", "rank": 4, "score": 0.0}, {"last_name": "Kevin", "rank": 5, "score": 0.0}, {"last_name": "Lucie", "rank": 6, "score": 0.0}, {"last_name": "Elodie", "rank": 7, "score": 0.0}, {"last_name": "Julie", "rank": 8, "score": 0.0}],
-        description="",
+            self,
+            name: str,
+            tournament_id: str = secrets.token_hex(8),
+            location: str = '',
+            start_date: str = '',
+            end_date: str = '',
+            player_list: list = [{"last_name": "Alain", "rank": 1, "score": 0.0},
+                                 {"last_name": "Stan", "rank": 2, "score": 0.0},
+                                 {"last_name": "David", "rank": 3, "score": 0.0},
+                                 {"last_name": "Scott", "rank": 4, "score": 0.0},
+                                 {"last_name": "Kevin", "rank": 5, "score": 0.0},
+                                 {"last_name": "Lucie", "rank": 6, "score": 0.0},
+                                 {"last_name": "Elodie", "rank": 7, "score": 0.0},
+                                 {"last_name": "Julie", "rank": 8, "score": 0.0}],
+            description="",
     ):
         self.tournament_id = tournament_id
         self.name = name
@@ -54,7 +60,6 @@ class Tournament:
         db.all()
         db.update({"current_round": self.id_current_round}, doc_ids=[self.tournament_id])
 
-
     def load_tournament(self):
         """"""
 
@@ -65,7 +70,6 @@ class Tournament:
             tournament_list.append(tournament)
         print(tournament_list)
         return tournament_list
-
 
     def __repr__(self):
         return (
@@ -89,4 +93,3 @@ class Tournament:
         ronde = Round(player_list)
         self.round_list.append(ronde)
         self.id_current_round = id
-

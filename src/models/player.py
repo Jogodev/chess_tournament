@@ -7,14 +7,14 @@ class Player:
     """Player Class"""
 
     def __init__(
-        self,
-        last_name: str,
-        first_name: str = "-",
-        birthday: str = "-",
-        gender: str = "-",
-        rank: int = 0,
-        score: float = 0.0,
-        player_id: int = 0,
+            self,
+            last_name: str,
+            first_name: str = "-",
+            birthday: str = "-",
+            gender: str = "-",
+            rank: int = 0,
+            score: float = 0.0,
+            player_id: str = "",
     ):
         self.player_id = player_id if player_id else secrets.token_hex(2)
         self.last_name = last_name.upper()
@@ -44,6 +44,7 @@ class Player:
 
         db = self.table()
         db.insert(self.serialize())
+        logging.warning(f"Joueur {self.player_id} créer")
 
     def update(self, kwargs=None):
         """Update player"""
@@ -87,3 +88,27 @@ class Player:
         """delete all"""
         players_db = cls.table()
         return players_db.truncate()
+
+    @classmethod
+    def boot(cls):
+        """"""
+
+        list_to_create = [
+            ("AB12341", "Musk", "Elon", "h", 1),
+            ("AB12342", "Lopez", "Jennifer", "f", 2),
+            ("AB12343", "Ali", "Mohamed", "h", 3),
+            ("AB12343", "Bertrand", "Alain", "h", 4),
+            ("AB12344", "Vilar", "Jean", "h", 5),
+            ("AB12345", "Doe", "John", "h", 6),
+            ("AB12346", "Melenchon", "Jean-Luc", "h", 7),
+            ("AB12347", "Birkin", "Jane", "f", 8),
+        ]
+        for player_id, last_name, first_name, gender, rank in list_to_create:
+            player = Player(
+                player_id=player_id,
+                last_name=last_name,
+                first_name=first_name,
+                gender=gender,
+                rank=int(rank),
+            )
+            player.create()

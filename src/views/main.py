@@ -1,4 +1,6 @@
 """menu function"""
+
+
 def main_menu_view():
     """Main menu"""
 
@@ -11,4 +13,3 @@ def main_menu_view():
     print(txt)
     choice = input("Faites votre choix : ")
     return choice
-
