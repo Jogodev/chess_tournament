@@ -26,13 +26,13 @@ class Player:
 
     @classmethod
     def table(cls):
-        """"""
+        """Players db"""
         return TinyDB("database/players.json", indent=4, separators=(",", ": "))
 
     def __repr__(self):
         """repr method"""
 
-        return f"Player({self.__dict__})"
+        return f"Joueur {self.__dict__}"
 
     def serialize(self):
         """Serialize player"""
@@ -44,7 +44,7 @@ class Player:
 
         db = self.table()
         db.insert(self.serialize())
-        logging.warning(f"Joueur {self.player_id} créer")
+        logging.info(f"Joueur {self.player_id} créer")
 
     def update(self, kwargs=None):
         """Update player"""
