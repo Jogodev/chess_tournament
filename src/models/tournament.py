@@ -3,7 +3,7 @@ import datetime
 
 from src.models.player import Player
 from src.models.round import Round
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 
 import secrets, logging
 
@@ -56,6 +56,20 @@ class Tournament:
             tournament_list.append(tournament)
         print(tournament_list)
         return tournament_list
+
+
+    @classmethod
+    def find(cls, tournament_id):
+        """find a tournament"""
+        db = cls.table()
+        db.all()
+        query = Query()
+        tournament_find = db.search(query.tournament_id == tournament_id)
+        tournament_list = [Tournament(**dict(tournament)) for tournament in tournament_find]
+        return tournament_list
+
+
+
 
     def __repr__(self):
         return f"Tournoi {self.__dict__}"

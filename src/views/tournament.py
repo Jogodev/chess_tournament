@@ -128,7 +128,7 @@ def add_players_view():
 def load_tournaments_view():
     """"""
     tournament_list = Tournament.table()
-
+    #[Tournament(**tournament) for tournament in tournament_list]
     for tournament in tournament_list:
         print(f"{tournament['tournament_id']}", end=' | ')
         print(f"{tournament['name']}", end=' | ')
@@ -136,18 +136,19 @@ def load_tournaments_view():
         print(f"{tournament['start_date']}", end=' | ')
         print(f"{tournament['end_date']}", end=' | ')
         print(f"{tournament['id_current_round']}", end=' | ')
-        if tournament['player_list'] == '':
+        if tournament['player_list'] == []:
             print('Aucun joueur ajouté')
         print(f"{tournament['round_list']}", end=' | ')
-        print(f"{tournament['description']}", end=' | ')
+        print(f"{tournament['description']}", end='\n')
 
-        choice = input(
-            """
-            Quel tournoi voulez-vous charger ?
-           --> """
-        )
+    choice = input(
+        """
+        Quel tournoi voulez-vous charger ?
+       --> """
+    )
+
+    return choice
 
 
-        return choice
-
-
+def load_one_tournament_view():
+    """"""

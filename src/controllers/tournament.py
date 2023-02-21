@@ -40,16 +40,32 @@ def add_players_now_controller():
     elif choice == "n":
         return "tournament_menu"
     else:
-        print('\nSaisie non valide')
+        print('Saisie non valide')
 
     return choice
 
 
-def add_players_controller():
+def add_players_controller(tournament):
     """add_players"""
-    return add_players_view()
+    tournament = Tournament(**tournament)
+    player = add_players_view()
+    player_list = tournament['player_list']
+    player_list.append(player)
+
+    if len(player) > 8:
+        return "add_player"
+    else:
+        print("les 8 joueurs ont été ajouté, que le tournoi commence !!! ")
 
 
 def load_tournaments_controller():
-    """Load a tournament """
+    """Load all tournaments """
     return load_tournaments_view()
+
+
+def load_one_tournament_controller():
+    """Load one tournament"""
+    tournament_id = load_tournaments_view()
+    tournament_find = Tournament.find(tournament_id)
+    print(tournament_find)
+
