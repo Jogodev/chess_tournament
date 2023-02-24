@@ -1,6 +1,4 @@
 """tournament views"""
-from src.models.player import Player
-from src.models.tournament import Tournament
 
 
 def menu_tournament_view():
@@ -43,10 +41,54 @@ def create_tournament_view():
         --> """
     )
 
-    return {"name": name,
-            "location": location,
-            "description": description
-            }
+    return {"name": name, "location": location, "description": description}
+
+
+def load_tournaments_view(tournament_list):
+    """"""
+    # [Tournament(**tournament) for tournament in tournament_list]
+    for tournament in tournament_list:
+        print(f"{tournament['tournament_id']}", end=" | ")
+        print(f"{tournament['name']}", end=" | ")
+        print(f"{tournament['location']}", end=" | ")
+        print(f"{tournament['start_date']}", end=" | ")
+        print(f"{tournament['end_date']}", end=" | ")
+        print(f"{tournament['id_current_round']}", end=" | ")
+        print(f"{tournament['round_list']}", end=" | ")
+        print(f"{tournament['description']}", end=" | ")
+        if tournament["player_list"] == []:
+            print("Aucun joueur ajouté", end="\n")
+
+    choice = input(
+        """
+        Quel tournoi voulez-vous charger ?
+       --> """
+    )
+
+    return choice
+
+
+def load_one_tournament_view(tournament_dict):
+    """one tournament"""
+    print("Vous avez chargé ce tournoi : ")
+    print(f"{tournament_dict['tournament_id']}", end=" | ")
+    print(f"{tournament_dict['name']}", end=" | ")
+    print(f"{tournament_dict['location']}", end=" | ")
+    print(f"{tournament_dict['start_date']}", end=" | ")
+    print(f"{tournament_dict['end_date']}", end=" | ")
+    print(f"{tournament_dict['id_current_round']}", end=" | ")
+    print(f"{tournament_dict['round_list']}", end=" | ")
+    print(f"{tournament_dict['description']}", end=" | ")
+        if tournament_dict["player_list"] == []:
+            print("Aucun joueur ajouté", end="\n")
+
+    choice = input(
+        """
+        Ajouter les joueurs ?
+        y -> [oui] ou n -> [non] 
+        --> """
+    )
+        return choice
 
 
 def add_players_now_view():
@@ -64,14 +106,13 @@ def add_players_now_view():
 
 def add_players_view():
     """add players"""
-    player_list = Player.table()
 
     for player in player_list:
-        print(f"{player['id']}")
-        print(f"{player['last_name']}", end=' | ')
-        print(f"{player['first_name']}", end=' | ')
-        print(f"{player['gender']}", end=' | ')
-        print(f"{player['rank']}", end=' | ')
+        print(f"{player['player_id']}")
+        print(f"{player['last_name']}", end=" | ")
+        print(f"{player['first_name']}", end=" | ")
+        print(f"{player['gender']}", end=" | ")
+        print(f"{player['rank']}", end=" | ")
         print(f"{player['score']}")
 
     player_1 = input(
@@ -122,33 +163,13 @@ def add_players_view():
         --> """
     )
 
-    return {player_1, player_2, player_3, player_4, player_5, player_6, player_7, player_8}
-
-
-def load_tournaments_view():
-    """"""
-    tournament_list = Tournament.table()
-    #[Tournament(**tournament) for tournament in tournament_list]
-    for tournament in tournament_list:
-        print(f"{tournament['tournament_id']}", end=' | ')
-        print(f"{tournament['name']}", end=' | ')
-        print(f"{tournament['location']}", end=' | ')
-        print(f"{tournament['start_date']}", end=' | ')
-        print(f"{tournament['end_date']}", end=' | ')
-        print(f"{tournament['id_current_round']}", end=' | ')
-        if tournament['player_list'] == []:
-            print('Aucun joueur ajouté')
-        print(f"{tournament['round_list']}", end=' | ')
-        print(f"{tournament['description']}", end='\n')
-
-    choice = input(
-        """
-        Quel tournoi voulez-vous charger ?
-       --> """
-    )
-
-    return choice
-
-
-def load_one_tournament_view():
-    """"""
+    return {
+        player_1,
+        player_2,
+        player_3,
+        player_4,
+        player_5,
+        player_6,
+        player_7,
+        player_8,
+    }

@@ -10,6 +10,7 @@ import secrets, logging
 
 class Tournament:
     """Tournament class"""
+
     def __init__(
             self,
             name: str,
@@ -17,6 +18,8 @@ class Tournament:
             location: str = 'Paris',
             start_date: str = str(datetime.datetime.now()),
             end_date: str = "tournoi en cours",
+            id_current_round: int = -1,
+            round_list: int = 4,
             player_list: list = [],
             description: str = "-",
     ):
@@ -25,8 +28,8 @@ class Tournament:
         self.location = location
         self.start_date = start_date
         self.end_date = end_date
-        self.id_current_round = -1
-        self.round_list = 4
+        self.id_current_round = id_current_round
+        self.round_list = round_list
         self.player_list = player_list
         self.description = description
 
@@ -57,7 +60,6 @@ class Tournament:
         print(tournament_list)
         return tournament_list
 
-
     @classmethod
     def find(cls, tournament_id):
         """find a tournament"""
@@ -67,9 +69,6 @@ class Tournament:
         tournament_find = db.search(query.tournament_id == tournament_id)
         tournament_list = [Tournament(**dict(tournament)) for tournament in tournament_find]
         return tournament_list
-
-
-
 
     def __repr__(self):
         return f"Tournoi {self.__dict__}"
@@ -89,5 +88,3 @@ class Tournament:
         ronde = Round(player_list)
         self.round_list.append(ronde)
         self.id_current_round = id
-
-
