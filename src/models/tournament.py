@@ -49,7 +49,7 @@ class Tournament:
         db.insert(self.serialize())
 
     @classmethod
-    def load_tournament(cls):
+    def load_tournaments(cls):
         """Load tournament"""
 
         db = cls.table()

@@ -33,7 +33,7 @@ def create_tournament_controller(data_dict):
 
 def load_tournaments_controller(data_dict):
     """Load all tournaments """
-    tournament_list = Tournament.load_tournament()
+    tournament_list = Tournament.load_tournaments()
     #transform tournament_list en dict;
     tournament_id = load_tournaments_view(tournament_list)
     #tournament_find = Tournament.find(tournament_id)
@@ -48,6 +48,7 @@ def load_one_tournament_controller(data_dict):
     tournament_list = Tournament.find(tournament_id)
     tournament = tournament_list[0]
     choice = load_one_tournament_view(tournament.serialize())
+    data_dict = tournament
 
     if choice == "y":
         return "add_players", data_dict
@@ -75,14 +76,15 @@ def add_players_now_controller(data_dict):
 
 def add_players_controller(data_dict):
     """add_players"""
-    tournament = Tournament(**data_dict)
-    player = add_players_view()
-    player_list = tournament['player_list']
+    player_list = Player.list_all()
+    print(player_list)
+    player = add_players_view(player_list)
     player_list.append(player)
+
 
     if len(player) > 8:
         return "add_player"
     else:
         print("les 8 joueurs ont été ajouté, que le tournoi commence !!! ")
 
-    return "menu_player", data_dict
+    return "tournament_menu", data_dict

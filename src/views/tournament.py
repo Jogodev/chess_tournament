@@ -9,7 +9,7 @@ def menu_tournament_view():
     [2] - Charger un tournoi
     [3] - Rapport d'un tournoi en cours
     [b] - Retour au menu principal
-    --> """
+    """
 
     print(title)
     print(txt)
@@ -45,8 +45,8 @@ def create_tournament_view():
 
 
 def load_tournaments_view(tournament_list):
-    """"""
-    # [Tournament(**tournament) for tournament in tournament_list]
+    """all tournaments"""
+
     for tournament in tournament_list:
         print(f"{tournament['tournament_id']}", end=" | ")
         print(f"{tournament['name']}", end=" | ")
@@ -79,7 +79,7 @@ def load_one_tournament_view(tournament_dict):
     print(f"{tournament_dict['id_current_round']}", end=" | ")
     print(f"{tournament_dict['round_list']}", end=" | ")
     print(f"{tournament_dict['description']}", end=" | ")
-        if tournament_dict["player_list"] == []:
+    if not tournament_dict["player_list"]:
             print("Aucun joueur ajouté", end="\n")
 
     choice = input(
@@ -88,7 +88,7 @@ def load_one_tournament_view(tournament_dict):
         y -> [oui] ou n -> [non] 
         --> """
     )
-        return choice
+    return choice
 
 
 def add_players_now_view():
@@ -104,12 +104,12 @@ def add_players_now_view():
     return choice
 
 
-def add_players_view():
+def add_players_view(player_list):
     """add players"""
 
     for player in player_list:
-        print(f"{player['player_id']}")
-        print(f"{player['last_name']}", end=" | ")
+        print(f"{player['player_id']}", end=" | ")
+        print(f"{player['last_name']}", end="")
         print(f"{player['first_name']}", end=" | ")
         print(f"{player['gender']}", end=" | ")
         print(f"{player['rank']}", end=" | ")

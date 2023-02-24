@@ -85,13 +85,11 @@ def update_player_view():
     return player_id
 
 
-def update_player_view_field(player_dict):  # mettre p_dict à la place
+def update_player_view_field(player_dict):
     """Update player view"""
     title = "----------MODIFIER UN JOUEUR----------"
     print(title)
     print(f"Vous allez modifier ce joueur : {player_dict}")
-
-    # comme on recoit un dict ==> ON peut suppr le [0]
 
     key = input(
         """
@@ -132,7 +130,7 @@ def delete_player_view_confirmation(player):
         """
         Êtes-vous sûre ?
         y -> [oui] ou n -> [non]
-        --> """
+        --> \n\n"""
     )
     print(f"{player} supprimé")
     return choice
@@ -145,8 +143,17 @@ def list_all_players_db_view(all_players):
     [b] - retour au menu joueur
     [m] - retour au menu principal
     """
-    print(all_players)
+    for player in all_players:
+        print(f"{player['player_id']}", end=" | ")
+        print(f"{player['last_name']}", sep=" ")
+        print(f"{player['first_name']}", end=" | ")
+        print(f"{player['gender']}", end=" | ")
+        print(f"{player['rank']}", end=" | ")
+        print(f"{player['score']}")
+
+
     print(txt)
+
     choice = input(
         """
         --> """

@@ -80,7 +80,7 @@ class Player:
         players_db = cls.table()
         players_db.all()
         player_list = [player for player in players_db.all()]
-        player_instance_list = [Player(**player) for player in player_list]
+        player_instance_list = [player for player in player_list]
         return player_instance_list
 
     @classmethod
