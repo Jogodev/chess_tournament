@@ -2,8 +2,9 @@
 
 from src.controllers.main import main_menu_controller
 from src.controllers.player import menu_player_controller, create_player_controller, update_player_controller, \
-    delete_player_controller, all_players_controller
-from src.controllers.tournament import menu_tournament_controller, create_tournament_controller
+    delete_player_controller, list_all_players_controller, delete_all_players_controller, players_db_test_controller
+from src.controllers.tournament import menu_tournament_controller, create_tournament_controller, \
+    load_tournaments_controller, add_players_now_controller, add_players_controller, load_one_tournament_controller
 
 controller_dict = {
     # Main menu
@@ -13,21 +14,27 @@ controller_dict = {
     "create_player": create_player_controller,
     "update_player": update_player_controller,
     "delete_player": delete_player_controller,
-    "all_players": all_players_controller,
+    "list_all_players": list_all_players_controller,
+    "delete_all_players": delete_all_players_controller,
+    "create_test_db": players_db_test_controller,
     # Tournament
     "tournament_menu": menu_tournament_controller,
     "create_tournament": create_tournament_controller,
-    "update_tournament": update_player_controller,
+    "load_tournaments": load_tournaments_controller,
+    "load_one_tournament": load_one_tournament_controller,
+    "add_players_now": add_players_now_controller,
+    "add_players": add_players_controller,
 }
 
 
 def main():
     """"""
-    string_controller = main_menu_controller()
+    data_dict = dict()
+    string_controller, data_dict = main_menu_controller(data_dict)
 
     while True:
         controller = controller_dict[string_controller]
-        string_controller = controller()
+        string_controller, data_dict = controller(data_dict)
 
 
 if __name__ == "__main__":
