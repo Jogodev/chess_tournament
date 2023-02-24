@@ -1,4 +1,6 @@
 """tournament views"""
+from src.models.player import Player
+from src.models.tournament import Tournament
 
 
 def menu_tournament_view():
@@ -6,7 +8,8 @@ def menu_tournament_view():
     title = "----------MENU TOURNOI----------"
     txt = """ 
     [1] - Créer un nouveau tournoi
-    [2] - Rapport d'un tournoi en cours
+    [2] - Charger un tournoi
+    [3] - Rapport d'un tournoi en cours
     [b] - Retour au menu principal
     --> """
 
@@ -15,6 +18,7 @@ def menu_tournament_view():
 
     choice = input("Faites votre choix : ")
     return choice
+
 
 def create_tournament_view():
     """"""
@@ -35,31 +39,116 @@ def create_tournament_view():
 
     description = input(
         """
-        Nom du tournoi ?
+        Commentaire ?
         --> """
     )
 
-    # name = input(
-    #     """
-    #     Nom du tournoi ?
-    #     --> """
-    # )
-    #
-    # name = input(
-    #     """
-    #     Nom du tournoi ?
-    #     --> """
-    # )
-    #
-    # name = input(
-    #     """
-    #     Nom du tournoi ?
-    #     --> """
-    # )
+    return {"name": name,
+            "location": location,
+            "description": description
+            }
 
 
-def update_tournament_view():
+def add_players_now_view():
+    """add players"""
+
+    choice = input(
+        """
+        Voulez-vous ajouter les joueur maintenant ?
+        y -> [oui] ou n -> [non] 
+        --> """
+    )
+
+    return choice
+
+
+def add_players_view():
+    """add players"""
+    player_list = Player.table()
+
+    for player in player_list:
+        print(f"{player['id']}")
+        print(f"{player['last_name']}", end=' | ')
+        print(f"{player['first_name']}", end=' | ')
+        print(f"{player['gender']}", end=' | ')
+        print(f"{player['rank']}", end=' | ')
+        print(f"{player['score']}")
+
+    player_1 = input(
+        """
+        Ajouter le joueur 1
+        --> """
+    )
+
+    player_2 = input(
+        """
+        Ajouter le joueur 2
+        --> """
+    )
+
+    player_3 = input(
+        """
+        Ajouter le joueur 3
+        --> """
+    )
+
+    player_4 = input(
+        """
+        Ajouter le joueur 4
+        --> """
+    )
+
+    player_5 = input(
+        """
+        Ajouter le joueur 5
+        --> """
+    )
+
+    player_6 = input(
+        """
+        Ajouter le joueur 6
+        --> """
+    )
+
+    player_7 = input(
+        """
+        Ajouter le joueur 7
+        --> """
+    )
+
+    player_8 = input(
+        """
+        Ajouter le joueur 8
+        --> """
+    )
+
+    return {player_1, player_2, player_3, player_4, player_5, player_6, player_7, player_8}
+
+
+def load_tournaments_view():
     """"""
-    pass
+    tournament_list = Tournament.table()
+    #[Tournament(**tournament) for tournament in tournament_list]
+    for tournament in tournament_list:
+        print(f"{tournament['tournament_id']}", end=' | ')
+        print(f"{tournament['name']}", end=' | ')
+        print(f"{tournament['location']}", end=' | ')
+        print(f"{tournament['start_date']}", end=' | ')
+        print(f"{tournament['end_date']}", end=' | ')
+        print(f"{tournament['id_current_round']}", end=' | ')
+        if tournament['player_list'] == []:
+            print('Aucun joueur ajouté')
+        print(f"{tournament['round_list']}", end=' | ')
+        print(f"{tournament['description']}", end='\n')
+
+    choice = input(
+        """
+        Quel tournoi voulez-vous charger ?
+       --> """
+    )
+
+    return choice
 
 
+def load_one_tournament_view():
+    """"""

@@ -2,9 +2,8 @@
 from src.views.main import main_menu_view
 
 
-
 def main_menu_controller():
-    """"""
+    """Main menu"""
     choice = main_menu_view()
 
     if choice == "1":
@@ -13,4 +12,3 @@ def main_menu_controller():
         return "tournament_menu"
     elif choice == "b":
         return "main_menu"
-
