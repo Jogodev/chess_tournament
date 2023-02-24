@@ -9,6 +9,8 @@ def menu_player_view():
             [2] - Modifier un joueur 
             [3] - Supprimer un joueur 
             [4] - Liste de tous les joueurs
+            [5] - Supprimer tous les joueurs
+            [6] - Créer la base test
             [b] - retour au menu principal
             """
     print(title)
@@ -59,8 +61,14 @@ def create_player_view():
         --> """
     )
 
-    return {"last_name": last_name, "first_name": first_name, "birthday": birthday, "gender": gender, "score": score,
-            "rank": rank}
+    return {
+        "last_name": last_name,
+        "first_name": first_name,
+        "birthday": birthday,
+        "gender": gender,
+        "score": score,
+        "rank": rank,
+    }
 
 
 def update_player_view():
@@ -77,13 +85,13 @@ def update_player_view():
     return player_id
 
 
-def update_player_view_field(player_find):
+def update_player_view_field(player_dict):  # mettre p_dict à la place
     """Update player view"""
     title = "----------MODIFIER UN JOUEUR----------"
     print(title)
-    print(f"Vous allez modifier ce joueur : {player_find}")
+    print(f"Vous allez modifier ce joueur : {player_dict}")
 
-    player_id = player_find[0]["player_id"]
+    # comme on recoit un dict ==> ON peut suppr le [0]
 
     key = input(
         """
@@ -97,7 +105,7 @@ def update_player_view_field(player_find):
         --> """
     )
 
-    return [key, value, player_id]
+    return {key: value}
 
 
 def delete_player_view():
@@ -114,11 +122,11 @@ def delete_player_view():
     return player_id
 
 
-def delete_player_view_confirmation(player_find):
+def delete_player_view_confirmation(player):
     """Delete player view confirmation"""
     title = "----------SUPPRIMER UN JOUEUR----------"
     print(title)
-    print(f"Vous allez supprimer ce joueur : {player_find}")
+    print(f"Vous allez supprimer ce joueur : {player}")
 
     choice = input(
         """
@@ -126,16 +134,32 @@ def delete_player_view_confirmation(player_find):
         y -> [oui] ou n -> [non]
         --> """
     )
-
+    print(f"{player} supprimé")
     return choice
 
 
 def list_all_players_db_view(all_players):
     """all players"""
     print("----------LISTE DE TOUT LES JOUEURS----------")
-    print("Vous avez la possibilité de supprimer tout les joueurs."
-          "!!!ATTENTION CETTE ACTION EST IRRÉVERSIBLE!!!")
+    txt = """
+    [b] - retour au menu joueur
+    [m] - retour au menu principal
+    """
     print(all_players)
+    print(txt)
+    choice = input(
+        """
+        --> """
+    )
+    return choice
+
+
+def delete_all_players_db_view():
+    """"""
+    print(
+        "Vous avez la possibilité de supprimer tout les joueurs"
+        "!!!ATTENTION CETTE ACTION EST IRRÉVERSIBLE!!!"
+    )
 
     input(
         """
@@ -144,12 +168,28 @@ def list_all_players_db_view(all_players):
         --> """
     )
 
-    delete_db_confirm = input(
+    choice = input(
         """
-        Vous êtes sur le point de supprimer tout les joueurs êtes vous vraiment sûre ?
+        Êtes-vous vraiment sûr ?
         y -> [oui] ou n -> [non] 
         --> """
     )
+    return choice
 
-    print(f"Tout les joueurs ont été supprimer")
-    return delete_db_confirm
+
+def players_db_test_view():
+    """"""
+    print("----------CRÉATION BASE DE TEST----------")
+    txt = """
+    [y] - Créer la base
+    [b] - retour au menu joueur
+    [m] - retour au menu principal
+    """
+    print(txt)
+    choice = input(
+        """
+        Voulez-vous créer la base de test ?
+        --> """
+    )
+
+    return choice

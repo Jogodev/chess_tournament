@@ -1,21 +1,26 @@
+"""Tournament model"""
+import datetime
 
 from src.models.player import Player
-from tinydb import TinyDB
-import secrets
+from src.models.round import Round
+from tinydb import TinyDB, Query
+
+import secrets, logging
 
 
 class Tournament:
+    """Tournament class"""
     def __init__(
-        self,
-        name: str,
-        tournament_id: str = secrets.token_hex(8),
-        location: str = '',
-        start_date: str = '',
-        end_date: str = '',
-        player_list: list = [{"last_name": "Alain", "rank": 1, "score": 0.0}, {"last_name": "Stan", "rank": 2, "score": 0.0}, {"last_name": "David", "rank": 3, "score": 0.0}, {"last_name": "Scott", "rank": 4, "score": 0.0}, {"last_name": "Kevin", "rank": 5, "score": 0.0}, {"last_name": "Lucie", "rank": 6, "score": 0.0}, {"last_name": "Elodie", "rank": 7, "score": 0.0}, {"last_name": "Julie", "rank": 8, "score": 0.0}],
-        description="",
+            self,
+            name: str,
+            tournament_id: str = '',
+            location: str = 'Paris',
+            start_date: str = str(datetime.datetime.now()),
+            end_date: str = "tournoi en cours",
+            player_list: list = [],
+            description: str = "-",
     ):
-        self.tournament_id = tournament_id
+        self.tournament_id = tournament_id if tournament_id else secrets.token_hex(5)
         self.name = name
         self.location = location
         self.start_date = start_date
@@ -24,41 +29,27 @@ class Tournament:
         self.round_list = 4
         self.player_list = player_list
         self.description = description
-        self.tournaments_db = TinyDB("database/tournaments.json", indent=4, separators=(',', ': '))
 
-    def serialize_tournament(self):
-        """"""
+    @classmethod
+    def table(cls):
+        """Tournament db"""
+        return TinyDB("database/tournaments.json", indent=4, separators=(',', ': '))
 
-        return {
-            "id": self.tournament_id,
-            "name": self.name,
-            "location": self.location,
-            "start_date": self.start_date,
-            "end_date": self.end_date,
-            "current_round": self.id_current_round,
-            "round_list": self.round_list,
-            "player_list": self.player_list,
-            "description": self.description,
-        }
+    def serialize(self):
+        """Serialize the tournament"""
+        return self.__dict__
 
     def save_tournament(self):
         """ Save tournament """
 
-        db = self.tournaments_db
-        db.insert(self.serialize_tournament())
+        db = self.table()
+        db.insert(self.serialize())
 
-    def update_tournament(self):
-        """"""
+    @classmethod
+    def load_tournament(cls):
+        """Load tournament"""
 
-        db = self.tournaments_db
-        db.all()
-        db.update({"current_round": self.id_current_round}, doc_ids=[self.tournament_id])
-
-
-    def load_tournament(self):
-        """"""
-
-        db = self.tournaments_db
+        db = cls.table()
         db.all()
         tournament_list = []
         for tournament in db:
@@ -67,26 +58,36 @@ class Tournament:
         return tournament_list
 
 
+    @classmethod
+    def find(cls, tournament_id):
+        """find a tournament"""
+        db = cls.table()
+        db.all()
+        query = Query()
+        tournament_find = db.search(query.tournament_id == tournament_id)
+        tournament_list = [Tournament(**dict(tournament)) for tournament in tournament_find]
+        return tournament_list
+
+
+
+
     def __repr__(self):
-        return (
-            f"Le tournoi n° {self.id} {self.name} viens de commencé à {self.location}"
-        )
+        return f"Tournoi {self.__dict__}"
 
     def sort_players_by_rank(self):
-        """"""
-        sortedPlayersByRank = sorted(self.player_list, key=lambda players: players["rank"])
-        return sortedPlayersByRank
+        """Sort players by rank"""
+        sorter_players_by_rank = sorted(self.player_list, key=lambda players: players["rank"])
+        return sorter_players_by_rank
 
     def sort_players_by_score(self):
-        """"""
-        sortedPlayersByScore = sorted(self.player_list, key=lambda players: players["score"])
-        return sortedPlayersByScore
-
-    def pairring(self):
-        player
+        """Sort players by score"""
+        sorted_players_by_score = sorted(self.player_list, key=lambda players: players["score"])
+        return sorted_players_by_score
 
     def add_round(self):
+        """"""
         ronde = Round(player_list)
         self.round_list.append(ronde)
         self.id_current_round = id
+
 
