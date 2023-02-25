@@ -1,5 +1,6 @@
 """Player model"""
 import secrets, logging
+from random import randint
 from tinydb import TinyDB, Query
 
 
@@ -15,8 +16,10 @@ class Player:
             rank: int = 0,
             score: float = 0.0,
             player_id: str = "",
+            select_id: str = "",
     ):
         self.player_id = player_id if player_id else secrets.token_hex(2)
+        self.select_id = select_id
         self.last_name = last_name.upper()
         self.first_name = first_name.capitalize()
         self.birthday = birthday
@@ -94,20 +97,21 @@ class Player:
         """"""
 
         list_to_create = [
-            ("AB12341", "Musk", "Elon", "h", 1),
-            ("AB12342", "Lopez", "Jennifer", "f", 2),
-            ("AB12343", "Ali", "Mohamed", "h", 3),
-            ("AB12343", "Bertrand", "Alain", "h", 4),
-            ("AB12344", "Vilar", "Jean", "h", 5),
-            ("AB12345", "Doe", "John", "h", 6),
-            ("AB12346", "Melenchon", "Jean-Luc", "h", 7),
-            ("AB12347", "Birkin", "Jane", "f", 8),
+            ("AB12341", "Musk", "Elon", "01/01/1988", "h", randint(0, 50)),
+            ("AB12342", "Lopez", "Jennifer", "01/01/1988", "f", randint(0, 50)),
+            ("AB12344", "Ali", "Mohamed", "01/01/1988", "h", randint(0, 50)),
+            ("AB12345", "Bertrand", "Alain", "01/01/1988", "h", randint(0, 50)),
+            ("AB12346", "Vilar", "Jean", "01/01/1988", "h", randint(0, 50)),
+            ("AB12347", "Doe", "John", "01/01/1988", "h", randint(0, 50)),
+            ("AB12348", "Melenchon", "Jean-Luc", "01/01/1988", "h", randint(0, 50)),
+            ("AB12349", "Birkin", "Jane", "01/01/1988", "f", randint(0, 50)),
         ]
-        for player_id, last_name, first_name, gender, rank in list_to_create:
+        for player_id, last_name, first_name, birthday, gender, rank in list_to_create:
             player = Player(
                 player_id=player_id,
                 last_name=last_name,
                 first_name=first_name,
+                birthday=birthday,
                 gender=gender,
                 rank=int(rank),
             )

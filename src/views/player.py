@@ -145,12 +145,10 @@ def list_all_players_db_view(all_players):
     """
     for player in all_players:
         print(f"{player['player_id']}", end=" | ")
-        print(f"{player['last_name']}", sep=" ")
-        print(f"{player['first_name']}", end=" | ")
+        print(f"{player['last_name']} {player['first_name']}", end=" | ")
         print(f"{player['gender']}", end=" | ")
         print(f"{player['rank']}", end=" | ")
         print(f"{player['score']}")
-
 
     print(txt)
 
