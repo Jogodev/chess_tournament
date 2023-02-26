@@ -1,4 +1,5 @@
 """Tournament controller"""
+import logging
 
 from src.views.tournament import menu_tournament_view, create_tournament_view, add_players_now_view, \
     load_tournaments_view, add_players_view, load_one_tournament_view
@@ -34,9 +35,9 @@ def create_tournament_controller(data_dict):
 def load_tournaments_controller(data_dict):
     """Load all tournaments """
     tournament_list = Tournament.load_tournaments()
-    #transform tournament_list en dict;
+    # transform tournament_list en dict;
     tournament_id = load_tournaments_view(tournament_list)
-    #tournament_find = Tournament.find(tournament_id)
+    # tournament_find = Tournament.find(tournament_id)
     data_dict["tournament_id"] = tournament_id
 
     return "load_one_tournament", data_dict
@@ -76,15 +77,16 @@ def add_players_now_controller(data_dict):
 
 def add_players_controller(data_dict):
     """add_players"""
-    player_list = Player.list_all()
-    print(player_list)
-    player = add_players_view(player_list)
-    player_list.append(player)
+    player_list_db = Player.list_all()
+    player_list_tournament = []
+    player_choose = add_players_view(player_list_db, player_list_tournament)
+    player_find = Player.find(player_choose)
 
 
-    if len(player) > 8:
-        return "add_player"
+    if player_find not in player_list_tournament:
+        player_list_tournament.append(player_find)
     else:
-        print("les 8 joueurs ont été ajouté, que le tournoi commence !!! ")
+        print("Joueur déja ajouté")
+        return "add_players", data_dict
 
-    return "tournament_menu", data_dict
+    return "add_players", data_dict

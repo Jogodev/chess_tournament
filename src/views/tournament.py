@@ -48,9 +48,10 @@ def load_tournaments_view(tournament_list):
     """all tournaments"""
 
     for tournament in tournament_list:
+        print(f"[{tournament['select_id']}]", end="   ")
         print(f"{tournament['tournament_id']}", end=" | ")
         print(f"{tournament['name']}", end=" | ")
-        print(f"{tournament['location']}", end=" | ")
+        print(f"Lieu : {tournament['location']}", end=" | ")
         print(f"{tournament['start_date']}", end=" | ")
         print(f"{tournament['end_date']}", end=" | ")
         print(f"{tournament['id_current_round']}", end=" | ")
@@ -58,6 +59,8 @@ def load_tournaments_view(tournament_list):
         print(f"{tournament['description']}", end=" | ")
         if tournament["player_list"] == []:
             print("Aucun joueur ajouté", end="\n")
+        elif len(tournament["player_list"]) == 8:
+            print("Prêt à commencer")
 
     choice = input(
         """
@@ -73,7 +76,7 @@ def load_one_tournament_view(tournament_dict):
     print("Vous avez chargé ce tournoi : ")
     print(f"{tournament_dict['tournament_id']}", end=" | ")
     print(f"{tournament_dict['name']}", end=" | ")
-    print(f"{tournament_dict['location']}", end=" | ")
+    print(f"Lieu : {tournament_dict['location']}", end=" | ")
     print(f"{tournament_dict['start_date']}", end=" | ")
     print(f"{tournament_dict['end_date']}", end=" | ")
     print(f"{tournament_dict['id_current_round']}", end=" | ")
@@ -104,72 +107,69 @@ def add_players_now_view():
     return choice
 
 
-def add_players_view(player_list):
+def add_players_view(player_list_db, player_list_tournament):
     """add players"""
 
-    for player in player_list:
+    for player in player_list_db:
+        print(f"[{player['select_id']}]", end="   ")
         print(f"{player['player_id']}", end=" | ")
-        print(f"{player['last_name']}", end="")
-        print(f"{player['first_name']}", end=" | ")
+        print(f"{player['last_name']} {player['first_name']}", end=" | ")
         print(f"{player['gender']}", end=" | ")
-        print(f"{player['rank']}", end=" | ")
-        print(f"{player['score']}")
+        print(f"Rang : {player['elo']}", end=" | ")
+        print(f"Score : {player['score']}")
 
-    player_1 = input(
+    print("----------Joueur ajouté au tournoi ----------", end="\n ")
+    print(player_list_tournament)
+
+    player = input(
         """
         Ajouter le joueur 1
         --> """
     )
 
-    player_2 = input(
-        """
-        Ajouter le joueur 2
-        --> """
-    )
 
-    player_3 = input(
-        """
-        Ajouter le joueur 3
-        --> """
-    )
+    # player_2 = input(
+    #     """
+    #     Ajouter le joueur 2
+    #     --> """
+    # )
+    #
+    # player_3 = input(
+    #     """
+    #     Ajouter le joueur 3
+    #     --> """
+    # )
+    #
+    # player_4 = input(
+    #     """
+    #     Ajouter le joueur 4
+    #     --> """
+    # )
+    #
+    # player_5 = input(
+    #     """
+    #     Ajouter le joueur 5
+    #     --> """
+    # )
+    #
+    # player_6 = input(
+    #     """
+    #     Ajouter le joueur 6
+    #     --> """
+    # )
+    #
+    # player_7 = input(
+    #     """
+    #     Ajouter le joueur 7
+    #     --> """
+    # )
+    #
+    # player_8 = input(
+    #     """
+    #     Ajouter le joueur 8
+    #     --> """
+    # )
 
-    player_4 = input(
-        """
-        Ajouter le joueur 4
-        --> """
-    )
+    return player
 
-    player_5 = input(
-        """
-        Ajouter le joueur 5
-        --> """
-    )
 
-    player_6 = input(
-        """
-        Ajouter le joueur 6
-        --> """
-    )
-
-    player_7 = input(
-        """
-        Ajouter le joueur 7
-        --> """
-    )
-
-    player_8 = input(
-        """
-        Ajouter le joueur 8
-        --> """
-    )
-
-    return {
-        player_1,
-        player_2,
-        player_3,
-        player_4,
-        player_5,
-        player_6,
-        player_7,
-        player_8,
-    }

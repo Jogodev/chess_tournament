@@ -1,5 +1,6 @@
 """Tournament model"""
 import datetime
+from random import randint
 
 from src.models.player import Player
 from src.models.round import Round
@@ -15,7 +16,8 @@ class Tournament:
             self,
             name: str,
             tournament_id: str = '',
-            location: str = 'Paris',
+            select_id: int = randint(0, 30),
+            location: str = '',
             start_date: str = str(datetime.datetime.now()),
             end_date: str = "tournoi en cours",
             id_current_round: int = -1,
@@ -24,8 +26,9 @@ class Tournament:
             description: str = "-",
     ):
         self.tournament_id = tournament_id if tournament_id else secrets.token_hex(5)
-        self.name = name
-        self.location = location
+        self.select_id = select_id
+        self.name = name.upper()
+        self.location = location.capitalize()
         self.start_date = start_date
         self.end_date = end_date
         self.id_current_round = id_current_round
@@ -47,6 +50,7 @@ class Tournament:
 
         db = self.table()
         db.insert(self.serialize())
+        logging.info(f"Tournoi {self.name} créé à {self.location}")
 
     @classmethod
     def load_tournaments(cls):

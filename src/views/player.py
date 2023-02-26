@@ -55,7 +55,7 @@ def create_player_view():
         --> """
     )
 
-    rank = input(
+    elo = input(
         """
          Classement ? 
         --> """
@@ -67,7 +67,7 @@ def create_player_view():
         "birthday": birthday,
         "gender": gender,
         "score": score,
-        "rank": rank,
+        "elo": elo,
     }
 
 
@@ -147,8 +147,8 @@ def list_all_players_db_view(all_players):
         print(f"{player['player_id']}", end=" | ")
         print(f"{player['last_name']} {player['first_name']}", end=" | ")
         print(f"{player['gender']}", end=" | ")
-        print(f"{player['rank']}", end=" | ")
-        print(f"{player['score']}")
+        print(f"Rang : {player['elo']}", end=" | ")
+        print(f"Score : {player['score']}")
 
     print(txt)
 

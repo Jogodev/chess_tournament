@@ -13,10 +13,10 @@ class Player:
             first_name: str = "-",
             birthday: str = "-",
             gender: str = "-",
-            rank: int = 0,
+            elo: int = 0,
             score: float = 0.0,
             player_id: str = "",
-            select_id: str = "",
+            select_id: int = randint(0, 30),
     ):
         self.player_id = player_id if player_id else secrets.token_hex(2)
         self.select_id = select_id
@@ -25,7 +25,7 @@ class Player:
         self.birthday = birthday
         self.gender = gender
         self.score = score
-        self.rank = rank
+        self.elo = elo
 
     @classmethod
     def table(cls):
@@ -77,6 +77,16 @@ class Player:
         return player_list
 
     @classmethod
+    def find_by_select_id(cls, select_id):
+        """Find a player by select_id"""
+        db = cls.table()
+        db.all()
+        query = Query()
+        player_find = db.search(query.select_id == select_id)
+        player_list = [Player(**dict(player)) for player in player_find]
+        return player_list
+
+    @classmethod
     def list_all(cls):
         """return list of dict with all entries"""
 
@@ -90,29 +100,33 @@ class Player:
     def delete_all(cls):
         """delete all"""
         players_db = cls.table()
+        logging.warning("la base a été supprimée")
         return players_db.truncate()
+
 
     @classmethod
     def boot(cls):
         """"""
 
         list_to_create = [
-            ("AB12341", "Musk", "Elon", "01/01/1988", "h", randint(0, 50)),
-            ("AB12342", "Lopez", "Jennifer", "01/01/1988", "f", randint(0, 50)),
-            ("AB12344", "Ali", "Mohamed", "01/01/1988", "h", randint(0, 50)),
-            ("AB12345", "Bertrand", "Alain", "01/01/1988", "h", randint(0, 50)),
-            ("AB12346", "Vilar", "Jean", "01/01/1988", "h", randint(0, 50)),
-            ("AB12347", "Doe", "John", "01/01/1988", "h", randint(0, 50)),
-            ("AB12348", "Melenchon", "Jean-Luc", "01/01/1988", "h", randint(0, 50)),
-            ("AB12349", "Birkin", "Jane", "01/01/1988", "f", randint(0, 50)),
+            (1, "AB12341", "Musk", "Elon", "01/01/1988", "h", randint(0, 50)),
+            (2, "AB12342", "Lopez", "Jennifer", "01/01/1988", "f", randint(0, 50)),
+            (3, "AB12344", "Ali", "Mohamed", "01/01/1988", "h", randint(0, 50)),
+            (4, "AB12345", "Bertrand", "Alain", "01/01/1988", "h", randint(0, 50)),
+            (5, "AB12346", "Vilar", "Jean", "01/01/1988", "h", randint(0, 50)),
+            (6, "AB12347", "Doe", "John", "01/01/1988", "h", randint(0, 50)),
+            (7, "AB12348", "Melenchon", "Jean-Luc", "01/01/1988", "h", randint(0, 50)),
+            (8, "AB12349", "Birkin", "Jane", "01/01/1988", "f", randint(0, 50)),
         ]
-        for player_id, last_name, first_name, birthday, gender, rank in list_to_create:
+        for select_id, player_id, last_name, first_name, birthday, gender, elo in list_to_create:
             player = Player(
+                select_id=select_id,
                 player_id=player_id,
                 last_name=last_name,
                 first_name=first_name,
                 birthday=birthday,
                 gender=gender,
-                rank=int(rank),
+                elo=int(elo),
             )
             player.create()
+            logging.info("La base de test à été créé avec succès")
