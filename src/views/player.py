@@ -25,6 +25,12 @@ def create_player_view():
     title = "----------CRÉER UN JOUEUR----------"
     print(title)
 
+    player_id = input(
+        """
+        Id national du joueur ?
+        --> """
+    )
+
     last_name = input(
         """
          Nom ? 
@@ -55,19 +61,20 @@ def create_player_view():
         --> """
     )
 
-    rank = input(
+    elo = input(
         """
          Classement ? 
         --> """
     )
 
     return {
+        "player_id": player_id,
         "last_name": last_name,
         "first_name": first_name,
         "birthday": birthday,
         "gender": gender,
         "score": score,
-        "rank": rank,
+        "elo": elo,
     }
 
 
@@ -85,13 +92,11 @@ def update_player_view():
     return player_id
 
 
-def update_player_view_field(player_dict):  # mettre p_dict à la place
+def update_player_view_field(player_dict):
     """Update player view"""
     title = "----------MODIFIER UN JOUEUR----------"
     print(title)
     print(f"Vous allez modifier ce joueur : {player_dict}")
-
-    # comme on recoit un dict ==> ON peut suppr le [0]
 
     key = input(
         """
@@ -132,7 +137,7 @@ def delete_player_view_confirmation(player):
         """
         Êtes-vous sûre ?
         y -> [oui] ou n -> [non]
-        --> """
+        --> \n\n"""
     )
     print(f"{player} supprimé")
     return choice
@@ -145,8 +150,15 @@ def list_all_players_db_view(all_players):
     [b] - retour au menu joueur
     [m] - retour au menu principal
     """
-    print(all_players)
+    for player in all_players:
+        print(f"{player['player_id']}", end=" | ")
+        print(f"{player['last_name']} {player['first_name']}", end=" | ")
+        print(f"{player['gender']}", end=" | ")
+        print(f"Rang : {player['elo']}", end=" | ")
+        print(f"Score : {player['score']}")
+
     print(txt)
+
     choice = input(
         """
         --> """

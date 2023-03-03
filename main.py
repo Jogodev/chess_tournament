@@ -28,7 +28,7 @@ controller_dict = {
 
 
 def main():
-    """"""
+    """Program start"""
     data_dict = dict()
     string_controller, data_dict = main_menu_controller(data_dict)
 

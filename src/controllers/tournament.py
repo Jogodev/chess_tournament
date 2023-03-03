@@ -1,4 +1,5 @@
 """Tournament controller"""
+import logging
 
 from src.views.tournament import menu_tournament_view, create_tournament_view, add_players_now_view, \
     load_tournaments_view, add_players_view, load_one_tournament_view
@@ -26,17 +27,17 @@ def create_tournament_controller(data_dict):
     """Create a controller"""
     tournament_dict = create_tournament_view()
     tournament = Tournament(**tournament_dict)
-    tournament_insert_in_db = tournament.save_tournament()
+    tournament.save_tournament()
 
     return "add_players_now", data_dict
 
 
 def load_tournaments_controller(data_dict):
     """Load all tournaments """
-    tournament_list = Tournament.load_tournament()
-    #transform tournament_list en dict;
+    tournament_list = Tournament.load_tournaments()
+    # transform tournament_list en dict;
     tournament_id = load_tournaments_view(tournament_list)
-    #tournament_find = Tournament.find(tournament_id)
+    # tournament_find = Tournament.find(tournament_id)
     data_dict["tournament_id"] = tournament_id
 
     return "load_one_tournament", data_dict
@@ -48,6 +49,7 @@ def load_one_tournament_controller(data_dict):
     tournament_list = Tournament.find(tournament_id)
     tournament = tournament_list[0]
     choice = load_one_tournament_view(tournament.serialize())
+    data_dict = tournament
 
     if choice == "y":
         return "add_players", data_dict
@@ -75,14 +77,11 @@ def add_players_now_controller(data_dict):
 
 def add_players_controller(data_dict):
     """add_players"""
-    tournament = Tournament(**data_dict)
-    player = add_players_view()
-    player_list = tournament['player_list']
-    player_list.append(player)
+    tournament = data_dict
+    player_list_db = Player.list_all()
+    player_choose = add_players_view(player_list_db)
+    player_find = Player.find(player_choose)
+    print(player_find)
+    tournament.add_player(player_find)
 
-    if len(player) > 8:
-        return "add_player"
-    else:
-        print("les 8 joueurs ont été ajouté, que le tournoi commence !!! ")
-
-    return "menu_player", data_dict
+    return "add_players", data_dict
