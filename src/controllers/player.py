@@ -37,7 +37,6 @@ def menu_player_controller(data_dict):
 def create_player_controller(data_dict):
     """Insert a player in db"""
     player_dict = create_player_view()
-    print(player_dict)
     player = Player(**player_dict)
     player_insert_in_db = player.create()
     print(

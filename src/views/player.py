@@ -25,6 +25,12 @@ def create_player_view():
     title = "----------CRÉER UN JOUEUR----------"
     print(title)
 
+    player_id = input(
+        """
+        Id national du joueur ?
+        --> """
+    )
+
     last_name = input(
         """
          Nom ? 
@@ -62,6 +68,7 @@ def create_player_view():
     )
 
     return {
+        "player_id": player_id,
         "last_name": last_name,
         "first_name": first_name,
         "birthday": birthday,

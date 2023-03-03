@@ -27,7 +27,7 @@ def create_tournament_controller(data_dict):
     """Create a controller"""
     tournament_dict = create_tournament_view()
     tournament = Tournament(**tournament_dict)
-    tournament_insert_in_db = tournament.save_tournament()
+    tournament.save_tournament()
 
     return "add_players_now", data_dict
 
@@ -77,16 +77,11 @@ def add_players_now_controller(data_dict):
 
 def add_players_controller(data_dict):
     """add_players"""
+    tournament = data_dict
     player_list_db = Player.list_all()
-    player_list_tournament = []
-    player_choose = add_players_view(player_list_db, player_list_tournament)
+    player_choose = add_players_view(player_list_db)
     player_find = Player.find(player_choose)
-
-
-    if player_find not in player_list_tournament:
-        player_list_tournament.append(player_find)
-    else:
-        print("Joueur déja ajouté")
-        return "add_players", data_dict
+    print(player_find)
+    tournament.add_player(player_find)
 
     return "add_players", data_dict

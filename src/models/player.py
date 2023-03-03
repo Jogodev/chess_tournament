@@ -8,18 +8,16 @@ class Player:
     """Player Class"""
 
     def __init__(
-            self,
-            last_name: str,
-            first_name: str = "-",
-            birthday: str = "-",
-            gender: str = "-",
-            elo: int = 0,
-            score: float = 0.0,
-            player_id: str = "",
-            select_id: int = randint(0, 30),
+        self,
+        last_name: str,
+        first_name: str = "-",
+        birthday: str = "-",
+        gender: str = "-",
+        elo: int = 0,
+        score: float = 0.0,
+        player_id: str = "",
     ):
-        self.player_id = player_id if player_id else secrets.token_hex(2)
-        self.select_id = select_id
+        self.player_id = player_id
         self.last_name = last_name.upper()
         self.first_name = first_name.capitalize()
         self.birthday = birthday
@@ -103,24 +101,29 @@ class Player:
         logging.warning("la base a été supprimée")
         return players_db.truncate()
 
-
     @classmethod
     def boot(cls):
         """"""
 
         list_to_create = [
-            (1, "AB12341", "Musk", "Elon", "01/01/1988", "h", randint(0, 50)),
-            (2, "AB12342", "Lopez", "Jennifer", "01/01/1988", "f", randint(0, 50)),
-            (3, "AB12344", "Ali", "Mohamed", "01/01/1988", "h", randint(0, 50)),
-            (4, "AB12345", "Bertrand", "Alain", "01/01/1988", "h", randint(0, 50)),
-            (5, "AB12346", "Vilar", "Jean", "01/01/1988", "h", randint(0, 50)),
-            (6, "AB12347", "Doe", "John", "01/01/1988", "h", randint(0, 50)),
-            (7, "AB12348", "Melenchon", "Jean-Luc", "01/01/1988", "h", randint(0, 50)),
-            (8, "AB12349", "Birkin", "Jane", "01/01/1988", "f", randint(0, 50)),
+            ("AB12341", "Musk", "Elon", "01/01/1988", "h", randint(0, 50)),
+            ("AB12342", "Lopez", "Jennifer", "01/01/1988", "f", randint(0, 50)),
+            ("AB12344", "Ali", "Mohamed", "01/01/1988", "h", randint(0, 50)),
+            ("AB12345", "Bertrand", "Alain", "01/01/1988", "h", randint(0, 50)),
+            ("AB12346", "Vilar", "Jean", "01/01/1988", "h", randint(0, 50)),
+            ("AB12347", "Doe", "John", "01/01/1988", "h", randint(0, 50)),
+            ("AB12348", "Melenchon", "Jean-Luc", "01/01/1988", "h", randint(0, 50)),
+            ("AB12349", "Birkin", "Jane", "01/01/1988", "f", randint(0, 50)),
         ]
-        for select_id, player_id, last_name, first_name, birthday, gender, elo in list_to_create:
+        for (
+            player_id,
+            last_name,
+            first_name,
+            birthday,
+            gender,
+            elo,
+        ) in list_to_create:
             player = Player(
-                select_id=select_id,
                 player_id=player_id,
                 last_name=last_name,
                 first_name=first_name,

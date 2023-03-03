@@ -7,7 +7,8 @@ def menu_tournament_view():
     txt = """ 
     [1] - Créer un nouveau tournoi
     [2] - Charger un tournoi
-    [3] - Rapport d'un tournoi en cours
+    [3] - Reprendre un tournoi
+    [4] - Rapport d'un tournoi en cours
     [b] - Retour au menu principal
     """
 
@@ -46,10 +47,8 @@ def create_tournament_view():
 
 def load_tournaments_view(tournament_list):
     """all tournaments"""
-
     for tournament in tournament_list:
-        print(f"[{tournament['select_id']}]", end="   ")
-        print(f"{tournament['tournament_id']}", end=" | ")
+        print(f"[{tournament['tournament_id']}]", end=" | ")
         print(f"{tournament['name']}", end=" | ")
         print(f"Lieu : {tournament['location']}", end=" | ")
         print(f"{tournament['start_date']}", end=" | ")
@@ -59,13 +58,14 @@ def load_tournaments_view(tournament_list):
         print(f"{tournament['description']}", end=" | ")
         if tournament["player_list"] == []:
             print("Aucun joueur ajouté", end="\n")
-        elif len(tournament["player_list"]) == 8:
+        elif len(tournament["player_list"]) == 2:
             print("Prêt à commencer")
+
 
     choice = input(
         """
         Quel tournoi voulez-vous charger ?
-       --> """
+        --> """
     )
 
     return choice
@@ -83,7 +83,7 @@ def load_one_tournament_view(tournament_dict):
     print(f"{tournament_dict['round_list']}", end=" | ")
     print(f"{tournament_dict['description']}", end=" | ")
     if not tournament_dict["player_list"]:
-            print("Aucun joueur ajouté", end="\n")
+        print("Aucun joueur ajouté", end="\n")
 
     choice = input(
         """
@@ -107,26 +107,23 @@ def add_players_now_view():
     return choice
 
 
-def add_players_view(player_list_db, player_list_tournament):
+def add_players_view(player_list_db):
     """add players"""
 
     for player in player_list_db:
-        print(f"[{player['select_id']}]", end="   ")
-        print(f"{player['player_id']}", end=" | ")
+        print(f"[{player['player_id']}]", end=" | ")
         print(f"{player['last_name']} {player['first_name']}", end=" | ")
         print(f"{player['gender']}", end=" | ")
         print(f"Rang : {player['elo']}", end=" | ")
         print(f"Score : {player['score']}")
 
     print("----------Joueur ajouté au tournoi ----------", end="\n ")
-    print(player_list_tournament)
 
     player = input(
         """
-        Ajouter le joueur 1
+        Ajouter le joueur 
         --> """
     )
-
 
     # player_2 = input(
     #     """
@@ -171,5 +168,3 @@ def add_players_view(player_list_db, player_list_tournament):
     # )
 
     return player
-
-
