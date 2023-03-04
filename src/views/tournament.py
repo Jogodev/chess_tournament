@@ -56,11 +56,14 @@ def load_tournaments_view(tournament_list):
         print(f"{tournament['id_current_round']}", end=" | ")
         print(f"{tournament['round_list']}", end=" | ")
         print(f"{tournament['description']}", end=" | ")
-        if tournament["player_list"] == []:
+        if len(tournament['player_list']) == 0:
             print("Aucun joueur ajouté", end="\n")
-        elif len(tournament["player_list"]) == 2:
-            print("Prêt à commencer")
-
+        elif len(tournament['player_list']) == 1:
+            print(f"{len(tournament['player_list'])} joueur ajouté")
+        elif len(tournament['player_list']) == 2:
+            print(f"{len(tournament['player_list'])} joueurs ajouté tournoi prêt à commencer")
+        else:
+            print(f"{len(tournament['player_list'])} joueurs ajouté")
 
     choice = input(
         """

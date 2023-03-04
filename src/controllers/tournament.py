@@ -1,8 +1,14 @@
 """Tournament controller"""
 import logging
 
-from src.views.tournament import menu_tournament_view, create_tournament_view, add_players_now_view, \
-    load_tournaments_view, add_players_view, load_one_tournament_view
+from src.views.tournament import (
+    menu_tournament_view,
+    create_tournament_view,
+    add_players_now_view,
+    load_tournaments_view,
+    add_players_view,
+    load_one_tournament_view,
+)
 from src.models.tournament import Tournament
 from src.models.player import Player
 
@@ -33,7 +39,7 @@ def create_tournament_controller(data_dict):
 
 
 def load_tournaments_controller(data_dict):
-    """Load all tournaments """
+    """Load all tournaments"""
     tournament_list = Tournament.load_tournaments()
     # transform tournament_list en dict;
     tournament_id = load_tournaments_view(tournament_list)
@@ -70,7 +76,7 @@ def add_players_now_controller(data_dict):
     elif choice == "n":
         return "tournament_menu", data_dict
     else:
-        print('Saisie non valide')
+        print("Saisie non valide")
 
     return choice, data_dict
 
@@ -81,7 +87,7 @@ def add_players_controller(data_dict):
     player_list_db = Player.list_all()
     player_choose = add_players_view(player_list_db)
     player_find = Player.find(player_choose)
-    print(player_find)
-    tournament.add_player(player_find)
+    player = player_find[0]
+    tournament.add_player(player.serialize())
 
     return "add_players", data_dict
