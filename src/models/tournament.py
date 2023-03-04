@@ -2,7 +2,6 @@
 import datetime
 from random import randint
 
-from src.models.player import Player
 from src.models.round import Round
 from tinydb import TinyDB, Query
 
@@ -15,8 +14,8 @@ class Tournament:
     def __init__(
             self,
             name: str,
-            tournament_id: str = '',
-            location: str = '',
+            tournament_id: str = "",
+            location: str = "",
             start_date: str = str(datetime.datetime.now()),
             end_date: str = "tournoi en cours",
             id_current_round: int = -1,
@@ -39,24 +38,28 @@ class Tournament:
     @classmethod
     def table(cls):
         """Tournament db"""
-        return TinyDB("database/tournaments.json", indent=4, separators=(',', ': '))
+        return TinyDB("database/tournaments.json", indent=4, separators=(",", ": "))
 
     def serialize(self):
         """Serialize the tournament"""
         return self.__dict__
 
     def save_tournament(self):
-        """ Save tournament """
+        """Save tournament"""
 
         db = self.table()
         self.tournament_id = db.insert(self.serialize())
-        db.update({"tournament_id": str(self.tournament_id)}, doc_ids=[self.tournament_id])
+        db.update(
+            {"tournament_id": str(self.tournament_id)}, doc_ids=[self.tournament_id]
+        )
         logging.info(f"Tournoi {self.name} créé à {self.location}")
 
     def update_tournament(self):
         """Update tournament"""
         db = self.table()
-        db.update({"player_list": self.player_list}, doc_ids=[self.tournament_id])
+        db.update({"player_list": self.player_list}, Query().tournament_id == self.tournament_id)
+        db.update({"id_current_round": self.id_current_round}, Query().tournament_id == self.tournament_id)
+        db.update({"round_list": self.round_list}, Query().tournament_id == self.tournament_id)
 
     @classmethod
     def load_tournaments(cls):
@@ -74,7 +77,9 @@ class Tournament:
         db.all()
         query = Query()
         tournament_find = db.search(query.tournament_id == tournament_id)
-        tournament_list = [Tournament(**dict(tournament)) for tournament in tournament_find]
+        tournament_list = [
+            Tournament(**dict(tournament)) for tournament in tournament_find
+        ]
         return tournament_list
 
     def __repr__(self):
@@ -82,12 +87,16 @@ class Tournament:
 
     def sort_players_by_rank(self):
         """Sort players by rank"""
-        sorter_players_by_rank = sorted(self.player_list, key=lambda players: players["elo"])
+        sorter_players_by_rank = sorted(
+            self.player_list, key=lambda players: players["elo"]
+        )
         return sorter_players_by_rank
 
     def sort_players_by_score(self):
         """Sort players by score"""
-        sorted_players_by_score = sorted(self.player_list, key=lambda players: players["score"])
+        sorted_players_by_score = sorted(
+            self.player_list, key=lambda players: players["score"]
+        )
         return sorted_players_by_score
 
     def add_player(self, player_id):
@@ -95,7 +104,7 @@ class Tournament:
         if (player_id not in self.player_list) and (self.status == "created"):
             self.player_list.append(player_id)
             self.update_tournament()
-            logging.info('Joueur ajouté au tournoi')
+            logging.info("Joueur ajouté au tournoi")
 
     def add_players(self, player_list):
         """"""
