@@ -2,6 +2,7 @@
 import datetime
 from random import randint
 
+from src.models.player import Player
 from src.models.round import Round
 from tinydb import TinyDB, Query
 
@@ -12,17 +13,17 @@ class Tournament:
     """Tournament class"""
 
     def __init__(
-            self,
-            name: str,
-            tournament_id: str = "",
-            location: str = "",
-            start_date: str = str(datetime.datetime.now()),
-            end_date: str = "tournoi en cours",
-            id_current_round: int = -1,
-            round_list: int = 4,
-            player_list: list = [],
-            description: str = "-",
-            status: str = "created",
+        self,
+        name: str,
+        tournament_id: str = "",
+        location: str = "",
+        start_date: str = str(datetime.datetime.now()),
+        end_date: str = "tournoi en cours",
+        id_current_round: int = -1,
+        round_list: int = 4,
+        player_list: list = [],
+        description: str = "-",
+        status: str = "created",
     ):
         self.tournament_id = tournament_id
         self.name = name.upper()
@@ -44,7 +45,7 @@ class Tournament:
         """Serialize the tournament"""
         return self.__dict__
 
-    def save_tournament(self):
+    def create(self):
         """Save tournament"""
 
         db = self.table()
@@ -54,12 +55,17 @@ class Tournament:
         )
         logging.info(f"Tournoi {self.name} créé à {self.location}")
 
-    def update_tournament(self):
+    def update(self):
         """Update tournament"""
         db = self.table()
-        db.update({"player_list": self.player_list}, Query().tournament_id == self.tournament_id)
-        db.update({"id_current_round": self.id_current_round}, Query().tournament_id == self.tournament_id)
-        db.update({"round_list": self.round_list}, Query().tournament_id == self.tournament_id)
+        query = Query()
+        db.update(
+            {"player_list": self.player_list}, query.tournament_id == self.tournament_id
+        )
+        db.update(
+            {"round_list": self.round_list}, query.tournament_id == self.tournament_id
+        )
+        db.update({"status": self.status}, query.tournament_id == self.tournament_id)
 
     @classmethod
     def load_tournaments(cls):
@@ -99,12 +105,24 @@ class Tournament:
         )
         return sorted_players_by_score
 
-    def add_player(self, player_id):
-        """"""
-        if (player_id not in self.player_list) and (self.status == "created"):
+    def add_player(self, player):
+        """Add a player in tournament"""
+        print(player)
+        player_id = player["player_id"]
+        if (player not in self.player_list) and (self.status == "created"):
             self.player_list.append(player_id)
-            self.update_tournament()
+            self.update()
             logging.info("Joueur ajouté au tournoi")
+        elif player_id in self.player_list:
+            logging.warning("Ce joueur est déjà dans ce tournoi")
+        else:
+            logging.warning(
+                f"Ce tournoi est en status {self.status} et n'accepte plus de joueur"
+            )
+
+        if len(self.player_list) == 2:
+            self.status = "ready"
+            self.update()
 
     def add_players(self, player_list):
         """"""
@@ -112,21 +130,42 @@ class Tournament:
             self.add_player(player)
 
     def start_tournament(self):
-        """"""
+        """Beginning of the tournament"""
 
         self.status = "live"
         if len(self.player_list) != 2:
             raise AttributeError("Travail sur 2 joueurs uniquement")
-        match_1 = ([self.player_id[0], -1], [self.player_id[1], -1])
+        match_1 = ([self.player_list[0], -1], [self.player_list[1], -1])
         round_1 = [match_1]
         self.round_list = [round_1]
-        self.round_id = 0
+        self.id_current_round += 1
+        self.update_round()
+
+    def update_round(self):
+        """"""
+        db = self.table()
+        query = Query()
+        db.update(
+            {"id_current_round": self.id_current_round},
+            query.tournament_id == self.tournament_id,
+        )
+
+    def get_score(self):
+        """"""
+
+    def update_score(self):
+        """"""
+        pass
+
+    def end_round(self):
+        """"""
+        pass
 
     def resume_tournament(self):
         """"""
         pass
 
-    def end_round(self):
+    def first_round(self):
         """"""
         pass
 

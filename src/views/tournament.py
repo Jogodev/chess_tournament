@@ -74,6 +74,28 @@ def load_tournaments_view(tournament_list):
     return choice
 
 
+def load_one_tournament_ready_view(tournament_dict):
+    """one tournament"""
+    print("Vous avez chargé ce tournoi : ")
+    print(f"{tournament_dict['tournament_id']}", end=" | ")
+    print(f"{tournament_dict['name']}", end=" | ")
+    print(f"Lieu : {tournament_dict['location']}", end=" | ")
+    print(f"{tournament_dict['start_date']}", end=" | ")
+    print(f"{tournament_dict['end_date']}", end=" | ")
+    print(f"{tournament_dict['id_current_round']}", end=" | ")
+    print(f"{tournament_dict['round_list']}", end=" | ")
+    print(f"{tournament_dict['description']}", end=" | ")
+    print(f"{tournament_dict['player_list']}", end="\n")
+
+    choice = input(
+        """
+        Commencer le tournoi ?
+        y -> [oui] ou n -> [non] 
+        --> """
+    )
+    return choice
+
+
 def load_one_tournament_view(tournament_dict):
     """one tournament"""
     print("Vous avez chargé ce tournoi : ")
@@ -120,54 +142,34 @@ def add_players_view(player_list_db):
         print(f"Rang : {player['elo']}", end=" | ")
         print(f"Score : {player['score']}")
 
-    print("----------Joueur ajouté au tournoi ----------", end="\n ")
-
     player = input(
         """
-        Ajouter le joueur 
+        Ajouter un joueur 
         --> """
     )
 
-    # player_2 = input(
-    #     """
-    #     Ajouter le joueur 2
-    #     --> """
-    # )
-    #
-    # player_3 = input(
-    #     """
-    #     Ajouter le joueur 3
-    #     --> """
-    # )
-    #
-    # player_4 = input(
-    #     """
-    #     Ajouter le joueur 4
-    #     --> """
-    # )
-    #
-    # player_5 = input(
-    #     """
-    #     Ajouter le joueur 5
-    #     --> """
-    # )
-    #
-    # player_6 = input(
-    #     """
-    #     Ajouter le joueur 6
-    #     --> """
-    # )
-    #
-    # player_7 = input(
-    #     """
-    #     Ajouter le joueur 7
-    #     --> """
-    # )
-    #
-    # player_8 = input(
-    #     """
-    #     Ajouter le joueur 8
-    #     --> """
-    # )
-
     return player
+
+
+def load_one_tournament_ready_view(tournament_dict):
+    """"""
+
+    print("Vous avez chargé ce tournoi : ")
+    print(f"{tournament_dict['tournament_id']}", end=" | ")
+    print(f"{tournament_dict['name']}", end=" | ")
+    print(f"Lieu : {tournament_dict['location']}", end=" | ")
+    print(f"{tournament_dict['start_date']}", end=" | ")
+    print(f"{tournament_dict['end_date']}", end=" | ")
+    print(f"{tournament_dict['id_current_round']}", end=" | ")
+    print(f"{tournament_dict['round_list']}", end=" | ")
+    print(f"{tournament_dict['description']}", end=" | ")
+    if not tournament_dict["player_list"]:
+        print("Aucun joueur ajouté", end="\n")
+
+    choice = input(
+        """
+        Ce tournoi est prêt voulez vous le commencer ?
+        y -> [oui] ou n -> [non] 
+        --> """
+    )
+    return choice

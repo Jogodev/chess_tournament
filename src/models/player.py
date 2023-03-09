@@ -9,13 +9,13 @@ class Player:
 
     def __init__(
         self,
-        last_name: str,
+        player_id: str,
+        last_name: str = "-",
         first_name: str = "-",
         birthday: str = "-",
         gender: str = "-",
         elo: int = 0,
         score: float = 0.0,
-        player_id: str = "",
     ):
         self.player_id = player_id
         self.last_name = last_name.upper()
@@ -108,12 +108,12 @@ class Player:
         list_to_create = [
             ("AB12341", "Musk", "Elon", "01/01/1988", "h", randint(0, 50)),
             ("AB12342", "Lopez", "Jennifer", "01/01/1988", "f", randint(0, 50)),
-            ("AB12344", "Ali", "Mohamed", "01/01/1988", "h", randint(0, 50)),
-            ("AB12345", "Bertrand", "Alain", "01/01/1988", "h", randint(0, 50)),
-            ("AB12346", "Vilar", "Jean", "01/01/1988", "h", randint(0, 50)),
-            ("AB12347", "Doe", "John", "01/01/1988", "h", randint(0, 50)),
-            ("AB12348", "Melenchon", "Jean-Luc", "01/01/1988", "h", randint(0, 50)),
-            ("AB12349", "Birkin", "Jane", "01/01/1988", "f", randint(0, 50)),
+            ("AB12343", "Ali", "Mohamed", "01/01/1988", "h", randint(0, 50)),
+            ("AB12344", "Bertrand", "Alain", "01/01/1988", "h", randint(0, 50)),
+            ("AB12345", "Vilar", "Jean", "01/01/1988", "h", randint(0, 50)),
+            ("AB12346", "Doe", "John", "01/01/1988", "h", randint(0, 50)),
+            ("AB12347", "Melenchon", "Jean-Luc", "01/01/1988", "h", randint(0, 50)),
+            ("AB12348", "Birkin", "Jane", "01/01/1988", "f", randint(0, 50)),
         ]
         for (
             player_id,
