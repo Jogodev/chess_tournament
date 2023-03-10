@@ -37,7 +37,9 @@ class Round:
     @classmethod
     def table(cls):
         """Players db"""
-        return TinyDB(cls.db_file, indent=4, separators=(",", ": "))
+
+        # fn = "./database/rounds.json"
+        return TinyDB(Round.db_file, indent=4, separators=(",", ": "))
 
     def __repr__(self) -> str:
         """repr method"""
