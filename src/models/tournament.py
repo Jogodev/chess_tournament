@@ -12,6 +12,8 @@ import secrets, logging
 class Tournament:
     """Tournament class"""
 
+    db_file = "./database/tournaments.json"
+
     def __init__(
         self,
         name: str,
@@ -24,7 +26,7 @@ class Tournament:
         player_list: list = [],
         description: str = "-",
         status: str = "created",
-    ):
+    ) -> None:
         self.tournament_id = tournament_id
         self.name = name.upper()
         self.location = location.capitalize()
@@ -39,7 +41,7 @@ class Tournament:
     @classmethod
     def table(cls):
         """Tournament db"""
-        return TinyDB("database/tournaments.json", indent=4, separators=(",", ": "))
+        return TinyDB(cls.db_file, indent=4, separators=(",", ": "))
 
     def serialize(self):
         """Serialize the tournament"""
@@ -147,24 +149,26 @@ class Tournament:
 
         if self.id_current_round == "1":
 
-        db = self.table()
-        query = Query()
-        db.update(
-            {"id_current_round": self.id_current_round},
-            query.tournament_id == self.tournament_id,
-        )
+            db = self.table()
+            query = Query()
+            db.update(
+                {"id_current_round": self.id_current_round},
+                query.tournament_id == self.tournament_id,
+            )
 
     def update_start_date(self):
         """Set the datetime when the first round begin"""
         db = self.table()
         query = Query()
-        db.update({'start_date': self.start_date}, query.tournament_id == self.tournament_id)
+        db.update(
+            {"start_date": self.start_date}, query.tournament_id == self.tournament_id
+        )
 
     def update_end_date(self):
         """Set the datetime when the tournament finish"""
         db = self.table()
         query = Query()
-        db.update({'end_date': self.end_date}, query.tournament_id == self.tournament_id)
+        db.update({"end_date": self.end_date}, query.tournament_id == self.tournament_id)
 
     def get_score(self):
         """"""
