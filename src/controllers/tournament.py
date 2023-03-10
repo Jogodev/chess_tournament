@@ -9,6 +9,8 @@ from src.views.tournament import (
     add_players_view,
     load_one_tournament_view,
     load_one_tournament_ready_view,
+    start_tournament_view,
+    next_round_view,
 )
 from src.models.tournament import Tournament
 from src.models.player import Player
@@ -116,3 +118,16 @@ def add_players_controller(data_dict):
 
 def start_tournament_controller(data_dict):
     """Start tournament"""
+    tournament = data_dict
+    tournament.start_tournament()
+    choice = start_tournament_view(tournament.serialize())
+    if choice == "y":
+        tournament.update_round()
+        return "next_round", data_dict
+    elif choice == "n":
+        return "tournament_menu", data_dict
+
+
+def next_round_controller(data_dict):
+    """"""
+
