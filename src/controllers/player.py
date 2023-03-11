@@ -31,7 +31,9 @@ def menu_player_controller(data_dict):
         return "create_test_db", data_dict
     elif choice == "b":
         return "main_menu", data_dict
-    raise ValueError("Aucun choix ne correspond")
+    else:
+        print("\nSaisie non valide\n")
+        return "menu_player", data_dict
 
 
 def create_player_controller(data_dict):
@@ -70,7 +72,9 @@ def delete_player_controller(data_dict):
         player.delete()
     elif choice == "n":
         return "menu_player", data_dict
-    return "menu_player", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "delete_player", data_dict
 
 
 def list_all_players_controller(data_dict):
@@ -83,7 +87,8 @@ def list_all_players_controller(data_dict):
     elif choice == "m":
         return "main_menu", data_dict
     else:
-        raise ValueError("Aucun choix ne correspond")
+        print("\nSaisie non valide")
+        return "list_all_players", data_dict
 
 
 def delete_all_players_controller(data_dict):
@@ -95,8 +100,8 @@ def delete_all_players_controller(data_dict):
     elif choice == "n":
         return "menu_player", data_dict
     else:
-        raise ValueError("Aucun choix ne correspond")
-    return "menu_player", data_dict
+        print("\nSaisie non valide\n")
+        return "delete_all_players", data_dict
 
 
 def players_db_test_controller(data_dict):
@@ -110,5 +115,5 @@ def players_db_test_controller(data_dict):
     elif choice == "m":
         return "main_menu", data_dict
     else:
-        raise ValueError("Aucun choix ne correspond")
-    return "menu_player", data_dict
+        print("\nSaisie non valide\n")
+        return "create_test_db", data_dict

@@ -15,17 +15,17 @@ class Tournament:
     db_file = "./database/tournaments.json"
 
     def __init__(
-        self,
-        name: str,
-        tournament_id: str = "",
-        location: str = "",
-        start_date: str = "",
-        end_date: str = "",
-        id_current_round: int = -1,
-        total_rounds: int = 4,
-        player_list: list = [],
-        description: str = "-",
-        status: str = "created",
+            self,
+            name: str,
+            tournament_id: str = "",
+            location: str = "",
+            start_date: str = "",
+            end_date: str = "",
+            id_current_round: int = -1,
+            total_rounds: int = 4,
+            player_list: list = [],
+            description: str = "-",
+            status: str = "created",
     ) -> None:
         self.tournament_id = tournament_id
         self.name = name.upper()
@@ -135,7 +135,7 @@ class Tournament:
         """Beginning of the tournament"""
         self.start_date = datetime.datetime.now()
         self.end_date = "Tournoi en cours"
-        self.status = "live"
+        self.status = "in progress"
         if len(self.player_list) != 2:
             raise AttributeError("Travail sur 2 joueurs uniquement")
         match_1 = ([self.player_list[0], -1], [self.player_list[1], -1])
@@ -148,7 +148,6 @@ class Tournament:
         """"""
 
         if self.id_current_round == "1":
-
             db = self.table()
             query = Query()
             db.update(
@@ -172,6 +171,7 @@ class Tournament:
 
     def get_score(self):
         """"""
+        pass
 
     def update_score(self):
         """"""

@@ -2,8 +2,6 @@ import secrets, logging
 from random import randint
 from tinydb import TinyDB, Query
 
-from src.models.game import Game
-
 # from src.models.player import Player
 import datetime
 import secrets

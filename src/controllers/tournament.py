@@ -1,17 +1,9 @@
 """Tournament controller"""
 import logging
 
-from src.views.tournament import (
-    menu_tournament_view,
-    create_tournament_view,
-    add_players_now_view,
-    load_tournaments_view,
-    add_players_view,
-    load_one_tournament_view,
-    load_one_tournament_ready_view,
-    start_tournament_view,
-    next_round_view,
-)
+from src.views.tournament import (menu_tournament_view, create_tournament_view, add_players_now_view,
+                                  load_tournaments_view, add_players_view, load_one_tournament_view,
+                                  load_one_tournament_ready_view, start_tournament_view, first_round_view, )
 from src.models.tournament import Tournament
 from src.models.player import Player
 
@@ -29,7 +21,8 @@ def menu_tournament_controller(data_dict):
     elif choice == "b":
         return "main_menu", data_dict
     else:
-        raise ValueError("Aucun choix ne correspond")
+        print("\nSaisie non valide\n")
+        return "menu_tournament", data_dict
 
 
 def create_tournament_controller(data_dict):
@@ -37,6 +30,7 @@ def create_tournament_controller(data_dict):
     tournament_dict = create_tournament_view()
     tournament = Tournament(**tournament_dict)
     tournament.create()
+    data_dict = tournament
 
     return "add_players_now", data_dict
 
@@ -45,27 +39,20 @@ def load_tournaments_controller(data_dict):
     """Load all tournaments"""
     tournament_list = Tournament.load_tournaments()
     tournament_id = load_tournaments_view(tournament_list)
-    data_dict["tournament_id"] = tournament_id
-    return "load_one_tournament", data_dict
+    tournament = Tournament.find(tournament_id)
+    print(tournament)
+    data_dict = tournament_id
 
-
-def load_one_tournament_ready_controller(data_dict):
-    """Load a tournament who ready"""
-    choice = load_one_tournament_ready_view(data_dict.serialize())
-
-    if choice == "y":
-        return "start_tournament", data_dict
-    elif choice == "n":
-        return "tournament_menu", data_dict
+    if (tournament != []) and (tournament[0].serialize() in tournament_list):
+        return "load_one_tournament", data_dict
     else:
-        print("Aucun choix ne correspond")
-
-    return "start_tournament", data_dict
+        print("\nAucun tournoi ne correspond à cet id\n")
+        return "load_tournaments", data_dict
 
 
 def load_one_tournament_controller(data_dict):
     """Load one tournament"""
-    tournament_id = data_dict["tournament_id"]
+    tournament_id = data_dict
     tournament_list = Tournament.find(tournament_id)
     tournament = tournament_list[0]
     data_dict = tournament
@@ -78,11 +65,23 @@ def load_one_tournament_controller(data_dict):
     if choice == "y":
         return "add_players", data_dict
     elif choice == "n":
-        return "tournament_menu", data_dict
+        return "menu_tournament", data_dict
     else:
-        print("Aucun choix ne correspond")
+        print("\nSaisie non valide")
+        return "load_one_tournament", data_dict
 
-    return "add_players", data_dict
+
+def load_one_tournament_ready_controller(data_dict):
+    """Load a tournament who ready"""
+    choice = load_one_tournament_ready_view(data_dict.serialize())
+    print(choice)
+    if choice == "y":
+        return "start_tournament", data_dict
+    elif choice == "n":
+        return "menu_tournament", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "load_one_tournament_ready", data_dict
 
 
 def add_players_now_controller(data_dict):
@@ -92,11 +91,10 @@ def add_players_now_controller(data_dict):
     if choice == "y":
         return "add_players", data_dict
     elif choice == "n":
-        return "tournament_menu", data_dict
+        return "menu_tournament", data_dict
     else:
-        print("Saisie non valide")
-
-    return choice, data_dict
+        print("\nSaisie non valide\n")
+        return "add_players_now", data_dict
 
 
 def add_players_controller(data_dict):
@@ -106,7 +104,7 @@ def add_players_controller(data_dict):
     player_choose = add_players_view(player_list_db)
     choice = player_choose
     if choice == "b":
-        return "tournament_menu"
+        return "menu_tournament"
     player_find = Player.find(player_choose)
     player = player_find[0]
     tournament.add_player(player.serialize())
@@ -125,9 +123,11 @@ def start_tournament_controller(data_dict):
         tournament.update_round()
         return "next_round", data_dict
     elif choice == "n":
-        return "tournament_menu", data_dict
+        return "menu_tournament", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "start_tournament", data_dict
 
 
 def next_round_controller(data_dict):
     """"""
-
