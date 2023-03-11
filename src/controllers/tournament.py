@@ -1,9 +1,18 @@
 """Tournament controller"""
 import logging
 
-from src.views.tournament import (menu_tournament_view, create_tournament_view, add_players_now_view,
-                                  load_tournaments_view, add_players_view, load_one_tournament_view,
-                                  load_one_tournament_ready_view, start_tournament_view, first_round_view, )
+from src.views.tournament import\
+    (menu_tournament_view,
+     create_tournament_view,
+     add_players_now_view,
+     load_tournaments_view,
+     add_players_view,
+     load_one_tournament_view,
+     load_one_tournament_ready_view,
+     start_tournament_view,
+     first_round_view,
+     )
+
 from src.models.tournament import Tournament
 from src.models.player import Player
 
