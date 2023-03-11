@@ -7,6 +7,8 @@ from tinydb import TinyDB, Query
 class Player:
     """Player Class"""
 
+    db_file = "./database/players.json"
+
     def __init__(
         self,
         player_id: str,
@@ -16,7 +18,7 @@ class Player:
         gender: str = "-",
         elo: int = 0,
         score: float = 0.0,
-    ):
+    ) -> None:
         self.player_id = player_id
         self.last_name = last_name.upper()
         self.first_name = first_name.capitalize()
@@ -28,7 +30,8 @@ class Player:
     @classmethod
     def table(cls):
         """Players db"""
-        return TinyDB("database/players.json", indent=4, separators=(",", ": "))
+
+        return TinyDB(cls.db_file, indent=4, separators=(",", ": "))
 
     def __repr__(self):
         """repr method"""

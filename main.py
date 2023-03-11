@@ -19,7 +19,7 @@ controller_dict = {
     "delete_all_players": delete_all_players_controller,
     "create_test_db": players_db_test_controller,
     # Tournament
-    "tournament_menu": menu_tournament_controller,
+    "menu_tournament": menu_tournament_controller,
     "create_tournament": create_tournament_controller,
     "load_tournaments": load_tournaments_controller,
     "load_one_tournament": load_one_tournament_controller,

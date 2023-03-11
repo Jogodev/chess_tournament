@@ -15,7 +15,7 @@ def menu_tournament_view():
     print(title)
     print(txt)
 
-    choice = input("Faites votre choix : ")
+    choice = input("Faites votre choix : \n")
     return choice
 
 
@@ -53,8 +53,8 @@ def load_tournaments_view(tournament_list):
         print(f"Lieu : {tournament['location']}", end=" | ")
         print(f"{tournament['start_date']}", end=" | ")
         print(f"{tournament['end_date']}", end=" | ")
-        print(f"{tournament['id_current_round']}", end=" | ")
-        print(f"{tournament['round_list']}", end=" | ")
+        print(f"ronde actuelle : {tournament['id_current_round']}", end=" | ")
+        print(f"{tournament['total_rounds']}", end=" | ")
         print(f"{tournament['description']}", end=" | ")
         if len(tournament['player_list']) == 0:
             print("Aucun joueur ajouté", end="\n")
@@ -75,21 +75,21 @@ def load_tournaments_view(tournament_list):
 
 
 def load_one_tournament_ready_view(tournament_dict):
-    """one tournament"""
-    print("Vous avez chargé ce tournoi : ")
+    """one tournament status ready"""
+    print("\nVous avez chargé ce tournoi : ", end="\n")
     print(f"{tournament_dict['tournament_id']}", end=" | ")
     print(f"{tournament_dict['name']}", end=" | ")
     print(f"Lieu : {tournament_dict['location']}", end=" | ")
     print(f"{tournament_dict['start_date']}", end=" | ")
     print(f"{tournament_dict['end_date']}", end=" | ")
-    print(f"{tournament_dict['id_current_round']}", end=" | ")
-    print(f"{tournament_dict['round_list']}", end=" | ")
+    print(f" ronde actuelle : {tournament_dict['id_current_round']}", end=" | ")
+    print(f"{tournament_dict['total_rounds']}", end=" | ")
     print(f"{tournament_dict['description']}", end=" | ")
     print(f"{tournament_dict['player_list']}", end="\n")
 
     choice = input(
         """
-        Commencer le tournoi ?
+        Ce tournoi est prêt voulez-vous le commencer ?
         y -> [oui] ou n -> [non] 
         --> """
     )
@@ -104,8 +104,8 @@ def load_one_tournament_view(tournament_dict):
     print(f"Lieu : {tournament_dict['location']}", end=" | ")
     print(f"{tournament_dict['start_date']}", end=" | ")
     print(f"{tournament_dict['end_date']}", end=" | ")
-    print(f"{tournament_dict['id_current_round']}", end=" | ")
-    print(f"{tournament_dict['round_list']}", end=" | ")
+    print(f"ronde actuelle : {tournament_dict['id_current_round']}", end=" | ")
+    print(f"{tournament_dict['total_rounds']}", end=" | ")
     print(f"{tournament_dict['description']}", end=" | ")
     if not tournament_dict["player_list"]:
         print("Aucun joueur ajouté", end="\n")
@@ -145,31 +145,26 @@ def add_players_view(player_list_db):
     player = input(
         """
         Ajouter un joueur 
+        b --> [retour au menu principal]
         --> """
     )
 
     return player
 
 
-def load_one_tournament_ready_view(tournament_dict):
+def start_tournament_view(tournament):
     """"""
-
-    print("Vous avez chargé ce tournoi : ")
-    print(f"{tournament_dict['tournament_id']}", end=" | ")
-    print(f"{tournament_dict['name']}", end=" | ")
-    print(f"Lieu : {tournament_dict['location']}", end=" | ")
-    print(f"{tournament_dict['start_date']}", end=" | ")
-    print(f"{tournament_dict['end_date']}", end=" | ")
-    print(f"{tournament_dict['id_current_round']}", end=" | ")
-    print(f"{tournament_dict['round_list']}", end=" | ")
-    print(f"{tournament_dict['description']}", end=" | ")
-    if not tournament_dict["player_list"]:
-        print("Aucun joueur ajouté", end="\n")
+    print(f"Ronde N°{tournament['id_current_round']} du tournoi {tournament['name']}")
 
     choice = input(
         """
-        Ce tournoi est prêt voulez vous le commencer ?
+        Enregistrer et passé a la ronde suivante ?
         y -> [oui] ou n -> [non] 
         --> """
     )
+
     return choice
+
+def first_round_view():
+    """"""
+    pass
