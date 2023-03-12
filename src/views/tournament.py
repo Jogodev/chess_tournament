@@ -56,12 +56,14 @@ def load_tournaments_view(tournament_list):
         print(f"ronde actuelle : {tournament['id_current_round']}", end=" | ")
         print(f"{tournament['total_rounds']}", end=" | ")
         print(f"{tournament['description']}", end=" | ")
-        if len(tournament['player_list']) == 0:
+        if len(tournament["player_list"]) == 0:
             print("Aucun joueur ajouté", end="\n")
-        elif len(tournament['player_list']) == 1:
+        elif len(tournament["player_list"]) == 1:
             print(f"{len(tournament['player_list'])} joueur ajouté")
-        elif len(tournament['player_list']) == 2:
-            print(f"{len(tournament['player_list'])} joueurs ajouté tournoi prêt à commencer")
+        elif len(tournament["player_list"]) == 2:
+            print(
+                f"{len(tournament['player_list'])} joueurs ajouté tournoi prêt à commencer"
+            )
         else:
             print(f"{len(tournament['player_list'])} joueurs ajouté")
 
@@ -164,6 +166,7 @@ def start_tournament_view(tournament):
     )
 
     return choice
+
 
 def first_round_view():
     """"""
