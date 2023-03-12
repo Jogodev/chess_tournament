@@ -15,17 +15,17 @@ class Tournament:
     db_file = "./database/tournaments.json"
 
     def __init__(
-            self,
-            name: str,
-            tournament_id: str = "",
-            location: str = "",
-            start_date: str = "",
-            end_date: str = "",
-            id_current_round: int = -1,
-            total_rounds: int = 4,
-            player_list: list = [],
-            description: str = "-",
-            status: str = "created",
+        self,
+        name: str,
+        tournament_id: str = "",
+        location: str = "",
+        start_date: str = "",
+        end_date: str = "",
+        id_current_round: int = -1,
+        total_rounds: int = 4,
+        player_list: list = [],
+        description: str = "-",
+        status: str = "created",
     ) -> None:
         self.tournament_id = tournament_id
         self.name = name.upper()
@@ -65,7 +65,8 @@ class Tournament:
             {"player_list": self.player_list}, query.tournament_id == self.tournament_id
         )
         db.update(
-            {"total_rounds": self.total_rounds}, query.tournament_id == self.tournament_id
+            {"total_rounds": self.total_rounds},
+            query.tournament_id == self.tournament_id,
         )
         db.update({"status": self.status}, query.tournament_id == self.tournament_id)
 
@@ -167,7 +168,9 @@ class Tournament:
         """Set the datetime when the tournament finish"""
         db = self.table()
         query = Query()
-        db.update({"end_date": self.end_date}, query.tournament_id == self.tournament_id)
+        db.update(
+            {"end_date": self.end_date}, query.tournament_id == self.tournament_id
+        )
 
     def get_score(self):
         """"""
