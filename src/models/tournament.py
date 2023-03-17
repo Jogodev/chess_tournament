@@ -142,11 +142,11 @@ class Tournament:
         match_1 = ([self.player_list[0], -1], [self.player_list[1], -1])
         round_1 = [match_1]
         self.total_rounds = [round_1]
-        self.id_current_round += 1
+        self.id_current_round = 0
         self.update_round()
 
     def update_round(self):
-        """"""
+        """Update a round of the tournament"""
 
         if self.id_current_round == "1":
             db = self.table()

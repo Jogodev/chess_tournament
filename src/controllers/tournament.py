@@ -140,3 +140,7 @@ def start_tournament_controller(data_dict):
 
 def next_round_controller(data_dict):
     """"""
+
+def get_score(data_dict):
+    """Get score of the game"""
+    pass
