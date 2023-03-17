@@ -108,14 +108,18 @@ class Tournament:
         )
         return sorted_players_by_score
 
-    def add_player(self, player):
+    def add_player(self, player_dict: dict):
         """Add a player in tournament"""
-        print(player)
-        player_id = player["player_id"]
-        if (player not in self.player_list) and (self.status == "created"):
+
+        print(player_dict)
+        player_id = player_dict["player_id"]
+        if (player_id not in self.player_list) and (self.status == "created"):
+
+            logging.warning(f"Nous allons ajouter {player_dict} ")
+
             self.player_list.append(player_id)
             self.update()
-            logging.info("Joueur ajouté au tournoi")
+            logging.warning("Joueur ajouté au tournoi")
         elif player_id in self.player_list:
             logging.warning("Ce joueur est déjà dans ce tournoi")
         else:
@@ -124,8 +128,14 @@ class Tournament:
             )
 
         if len(self.player_list) == 2:
+
+            logging.warning(
+                "ON A 2 JOUEURSS == > CLOTURE DES INSCRIPTION VERSION de TESt"
+            )
             self.status = "ready"
             self.update()
+
+        return None
 
     def add_players(self, player_list):
         """"""
@@ -142,11 +152,11 @@ class Tournament:
         match_1 = ([self.player_list[0], -1], [self.player_list[1], -1])
         round_1 = [match_1]
         self.total_rounds = [round_1]
-        self.id_current_round += 1
+        self.id_current_round = 0
         self.update_round()
 
     def update_round(self):
-        """"""
+        """Update a round of the tournament"""
 
         if self.id_current_round == "1":
             db = self.table()
@@ -168,9 +178,7 @@ class Tournament:
         """Set the datetime when the tournament finish"""
         db = self.table()
         query = Query()
-        db.update(
-            {"end_date": self.end_date}, query.tournament_id == self.tournament_id
-        )
+        db.update({"end_date": self.end_date}, query.tournament_id == self.tournament_id)
 
     def get_score(self):
         """"""
