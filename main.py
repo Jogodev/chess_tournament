@@ -4,8 +4,8 @@ from src.controllers.main import main_menu_controller
 from src.controllers.player import menu_player_controller, create_player_controller, update_player_controller, \
     delete_player_controller, list_all_players_controller, delete_all_players_controller, players_db_test_controller
 from src.controllers.tournament import menu_tournament_controller, create_tournament_controller, \
-    load_tournaments_controller, add_players_now_controller, add_players_controller, load_one_tournament_controller, \
-    start_tournament_controller, load_one_tournament_ready_controller
+    load_tournaments_controller, add_players_controller, load_one_tournament_controller, \
+    start_tournament_controller, load_one_tournament_ready_controller, get_scores_controller
 
 controller_dict = {
     # Main menu
@@ -24,9 +24,9 @@ controller_dict = {
     "load_tournaments": load_tournaments_controller,
     "load_one_tournament": load_one_tournament_controller,
     "load_one_tournament_ready": load_one_tournament_ready_controller,
-    "add_players_now": add_players_now_controller,
     "add_players": add_players_controller,
     "start_tournament": start_tournament_controller,
+    "get_scores": get_scores_controller,
 }
 
 

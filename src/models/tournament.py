@@ -1,12 +1,11 @@
 """Tournament model"""
-import datetime
-from random import randint
 
-from src.models.player import Player
-from src.models.round import Round
+import logging
+
 from tinydb import TinyDB, Query
 
-import secrets, logging
+from helpers.time import get_datetime
+from src.models.round import Round
 
 
 class Tournament:
@@ -15,17 +14,17 @@ class Tournament:
     db_file = "./database/tournaments.json"
 
     def __init__(
-        self,
-        name: str,
-        tournament_id: str = "",
-        location: str = "",
-        start_date: str = "",
-        end_date: str = "",
-        id_current_round: int = -1,
-        total_rounds: int = 4,
-        player_list: list = [],
-        description: str = "-",
-        status: str = "created",
+            self,
+            name: str,
+            tournament_id: str = "",
+            location: str = "",
+            start_date: str = "",
+            end_date: str = "",
+            id_current_round: int = -1,
+            total_rounds: int = 4,
+            player_list: list = [],
+            description: str = "-",
+            status: str = "created",
     ) -> None:
         self.tournament_id = tournament_id
         self.name = name.upper()
@@ -76,6 +75,8 @@ class Tournament:
 
         db = cls.table()
         tournament_list = [tournament for tournament in db.all()]
+        if tournament_list == []:
+            print("Aucun tournoi dans la base de données")
         logging.info(tournament_list)
         return tournament_list
 
@@ -111,12 +112,9 @@ class Tournament:
     def add_player(self, player_dict: dict):
         """Add a player in tournament"""
 
-        print(player_dict)
         player_id = player_dict["player_id"]
         if (player_id not in self.player_list) and (self.status == "created"):
-
-            logging.warning(f"Nous allons ajouter {player_dict} ")
-
+            self.warning = logging.warning(f"Nous allons ajouter {player_dict} ")
             self.player_list.append(player_id)
             self.update()
             logging.warning("Joueur ajouté au tournoi")
@@ -128,9 +126,8 @@ class Tournament:
             )
 
         if len(self.player_list) == 2:
-
             logging.warning(
-                "ON A 2 JOUEURSS == > CLOTURE DES INSCRIPTION VERSION de TESt"
+                "ON A 2 JOUEURS == > CLOTURE DES INSCRIPTION VERSION de TESt"
             )
             self.status = "ready"
             self.update()
@@ -144,27 +141,33 @@ class Tournament:
 
     def start_tournament(self):
         """Beginning of the tournament"""
-        self.start_date = datetime.datetime.now()
+        self.start_date = get_datetime()
         self.end_date = "Tournoi en cours"
         self.status = "in progress"
         if len(self.player_list) != 2:
             raise AttributeError("Travail sur 2 joueurs uniquement")
-        match_1 = ([self.player_list[0], -1], [self.player_list[1], -1])
-        round_1 = [match_1]
-        self.total_rounds = [round_1]
         self.id_current_round = 0
+        self.first_round()
+        self.update_start_date()
+
+    def first_round(self):
+        """first round"""
+        self.id_current_round += 1
+        game_1 = ([self.player_list[0], -1], [self.player_list[1], -1])
+        round = Round(self.tournament_id, "round_1", '1', [game_1], get_datetime(), "en cours")
         self.update_round()
+        round.create()
+        self.update()
 
     def update_round(self):
         """Update a round of the tournament"""
 
-        if self.id_current_round == "1":
-            db = self.table()
-            query = Query()
-            db.update(
-                {"id_current_round": self.id_current_round},
-                query.tournament_id == self.tournament_id,
-            )
+        db = self.table()
+        query = Query()
+        db.update(
+            {"id_current_round": self.id_current_round},
+            query.tournament_id == self.tournament_id,
+        )
 
     def update_start_date(self):
         """Set the datetime when the first round begin"""
@@ -178,10 +181,13 @@ class Tournament:
         """Set the datetime when the tournament finish"""
         db = self.table()
         query = Query()
-        db.update({"end_date": self.end_date}, query.tournament_id == self.tournament_id)
+        db.update(
+            {"end_date": self.end_date}, query.tournament_id == self.tournament_id
+        )
 
     def get_score(self):
         """"""
+
         pass
 
     def update_score(self):
@@ -195,13 +201,3 @@ class Tournament:
     def resume_tournament(self):
         """"""
         pass
-
-    def first_round(self):
-        """"""
-        pass
-
-    def add_round(self):
-        """"""
-        ronde = Round(self.player_list)
-        self.total_rounds.append(ronde)
-        self.id_current_round = id
