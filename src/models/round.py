@@ -17,15 +17,15 @@ class Round:
         tournament_id: str,
         round_name: str,
         round_id: str = None,  # token id for id in db (this not the Tournament id of round )
-        game_list: list[tuple] = [],
+        game_list: list = [],
         start_datetime: str | None = None,
         end_datetime: str = "",
     ) -> None:
         """Init method"""
 
         self.tournament_id = tournament_id
-        self.round_id = round_id if round_id else secrets.token_hex(2)
         self.round_name = round_name if round_name else secrets.token_hex(2)
+        self.round_id = round_id if round_id else secrets.token_hex(2)
         self.game_list = game_list
         self.start_datetime = (
             start_datetime if start_datetime else str(datetime.datetime.now())[:18]
@@ -53,7 +53,7 @@ class Round:
 
         db = self.table()
         db.insert(self.serialize())
-        logging.warning(f"player {self.round_id} créer")
+        logging.warning(f"Ronde {self.round_id} créer")
 
     def delete(self):
         """delete a specific roudn"""
@@ -79,7 +79,6 @@ class Round:
 
         db = cls.table()
         query = Query()
-
         round_find = db.search(query.round_id == round_id)
         round_list = [Round(**dict(round)) for round in round_find]
         return round_list

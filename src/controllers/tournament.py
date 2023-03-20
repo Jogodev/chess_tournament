@@ -4,17 +4,17 @@ import logging
 from src.views.tournament import (
     menu_tournament_view,
     create_tournament_view,
-    add_players_now_view,
     load_tournaments_view,
     add_players_view,
     load_one_tournament_view,
     load_one_tournament_ready_view,
     start_tournament_view,
-    first_round_view,
+    get_scores_view,
 )
 
 from src.models.tournament import Tournament
 from src.models.player import Player
+from src.models.round import Round
 
 
 def menu_tournament_controller(data_dict):
@@ -41,7 +41,7 @@ def create_tournament_controller(data_dict):
     tournament.create()
     data_dict = tournament
 
-    return "add_players_now", data_dict
+    return "menu_tournament", data_dict
 
 
 def load_tournaments_controller(data_dict):
@@ -49,7 +49,6 @@ def load_tournaments_controller(data_dict):
     tournament_list = Tournament.load_tournaments()
     tournament_id = load_tournaments_view(tournament_list)
     tournament = Tournament.find(tournament_id)
-    print(tournament)
     data_dict = tournament_id
 
     if (tournament != []) and (tournament[0].serialize() in tournament_list):
@@ -68,7 +67,8 @@ def load_one_tournament_controller(data_dict):
     status = data_dict.status
     if status == "ready":
         return "load_one_tournament_ready", data_dict
-
+    elif tournament.status == "in progress":
+        return "get_scores", data_dict
     choice = load_one_tournament_view(tournament.serialize())
 
     if choice == "y":
@@ -80,32 +80,6 @@ def load_one_tournament_controller(data_dict):
         return "load_one_tournament", data_dict
 
 
-def load_one_tournament_ready_controller(data_dict):
-    """Load a tournament who ready"""
-    choice = load_one_tournament_ready_view(data_dict.serialize())
-    print(choice)
-    if choice == "y":
-        return "start_tournament", data_dict
-    elif choice == "n":
-        return "menu_tournament", data_dict
-    else:
-        print("\nSaisie non valide")
-        return "load_one_tournament_ready", data_dict
-
-
-def add_players_now_controller(data_dict):
-    """add players"""
-    choice = add_players_now_view()
-
-    if choice == "y":
-        return "add_players", data_dict
-    elif choice == "n":
-        return "menu_tournament", data_dict
-    else:
-        print("\nSaisie non valide\n")
-        return "add_players_now", data_dict
-
-
 def add_players_controller(data_dict):
     """add_players"""
     tournament = data_dict
@@ -113,7 +87,7 @@ def add_players_controller(data_dict):
     player_choose = add_players_view(player_list_db)
     choice = player_choose
     if choice == "b":
-        return "menu_tournament"
+        return "menu_tournament", data_dict
     player_find = Player.find(player_choose)
     player = player_find[0]
     tournament.add_player(player.serialize())
@@ -123,14 +97,27 @@ def add_players_controller(data_dict):
     return "add_players", data_dict
 
 
+def load_one_tournament_ready_controller(data_dict):
+    """Load a tournament who ready"""
+    choice = load_one_tournament_ready_view(data_dict.serialize())
+    if choice == "y":
+        return "start_tournament", data_dict
+    elif choice == "n":
+        return "menu_tournament", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "load_one_tournament_ready", data_dict
+
+
 def start_tournament_controller(data_dict):
     """Start tournament"""
     tournament = data_dict
     tournament.start_tournament()
     choice = start_tournament_view(tournament.serialize())
+
     if choice == "y":
-        tournament.update_round()
-        return "next_round", data_dict
+        print("Ronde commencé")
+        return "get_scores", data_dict
     elif choice == "n":
         return "menu_tournament", data_dict
     else:
@@ -141,6 +128,21 @@ def start_tournament_controller(data_dict):
 def next_round_controller(data_dict):
     """"""
 
-def get_score(data_dict):
+
+def get_scores_controller(data_dict):
     """Get score of the game"""
+    round = Round.find(data_dict.tournament_id)
+
+    print(round)
+    choice = get_scores_view()
+    if choice == "1":
+        return
+    elif choice == "2":
+        return
+    elif choice == "3":
+        return
+
+
+def resume_tournament():
+    """Resume tournament"""
     pass
