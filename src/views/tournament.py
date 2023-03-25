@@ -15,7 +15,7 @@ def menu_tournament_view():
     print(title)
     print(txt)
 
-    choice = input("Faites votre choix -->")
+    choice = input("Faites votre choix : ")
     return choice
 
 
@@ -137,6 +137,7 @@ def load_one_tournament_ready_view(tournament_dict):
         print(f"Commencé le : {tournament_dict['start_date']}", end=" | ")
     print(f"{tournament_dict['end_date']}", end=" | ")
     print(f"Ronde actuelle : {tournament_dict['id_current_round']}", end=" | ")
+    print(f"Id ronde : {tournament_dict['round_list']}", end=" | ")
     print(f"Rondes prévues : {tournament_dict['total_rounds']}", end=" | ")
     print(f"{tournament_dict['description']}", end=" | ")
     print(f"{tournament_dict['player_list']}", end="\n")
@@ -153,7 +154,6 @@ def load_one_tournament_ready_view(tournament_dict):
 def start_tournament_view(tournament):
     """"""
     print(f"Ronde N°{tournament['id_current_round']} du tournoi {tournament['name']}")
-    print(f"Match 1: ")
 
     choice = input(
         """
@@ -165,10 +165,10 @@ def start_tournament_view(tournament):
     return choice
 
 
-def get_scores_view():
+def get_scores_view(round):
     """Get the scores of all games"""
     print("Entrer les scores des différents match avant de passé à la ronde suivante", end="\n")
-    print(f"Match 1 : ")
+    print(f"Match 1 : {round['game_list']}")
     print("1 = Victoire du joueur 1")
     print("2 = Victoire du joueur 2")
     print("3 = Match nul")
