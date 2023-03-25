@@ -6,6 +6,7 @@ from tinydb import TinyDB, Query
 
 from helpers.time import get_datetime
 from src.models.round import Round
+from src.models.player import Player
 
 
 class Tournament:
@@ -21,6 +22,7 @@ class Tournament:
             start_date: str = "",
             end_date: str = "",
             id_current_round: int = -1,
+            round_list: list = [],
             total_rounds: int = 4,
             player_list: list = [],
             description: str = "-",
@@ -32,6 +34,7 @@ class Tournament:
         self.start_date = start_date
         self.end_date = end_date
         self.id_current_round = id_current_round
+        self.round_list = round_list
         self.total_rounds = total_rounds
         self.player_list = player_list
         self.description = description
@@ -67,6 +70,7 @@ class Tournament:
             {"total_rounds": self.total_rounds},
             query.tournament_id == self.tournament_id,
         )
+        db.update({"round_list": self.round_list}, query.tournament_id == self.tournament_id)
         db.update({"status": self.status}, query.tournament_id == self.tournament_id)
 
     @classmethod
@@ -154,9 +158,10 @@ class Tournament:
         """first round"""
         self.id_current_round += 1
         game_1 = ([self.player_list[0], -1], [self.player_list[1], -1])
-        round = Round(self.tournament_id, "round_1", '1', [game_1], get_datetime(), "en cours")
+        current_round = Round(self.tournament_id, "round_1", [game_1], get_datetime(), "en cours")
+        self.round_list.append(round.round_id)
         self.update_round()
-        round.create()
+        current_round.create()
         self.update()
 
     def update_round(self):

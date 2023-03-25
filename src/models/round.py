@@ -1,8 +1,8 @@
 import secrets, logging
 from random import randint
 from tinydb import TinyDB, Query
-
-# from src.models.player import Player
+from helpers.time import get_datetime
+from src.models.player import Player
 import datetime
 import secrets
 
@@ -13,13 +13,13 @@ class Round:
     db_file = "./database/rounds.json"
 
     def __init__(
-        self,
-        tournament_id: str,
-        round_name: str,
-        round_id: str = None,  # token id for id in db (this not the Tournament id of round )
-        game_list: list = [],
-        start_datetime: str | None = None,
-        end_datetime: str = "",
+            self,
+            tournament_id: str,
+            round_name: str,
+            game_list: list,
+            start_datetime: str | None = None,
+            end_datetime: str = "",
+            round_id: str = None,  # token id for id in db (this not the Tournament id of round )
     ) -> None:
         """Init method"""
 
@@ -28,7 +28,7 @@ class Round:
         self.round_id = round_id if round_id else secrets.token_hex(2)
         self.game_list = game_list
         self.start_datetime = (
-            start_datetime if start_datetime else str(datetime.datetime.now())[:18]
+            start_datetime if start_datetime else get_datetime()
         )
         self.end_datetime = end_datetime
 
@@ -56,7 +56,7 @@ class Round:
         logging.warning(f"Ronde {self.round_id} créer")
 
     def delete(self):
-        """delete a specific roudn"""
+        """delete a specific round"""
 
         db = self.table()
         query = Query()
@@ -96,7 +96,7 @@ class Round:
         """delete all"""
 
         round_db = cls.table()
-        logging.warning("la base a été supprimée")
+        logging.warning("la base des rondes a été supprimée")
         return round_db.truncate()
 
     def round_in_list(self):

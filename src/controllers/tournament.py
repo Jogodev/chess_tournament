@@ -131,16 +131,18 @@ def next_round_controller(data_dict):
 
 def get_scores_controller(data_dict):
     """Get score of the game"""
-    round = Round.find(data_dict.tournament_id)
-
-    print(round)
-    choice = get_scores_view()
+    round_find = Round.find(data_dict.round_list[0])
+    current_round = round_find[0]
+    choice = get_scores_view(current_round.serialize())
     if choice == "1":
-        return
+
+        return "get_scores", data_dict
     elif choice == "2":
-        return
+
+        return "get_scores", data_dict
     elif choice == "3":
-        return
+
+        return "get_scores", data_dict
 
 
 def resume_tournament():
