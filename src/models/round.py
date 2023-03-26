@@ -1,3 +1,4 @@
+"""Class Round"""
 import secrets, logging
 from random import randint
 from tinydb import TinyDB, Query
@@ -64,14 +65,12 @@ class Round:
         db.remove(query.fragment(kwargs))
         logging.warning(f"Round {self.round_id} supprimé")
 
-    def update(self, kwargs=None):
+    def update(self):
         """Update round"""
 
-        if isinstance(kwargs, dict):
-            for key, value in kwargs.items():
-                setattr(self, key, value)
-        self.delete()
-        self.create()
+        db = self.table()
+        query = Query()
+        db.update({"game_list": self.game_list}, query.round_id == self.round_id)
 
     @classmethod
     def find(cls, round_id):
@@ -98,6 +97,8 @@ class Round:
         round_db = cls.table()
         logging.warning("la base des rondes a été supprimée")
         return round_db.truncate()
+
+
 
     def round_in_list(self):
         """Round info"""

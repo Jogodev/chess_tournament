@@ -1,4 +1,5 @@
 """tournament views"""
+from src.models.round import Round
 
 
 def menu_tournament_view():
@@ -63,7 +64,7 @@ def load_tournaments_view(tournament_list):
             print("Aucun joueur ajouté", end="\n")
         elif len(tournament["player_list"]) == 1:
             print(f"{len(tournament['player_list'])} joueur ajouté")
-        elif len(tournament["player_list"]) == 2:
+        elif len(tournament["player_list"]) == 8:
             print(
                 f"{len(tournament['player_list'])} joueurs ajouté tournoi prêt à commencer"
             )
@@ -165,18 +166,77 @@ def start_tournament_view(tournament):
     return choice
 
 
-def get_scores_view(round):
+def get_scores_view(current_round):
     """Get the scores of all games"""
     print("Entrer les scores des différents match avant de passé à la ronde suivante", end="\n")
-    print(f"Match 1 : {round['game_list']}")
+    print(f"Match 1 : {current_round['game_list']}")
+    print(f"Match 2 : {current_round['game_list']}")
+    print(f"Match 3 : {current_round['game_list']}")
+    print(f"Match 4 : {current_round['game_list']}")
     print("1 = Victoire du joueur 1")
     print("2 = Victoire du joueur 2")
     print("3 = Match nul")
+    player_id_1 = current_round['game_list'][0][0][0]
+    player_id_2 = current_round['game_list'][0][1][0]
 
-    match_1 = input(
+    game_1 = input(
         """  
         Match 1    
         --> """
     )
 
-    return match_1
+    game_2 = input(
+        """  
+        Match 2    
+        --> """
+    )
+
+    game_3 = input(
+        """  
+        Match 3    
+        --> """
+    )
+
+    game_4 = input(
+        """  
+        Match 4    
+        --> """
+    )
+
+    if game_1 == "1":
+        return [(player_id_1, 1), (player_id_2, 0)]
+
+    elif game_1 == "2":
+        return [(player_id_1, 0), (player_id_2, 1)]
+
+    elif game_1 == "3":
+        return [(player_id_1, 0.5), (player_id_2, 0.5)]
+
+    if game_2 == "1":
+        return [(player_id_1, 1), (player_id_2, 0)]
+
+    elif game_2 == "2":
+        return [(player_id_1, 0), (player_id_2, 1)]
+
+    elif game_2 == "3":
+        return [(player_id_1, 0.5), (player_id_2, 0.5)]
+
+    if game_3 == "1":
+        return [(player_id_1, 1), (player_id_2, 0)]
+
+    elif game_3 == "2":
+        return [(player_id_1, 0), (player_id_2, 1)]
+
+    elif game_3 == "3":
+        return [(player_id_1, 0.5), (player_id_2, 0.5)]
+
+    if game_4 == "1":
+        return [(player_id_1, 1), (player_id_2, 0)]
+
+    elif game_4 == "2":
+        return [(player_id_1, 0), (player_id_2, 1)]
+
+    elif game_4 == "3":
+        return [(player_id_1, 0.5), (player_id_2, 0.5)]
+
+    return [game_1, game_2, game_3, game_4]

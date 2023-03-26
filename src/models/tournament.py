@@ -80,7 +80,7 @@ class Tournament:
         db = cls.table()
         tournament_list = [tournament for tournament in db.all()]
         if tournament_list == []:
-            print("Aucun tournoi dans la base de données")
+            print("Aucun tournoi dans la base de données, [b] pour revenir au menu principal")
         logging.info(tournament_list)
         return tournament_list
 
@@ -129,9 +129,9 @@ class Tournament:
                 f"Ce tournoi est en status {self.status} et n'accepte plus de joueur"
             )
 
-        if len(self.player_list) == 2:
+        if len(self.player_list) == 8:
             logging.warning(
-                "ON A 2 JOUEURS == > CLOTURE DES INSCRIPTION VERSION de TESt"
+                "ON A 8 JOUEURS == > CLOTURE DES INSCRIPTION VERSION de TESt"
             )
             self.status = "ready"
             self.update()
@@ -139,7 +139,7 @@ class Tournament:
         return None
 
     def add_players(self, player_list):
-        """"""
+        """Add player in the tournament"""
         for player in player_list:
             self.add_player(player)
 
@@ -148,18 +148,21 @@ class Tournament:
         self.start_date = get_datetime()
         self.end_date = "Tournoi en cours"
         self.status = "in progress"
-        if len(self.player_list) != 2:
-            raise AttributeError("Travail sur 2 joueurs uniquement")
+        if len(self.player_list) != 8:
+            raise AttributeError("8 joueurs necessaire")
         self.id_current_round = 0
         self.first_round()
         self.update_start_date()
 
     def first_round(self):
-        """first round"""
+        """first round of the tournament"""
         self.id_current_round += 1
         game_1 = ([self.player_list[0], -1], [self.player_list[1], -1])
-        current_round = Round(self.tournament_id, "round_1", [game_1], get_datetime(), "en cours")
-        self.round_list.append(round.round_id)
+        game_2 = ([self.player_list[2], -1], [self.player_list[3], -1])
+        game_3 = ([self.player_list[4], -1], [self.player_list[5], -1])
+        game_4 = ([self.player_list[6], -1], [self.player_list[7], -1])
+        current_round = Round(self.tournament_id, "round_1", [game_1, game_2, game_3, game_4], get_datetime(), "en cours")
+        self.round_list.append(current_round.round_id)
         self.update_round()
         current_round.create()
         self.update()
@@ -190,14 +193,25 @@ class Tournament:
             {"end_date": self.end_date}, query.tournament_id == self.tournament_id
         )
 
-    def get_score(self):
-        """"""
+    @property
+    def get_scores(self):
+        """Get the scores of games in round"""
+        games = []
+        for round_id in self.round_list:
+            round_find = Round.find(round_id)
+            current_round = round_find[0]
+            print(current_round)
+            for game in current_round.game_list:
+                games.append(game[0])
+                games.append(game[1])
 
-        pass
-
-    def update_score(self):
-        """"""
-        pass
+        game_list = games
+        unique_id = set([player_id[0] for player_id in game_list])
+        scores = []
+        for player_id in unique_id:
+            player_list = [player for player in games if player[0] == player_id]
+            scores_list = [score[1] for score in player_list]
+            scores.append([player_id, sum(scores_list)])
 
     def end_round(self):
         """"""

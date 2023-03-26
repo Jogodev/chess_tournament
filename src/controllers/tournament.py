@@ -53,6 +53,8 @@ def load_tournaments_controller(data_dict):
 
     if (tournament != []) and (tournament[0].serialize() in tournament_list):
         return "load_one_tournament", data_dict
+    elif tournament_id == "b":
+        return "menu_tournament", data_dict
     else:
         print("\nAucun tournoi ne correspond à cet id\n")
         return "load_tournaments", data_dict
@@ -126,23 +128,25 @@ def start_tournament_controller(data_dict):
 
 
 def next_round_controller(data_dict):
-    """"""
+    """All round after the first"""
 
 
 def get_scores_controller(data_dict):
     """Get score of the game"""
     round_find = Round.find(data_dict.round_list[0])
     current_round = round_find[0]
-    choice = get_scores_view(current_round.serialize())
-    if choice == "1":
+    update_game_list = []
 
-        return "get_scores", data_dict
-    elif choice == "2":
+    for game in current_round.game_list:
+        if len(update_game_list) != 4:
+            game_score = get_scores_view(current_round.serialize())
+            update_game_list.append(game_score)
+            current_round.game_list = update_game_list
+            return "get_scores", data_dict
 
-        return "get_scores", data_dict
-    elif choice == "3":
+    print(len(update_game_list))
 
-        return "get_scores", data_dict
+    return "get_scores", data_dict
 
 
 def resume_tournament():
