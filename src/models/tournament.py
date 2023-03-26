@@ -6,7 +6,6 @@ from tinydb import TinyDB, Query
 
 from helpers.time import get_datetime
 from src.models.round import Round
-from src.models.player import Player
 
 
 class Tournament:
@@ -118,7 +117,6 @@ class Tournament:
 
         player_id = player_dict["player_id"]
         if (player_id not in self.player_list) and (self.status == "created"):
-            self.warning = logging.warning(f"Nous allons ajouter {player_dict} ")
             self.player_list.append(player_id)
             self.update()
             logging.warning("Joueur ajouté au tournoi")
@@ -131,7 +129,7 @@ class Tournament:
 
         if len(self.player_list) == 8:
             logging.warning(
-                "ON A 8 JOUEURS == > CLOTURE DES INSCRIPTION VERSION de TESt"
+                "ON A 8 JOUEURS == > CLOTURE DES INSCRIPTION VERSION de TEST"
             )
             self.status = "ready"
             self.update()
@@ -157,15 +155,24 @@ class Tournament:
     def first_round(self):
         """first round of the tournament"""
         self.id_current_round += 1
+        self.update_round()
         game_1 = ([self.player_list[0], -1], [self.player_list[1], -1])
         game_2 = ([self.player_list[2], -1], [self.player_list[3], -1])
         game_3 = ([self.player_list[4], -1], [self.player_list[5], -1])
         game_4 = ([self.player_list[6], -1], [self.player_list[7], -1])
-        current_round = Round(self.tournament_id, "round_1", [game_1, game_2, game_3, game_4], get_datetime(), "en cours")
+        game_of_first_round = [game_1, game_2, game_3, game_4]
+        current_round = Round(self.tournament_id, "round_1", game_of_first_round, get_datetime(),
+                              "en cours")
         self.round_list.append(current_round.round_id)
-        self.update_round()
         current_round.create()
         self.update()
+        return game_of_first_round
+
+    def next_round(self):
+        """All rounds after the first"""
+        game_of_first_round = self.first_round()
+        print(game_of_first_round)
+
 
     def update_round(self):
         """Update a round of the tournament"""
@@ -212,6 +219,8 @@ class Tournament:
             player_list = [player for player in games if player[0] == player_id]
             scores_list = [score[1] for score in player_list]
             scores.append([player_id, sum(scores_list)])
+
+        return scores
 
     def end_round(self):
         """"""
