@@ -10,6 +10,8 @@ from src.views.tournament import (
     load_one_tournament_ready_view,
     start_tournament_view,
     get_scores_view,
+    next_round_view,
+    end_tournament_view,
 )
 
 from src.models.tournament import Tournament
@@ -69,8 +71,8 @@ def load_one_tournament_controller(data_dict):
     status = data_dict.status
     if status == "ready":
         return "load_one_tournament_ready", data_dict
-    elif tournament.status == "in progress":
-        return "get_scores", data_dict
+    elif status == "in progress" and tournament.id_current_round == 1:
+        return "next_round", data_dict
     choice = load_one_tournament_view(tournament.serialize())
 
     if choice == "y":
@@ -118,7 +120,6 @@ def start_tournament_controller(data_dict):
     choice = start_tournament_view(tournament.serialize())
 
     if choice == "y":
-        print("Ronde commencé")
         return "get_scores", data_dict
     elif choice == "n":
         return "menu_tournament", data_dict
@@ -129,26 +130,41 @@ def start_tournament_controller(data_dict):
 
 def next_round_controller(data_dict):
     """All round after the first"""
+    tournament = data_dict
+
+    choice = next_round_view()
+    if choice == "y":
+        tournament.next_round()
+        return "get_scores", data_dict
+    elif choice == "n":
+        return "menu_tournament", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "next_round", data_dict
 
 
 def get_scores_controller(data_dict):
     """Get score of the game"""
+    tournament = data_dict
     round_find = Round.find(data_dict.round_list[0])
     current_round = round_find[0]
-    update_game_list = []
-
-    for game in current_round.game_list:
-        if len(update_game_list) != 4:
-            game_score = get_scores_view(current_round.serialize())
-            update_game_list.append(game_score)
-            current_round.game_list = update_game_list
-            return "get_scores", data_dict
-
-    print(len(update_game_list))
-
-    return "get_scores", data_dict
+    updated_game_list = []
+    game_score = get_scores_view(current_round.serialize())
+    updated_game_list.append(game_score)
+    current_round.game_list = updated_game_list
+    current_round.update()
+    logging.warning("Scores des 4 matchs enregistré en base")
+    if tournament.id_current_round < tournament.total_rounds:
+        return "next_round", data_dict
+    elif tournament.id_current_round == tournament.total_rounds:
+        return "tournament_end", data_dict
 
 
 def resume_tournament():
     """Resume tournament"""
+    pass
+
+
+def end_tournament_controller():
+    """End of th tournament controller"""
     pass
