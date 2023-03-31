@@ -71,7 +71,7 @@ def load_one_tournament_controller(data_dict):
     status = data_dict.status
     if status == "ready":
         return "load_one_tournament_ready", data_dict
-    elif status == "in progress" and tournament.id_current_round == 1:
+    elif status == "in progress" and tournament.id_current_round >= 1:
         return "next_round", data_dict
     choice = load_one_tournament_view(tournament.serialize())
 
