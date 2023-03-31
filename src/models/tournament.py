@@ -6,6 +6,7 @@ from tinydb import TinyDB, Query
 
 from helpers.time import get_datetime
 from src.models.round import Round
+from src.models.player import Player
 
 
 class Tournament:
@@ -72,6 +73,22 @@ class Tournament:
         db.update({"round_list": self.round_list}, query.tournament_id == self.tournament_id)
         db.update({"status": self.status}, query.tournament_id == self.tournament_id)
 
+    def update_start_date(self):
+        """Set the datetime when the first round begin"""
+        db = self.table()
+        query = Query()
+        db.update(
+            {"start_date": self.start_date}, query.tournament_id == self.tournament_id
+        )
+
+    def update_end_date(self):
+        """Set the datetime when the tournament finish"""
+        db = self.table()
+        query = Query()
+        db.update(
+            {"end_date": self.end_date}, query.tournament_id == self.tournament_id
+        )
+
     @classmethod
     def load_tournaments(cls):
         """Load tournament"""
@@ -98,17 +115,10 @@ class Tournament:
     def __repr__(self):
         return f"Tournoi {self.__dict__}"
 
-    def sort_players_by_rank(self):
-        """Sort players by rank"""
-        sorter_players_by_rank = sorted(
-            self.player_list, key=lambda players: players["elo"]
-        )
-        return sorter_players_by_rank
-
     def sort_players_by_score(self):
         """Sort players by score"""
         sorted_players_by_score = sorted(
-            self.player_list, key=lambda players: players["score"]
+            self.player_list, key=lambda x: x('score')
         )
         return sorted_players_by_score
 
@@ -166,13 +176,26 @@ class Tournament:
         self.round_list.append(current_round.round_id)
         current_round.create()
         self.update()
-        return game_of_first_round
+
 
     def next_round(self):
         """All rounds after the first"""
-        game_of_first_round = self.first_round()
-        print(game_of_first_round)
+        #
+        # Appeler methode score
+        # Triez les joueurs par scores
+        # pour le joueur 0 va affronter le joueur 1 de la liste s'il n'ont pas deja jouer ensemble
+        # game_already_play(p_id1, p_id2) qui renvoi true ou false
+        # self.id_current_round += 1
+        # self.update_round()
+        scores = self.scores
+        sort_players = sorted(scores.items(), key=lambda player_score: player_score[1], reverse=True)
+        new_game = []
 
+
+
+
+    def game_already_play(self):
+        """Return true if 2 players already play together"""
 
     def update_round(self):
         """Update a round of the tournament"""
@@ -184,42 +207,27 @@ class Tournament:
             query.tournament_id == self.tournament_id,
         )
 
-    def update_start_date(self):
-        """Set the datetime when the first round begin"""
-        db = self.table()
-        query = Query()
-        db.update(
-            {"start_date": self.start_date}, query.tournament_id == self.tournament_id
-        )
-
-    def update_end_date(self):
-        """Set the datetime when the tournament finish"""
-        db = self.table()
-        query = Query()
-        db.update(
-            {"end_date": self.end_date}, query.tournament_id == self.tournament_id
-        )
-
     @property
-    def get_scores(self):
+    def scores(self):
         """Get the scores of games in round"""
+        # Si le tournoi n'a pas démarrer revoyer un dict vide
+        # Le tournoi à démarré mais les rondes n'ont pas été calculé self.ronde_list = vide
+        scores = {player_id: 0 for player_id in self.player_list}
+        if not self.status == "in progress" and not self.player_list:
+            return {}
+        elif self.status == "in progress" and not self.round_list:
+            return scores
         games = []
         for round_id in self.round_list:
             round_find = Round.find(round_id)
             current_round = round_find[0]
-            print(current_round)
-            for game in current_round.game_list:
+            print(current_round.game_list)
+            for game in current_round.game_list[0]:
                 games.append(game[0])
                 games.append(game[1])
 
-        game_list = games
-        unique_id = set([player_id[0] for player_id in game_list])
-        scores = []
-        for player_id in unique_id:
-            player_list = [player for player in games if player[0] == player_id]
-            scores_list = [score[1] for score in player_list]
-            scores.append([player_id, sum(scores_list)])
-
+        for game in games:
+            scores[game[0]] += game[1]
         return scores
 
     def end_round(self):

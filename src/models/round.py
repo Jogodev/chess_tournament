@@ -14,13 +14,13 @@ class Round:
     db_file = "./database/rounds.json"
 
     def __init__(
-            self,
-            tournament_id: str,
-            round_name: str,
-            game_list: list,
-            start_datetime: str | None = None,
-            end_datetime: str = "",
-            round_id: str = None,  # token id for id in db (this not the Tournament id of round )
+        self,
+        tournament_id: str,
+        round_name: str,
+        game_list: list,
+        start_datetime: str | None = None,
+        end_datetime: str = "",
+        round_id: str = None,  # token id for id in db (this not the Tournament id of round )
     ) -> None:
         """Init method"""
 
@@ -28,9 +28,7 @@ class Round:
         self.round_name = round_name if round_name else secrets.token_hex(2)
         self.round_id = round_id if round_id else secrets.token_hex(2)
         self.game_list = game_list
-        self.start_datetime = (
-            start_datetime if start_datetime else get_datetime()
-        )
+        self.start_datetime = start_datetime if start_datetime else get_datetime()
         self.end_datetime = end_datetime
 
     @classmethod
@@ -97,8 +95,6 @@ class Round:
         round_db = cls.table()
         logging.warning("la base des rondes a été supprimée")
         return round_db.truncate()
-
-
 
     def round_in_list(self):
         """Round info"""
