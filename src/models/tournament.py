@@ -6,7 +6,6 @@ from tinydb import TinyDB, Query
 
 from helpers.time import get_datetime
 from src.models.round import Round
-from src.models.player import Player
 
 
 class Tournament:
@@ -87,6 +86,16 @@ class Tournament:
         query = Query()
         db.update(
             {"end_date": self.end_date}, query.tournament_id == self.tournament_id
+        )
+
+    def update_round(self):
+        """Update a round of the tournament"""
+
+        db = self.table()
+        query = Query()
+        db.update(
+            {"id_current_round": self.id_current_round},
+            query.tournament_id == self.tournament_id,
         )
 
     @classmethod
@@ -177,35 +186,27 @@ class Tournament:
         current_round.create()
         self.update()
 
-
     def next_round(self):
         """All rounds after the first"""
         #
         # Appeler methode score
-        # Triez les joueurs par scores
+        # Triez les joueurs par score
         # pour le joueur 0 va affronter le joueur 1 de la liste s'il n'ont pas deja jouer ensemble
         # game_already_play(p_id1, p_id2) qui renvoi true ou false
-        # self.id_current_round += 1
+            # self.id_current_round += 1
         # self.update_round()
+
         scores = self.scores
         sort_players = sorted(scores.items(), key=lambda player_score: player_score[1], reverse=True)
-        new_game = []
+        print(sort_players)
+        new_games = []
 
+        if self.game_already_played(sort_players[0][0], sort_players[1][0]):
+            new_games.append([sort_players[0], sort_players[1]])
+        elif not self.game_already_played(sort_players[0][0], sort_players[1][0]):
+            self.game_already_played(sort_players[0][0], sort_players[2][0])
 
-
-
-    def game_already_play(self):
-        """Return true if 2 players already play together"""
-
-    def update_round(self):
-        """Update a round of the tournament"""
-
-        db = self.table()
-        query = Query()
-        db.update(
-            {"id_current_round": self.id_current_round},
-            query.tournament_id == self.tournament_id,
-        )
+        print(new_games)
 
     @property
     def scores(self):
@@ -221,7 +222,7 @@ class Tournament:
         for round_id in self.round_list:
             round_find = Round.find(round_id)
             current_round = round_find[0]
-            print(current_round.game_list)
+            print(current_round)
             for game in current_round.game_list[0]:
                 games.append(game[0])
                 games.append(game[1])
@@ -229,6 +230,20 @@ class Tournament:
         for game in games:
             scores[game[0]] += game[1]
         return scores
+
+    def game_already_played(self, player_id_1, player_id_2):
+        """Return true if 2 players already play together"""
+        all_round_games = []
+        for round_id in self.round_list:
+            round_find = Round.find(round_id)
+            current_round = round_find[0]
+            print(current_round)
+            for game in current_round.game_list[0]:
+                all_round_games.append([game[0][0], game[1][0]])
+        if ([player_id_1, player_id_2] or [player_id_2, player_id_1]) not in all_round_games:
+            return True
+        else:
+            return False
 
     def end_round(self):
         """"""
