@@ -193,20 +193,36 @@ class Tournament:
         # Triez les joueurs par score
         # pour le joueur 0 va affronter le joueur 1 de la liste s'il n'ont pas deja jouer ensemble
         # game_already_play(p_id1, p_id2) qui renvoi true ou false
-            # self.id_current_round += 1
+        # self.id_current_round += 1
         # self.update_round()
+        if self.id_current_round > self.total_rounds:
+            self.status = "finished"
+            self.update()
+            return logging.warning("Tournoi terminé")
 
         scores = self.scores
         sort_players = sorted(scores.items(), key=lambda player_score: player_score[1], reverse=True)
-        print(sort_players)
-        new_games = []
+        players_selected = []
+        players_not_selected = sort_players
+        print(players_not_selected)
+        new_games_list = []
+        while len(players_not_selected) > 0:
 
-        if self.game_already_played(sort_players[0][0], sort_players[1][0]):
-            new_games.append([sort_players[0], sort_players[1]])
-        elif not self.game_already_played(sort_players[0][0], sort_players[1][0]):
-            self.game_already_played(sort_players[0][0], sort_players[2][0])
-
-        print(new_games)
+            player_id_1 = players_not_selected[0]
+            print(player_id_1)
+            for player_x in players_not_selected:
+                if self.game_already_played(player_x, player_id_1) or (player_x == player_id_1):
+                    continue
+            game_1 = ([player_x], [player_id_1])
+            print(game_1)
+            new_games_list.append(game_1)
+            print(new_games_list)
+            players_selected.append(player_x)
+            players_selected.append(player_id_1)
+            players_not_selected.remove(player_x)
+            players_not_selected.remove(player_id_1)
+            print(players_not_selected)
+            break
 
     @property
     def scores(self):
@@ -222,7 +238,6 @@ class Tournament:
         for round_id in self.round_list:
             round_find = Round.find(round_id)
             current_round = round_find[0]
-            print(current_round)
             for game in current_round.game_list[0]:
                 games.append(game[0])
                 games.append(game[1])
@@ -237,18 +252,9 @@ class Tournament:
         for round_id in self.round_list:
             round_find = Round.find(round_id)
             current_round = round_find[0]
-            print(current_round)
             for game in current_round.game_list[0]:
                 all_round_games.append([game[0][0], game[1][0]])
-        if ([player_id_1, player_id_2] or [player_id_2, player_id_1]) not in all_round_games:
+        if [player_id_1, player_id_2] or [player_id_2, player_id_1] in all_round_games:
             return True
         else:
             return False
-
-    def end_round(self):
-        """"""
-        pass
-
-    def resume_tournament(self):
-        """"""
-        pass

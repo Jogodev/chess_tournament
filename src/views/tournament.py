@@ -348,17 +348,6 @@ def get_scores_next_round_view(current_round):
     return [game_1, game_2, game_3, game_4]
 
 
-def next_round_view():
-    """all rounds after the first round"""
-    choice = input(
-        f"""
-        Voulez-vous lancer la 2ème ronde de ce tournoi ?
-        y -> [oui] ou n -> [non] 
-        --> """
-    )
-    return choice
-
-
 def end_tournament_view():
     """End of the tournament"""
     print("Fin du tournoi")

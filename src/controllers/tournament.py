@@ -135,7 +135,6 @@ def get_scores_first_round_controller(data_dict):
     current_round = round_find[0]
     updated_game_list = []
     game_score = get_scores_first_round_view(current_round.serialize())
-    print(game_score)
     updated_game_list.append(game_score)
     current_round.game_list = updated_game_list
     current_round.update()
