@@ -40,3 +40,4 @@ def test_add_player():
         t.add_player(p.__dict__)
 
     # t.update()
+

@@ -1,11 +1,10 @@
 """Class Round"""
-import secrets, logging
-from random import randint
-from tinydb import TinyDB, Query
-from helpers.time import get_datetime
-from src.models.player import Player
-import datetime
+import logging
 import secrets
+
+from tinydb import TinyDB, Query
+
+from helpers.time import get_datetime
 
 
 class Round:
@@ -14,13 +13,13 @@ class Round:
     db_file = "./database/rounds.json"
 
     def __init__(
-        self,
-        tournament_id: str,
-        round_name: str,
-        game_list: list,
-        start_datetime: str | None = None,
-        end_datetime: str = "",
-        round_id: str = None,  # token id for id in db (this not the Tournament id of round )
+            self,
+            tournament_id: str,
+            round_name: str,
+            game_list: list,
+            round_id: str = None,  # token id for id in db (this not the Tournament id of round )
+            start_datetime: str | None = None,
+            end_datetime: str = "",
     ) -> None:
         """Init method"""
 
@@ -69,6 +68,7 @@ class Round:
         db = self.table()
         query = Query()
         db.update({"game_list": self.game_list}, query.round_id == self.round_id)
+        db.update({"end_datetime": self.end_datetime}, query.round_id == self.round_id)
 
     @classmethod
     def find(cls, round_id):
