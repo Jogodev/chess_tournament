@@ -1,6 +1,9 @@
 """Tournament controller"""
 import logging
 
+from src.models.player import Player
+from src.models.round import Round
+from src.models.tournament import Tournament
 from src.views.tournament import (
     menu_tournament_view,
     create_tournament_view,
@@ -12,12 +15,7 @@ from src.views.tournament import (
     get_scores_first_round_view,
     get_scores_next_round_view,
     next_round_view,
-    end_tournament_view,
 )
-
-from src.models.tournament import Tournament
-from src.models.player import Player
-from src.models.round import Round
 
 
 def menu_tournament_controller(data_dict):

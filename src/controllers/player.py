@@ -1,4 +1,5 @@
 """Player controller"""
+from src.models.player import Player
 from src.views.player import (
     menu_player_view,
     create_player_view,
@@ -10,7 +11,6 @@ from src.views.player import (
     delete_all_players_db_view,
     players_db_test_view
 )
-from src.models.player import Player
 
 
 def menu_player_controller(data_dict):

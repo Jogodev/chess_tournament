@@ -1,6 +1,7 @@
 """Player model"""
-import secrets, logging
+import logging
 from random import randint
+
 from tinydb import TinyDB, Query
 
 
@@ -10,14 +11,14 @@ class Player:
     db_file = "./database/players.json"
 
     def __init__(
-        self,
-        player_id: str,
-        last_name: str = "-",
-        first_name: str = "-",
-        birthday: str = "-",
-        gender: str = "-",
-        elo: int = 0,
-        score: float = 0.0,
+            self,
+            player_id: str,
+            last_name: str = "-",
+            first_name: str = "-",
+            birthday: str = "-",
+            gender: str = "-",
+            elo: int = 0,
+            score: float = 0.0,
     ) -> None:
         self.player_id = player_id
         self.last_name = last_name.upper()
@@ -119,12 +120,12 @@ class Player:
             ("AB12348", "Birkin", "Jane", "01/01/1988", "f", randint(0, 50)),
         ]
         for (
-            player_id,
-            last_name,
-            first_name,
-            birthday,
-            gender,
-            elo,
+                player_id,
+                last_name,
+                first_name,
+                birthday,
+                gender,
+                elo,
         ) in list_to_create:
             player = Player(
                 player_id=player_id,

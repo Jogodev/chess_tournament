@@ -88,7 +88,7 @@ class Tournament:
             {"end_date": self.end_date}, query.tournament_id == self.tournament_id
         )
 
-    def update_round(self):
+    def update_current_round(self):
         """Update a round of the tournament"""
 
         db = self.table()
@@ -104,7 +104,7 @@ class Tournament:
 
         db = cls.table()
         tournament_list = [tournament for tournament in db.all()]
-        if tournament_list == []:
+        if not tournament_list:
             print("Aucun tournoi dans la base de données, [b] pour revenir au menu principal")
         logging.info(tournament_list)
         return tournament_list
@@ -123,13 +123,6 @@ class Tournament:
 
     def __repr__(self):
         return f"Tournoi {self.__dict__}"
-
-    def sort_players_by_score(self):
-        """Sort players by score"""
-        sorted_players_by_score = sorted(
-            self.player_list, key=lambda x: x('score')
-        )
-        return sorted_players_by_score
 
     def add_player(self, player_dict: dict):
         """Add a player in tournament"""
@@ -164,7 +157,7 @@ class Tournament:
         """Beginning of the tournament"""
         self.start_date = get_datetime()
         self.end_date = "Tournoi en cours"
-        self.status = "in progress"
+        self.status = "live"
         if len(self.player_list) != 8:
             raise AttributeError("8 joueurs necessaire")
         self.id_current_round = 0
@@ -173,67 +166,51 @@ class Tournament:
 
     def first_round(self):
         """first round of the tournament"""
-        self.id_current_round += 1
-        self.update_round()
-        game_1 = ([self.player_list[0], -1], [self.player_list[1], -1])
-        game_2 = ([self.player_list[2], -1], [self.player_list[3], -1])
-        game_3 = ([self.player_list[4], -1], [self.player_list[5], -1])
-        game_4 = ([self.player_list[6], -1], [self.player_list[7], -1])
-        game_of_first_round = [game_1, game_2, game_3, game_4]
-        current_round = Round(self.tournament_id, "round_1", game_of_first_round, get_datetime(),
-                              "en cours")
-        self.round_list.append(current_round.round_id)
-        current_round.create()
-        self.update()
+
+        if self.status == "live":
+            self.id_current_round = 0
+
+            game_list = self.compute_round()
+            current_round = Round(
+                tournament_id=self.tournament_id,
+                round_name="round",
+                game_list=game_list,
+            )
+            self.round_list.append(current_round.round_id)
+            current_round.create()
+            self.update()
 
     def next_round(self):
         """All rounds after the first"""
-        #
-        # Appeler methode score
-        # Triez les joueurs par score
-        # pour le joueur 0 va affronter le joueur 1 de la liste s'il n'ont pas deja jouer ensemble
-        # game_already_play(p_id1, p_id2) qui renvoi true ou false
-        # self.id_current_round += 1
-        # self.update_round()
         if self.id_current_round > self.total_rounds:
-            self.status = "finished"
+            self.status = "closed"
             self.update()
             return logging.warning("Tournoi terminé")
 
         scores = self.scores
-        sort_players = sorted(scores.items(), key=lambda player_score: player_score[1], reverse=True)
-        players_selected = []
-        players_not_selected = sort_players
-        print(players_not_selected)
-        new_games_list = []
-        while len(players_not_selected) > 0:
 
-            player_id_1 = players_not_selected[0]
-            print(player_id_1)
-            for player_x in players_not_selected:
-                if self.game_already_played(player_x, player_id_1) or (player_x == player_id_1):
-                    continue
-            game_1 = ([player_x], [player_id_1])
-            print(game_1)
-            new_games_list.append(game_1)
-            print(new_games_list)
-            players_selected.append(player_x)
-            players_selected.append(player_id_1)
-            players_not_selected.remove(player_x)
-            players_not_selected.remove(player_id_1)
-            print(players_not_selected)
-            break
+    @property
+    def ranking(self):
+        """Compute the ranking by score"""
+        ranking = [(player, score) for player, score in self.scores.items()]
+        ranking = sorted(ranking, key=lambda player: player[1], reverse=True)
+        ranking = [player[0] for player in ranking]
+
+        self.player_list = ranking
+
+        return ranking
 
     @property
     def scores(self):
         """Get the scores of games in round"""
-        # Si le tournoi n'a pas démarrer revoyer un dict vide
-        # Le tournoi à démarré mais les rondes n'ont pas été calculé self.ronde_list = vide
+
         scores = {player_id: 0 for player_id in self.player_list}
-        if not self.status == "in progress" and not self.player_list:
+        if not self.status == "live" and not self.player_list:
             return {}
-        elif self.status == "in progress" and not self.round_list:
+
+        elif self.status == "live" and not self.round_list:
             return scores
+
         games = []
         for round_id in self.round_list:
             round_find = Round.find(round_id)
@@ -246,15 +223,105 @@ class Tournament:
             scores[game[0]] += game[1]
         return scores
 
-    def game_already_played(self, player_id_1, player_id_2):
+    def have_already_played(self, player_id_1, player_id_2):
         """Return true if 2 players already play together"""
-        all_round_games = []
+        all_round_game_list = []
         for round_id in self.round_list:
             round_find = Round.find(round_id)
             current_round = round_find[0]
             for game in current_round.game_list[0]:
-                all_round_games.append([game[0][0], game[1][0]])
-        if [player_id_1, player_id_2] or [player_id_2, player_id_1] in all_round_games:
-            return True
-        else:
-            return False
+                all_round_game_list.append([game[0][0], game[1][0]])
+
+        candidate_game = (player_id_1, player_id_2)
+        for game in all_round_game_list:
+            if game == candidate_game:
+                return True
+
+        candidate_game = (player_id_2, player_id_1)
+        for game in all_round_game_list:
+            if game == candidate_game:
+                return True
+
+        return False
+
+    def compute_round(self):
+        """Define the rounds"""
+        logging.warning("compute_round called")
+        if not self.id_current_round:
+            logging.warning("not self.id_current_round")
+
+            game_list = []
+            players_selected = []
+            players_not_selected = [player for player in self.player_list]
+
+            while len(players_not_selected) != 0:
+                player_1 = players_not_selected[0]
+                player_2 = players_not_selected[1]
+
+                game = [(player_1, 0), (player_2, 0)]
+                game_list.append(game)
+
+                players_selected.extend([player_1, player_2])
+                players_not_selected.remove(player_1)
+                players_not_selected.remove(player_2)
+
+            return game_list
+
+        game_list = []
+        players_selected = []
+        self.player_list = self.ranking
+        players_not_selected = [player for player in self.player_list]
+
+        index = 0
+        while len(players_not_selected) != 0:
+            player_1 = players_not_selected[index]
+
+            if player_1 in players_selected:
+                continue
+
+            for player_id in self.player_list:
+                if player_1 == player_id:
+                    continue
+
+                already_played = self.have_already_played(player_1, player_id)
+
+                if not already_played:
+                    break
+
+            game = [(player_1, 0), (player_id, 0)]
+            game_list.append(game)
+
+            players_selected.extend([player_1, player_id])
+            players_not_selected.remove(player_1)
+            players_not_selected.remove(player_id)
+
+        return game_list
+
+    def end_round(self):
+        """End of a round"""
+        round_id = self.round_list[self.id_current_round]
+        round_find = Round.find(round_id)
+        current_round = round_find[0]
+        current_round.end_datetime = get_datetime()
+        current_round.update()
+
+        self.id_current_round += 1
+
+        if len(self.round_list) == 4:
+            logging.warning("Les 4 rondes ont été jouées, fin du tournoi")
+            self.status = "closed"
+            return self.scores
+
+        game_list = self.compute_round()
+
+        new_round = Round(
+            tournament_id=self.tournament_id,
+            round_name="round",
+            game_list=game_list,
+        )
+        new_round.create()
+        self.update()
+
+    def end_tournament(self):
+        """End of a tournament"""
+        pass
