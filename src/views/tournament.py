@@ -7,8 +7,6 @@ def menu_tournament_view():
     txt = """ 
     [1] - Créer un nouveau tournoi
     [2] - Charger un tournoi
-    [3] - Reprendre un tournoi
-    [4] - Rapport d'un tournoi en cours
     [b] - Retour au menu principal
     """
 
@@ -58,23 +56,25 @@ def load_tournaments_view(tournament_list):
         if not tournament['end_date']:
             print("", end=" | ")
         else:
-            print(f"{tournament['end_date']}", end=" | ")
+            print(f"Terminé le :{tournament['end_date']}", end=" | ")
         print(f"Ronde actuelle : {tournament['id_current_round']}", end=" | ")
         print(f"Rondes prévues : {tournament['total_rounds']}", end=" | ")
         print(f"{tournament['description']}", end=" | ")
-        if len(tournament["player_list"]) == 0:
-            print("Aucun joueur ajouté", end="\n")
-        elif len(tournament["player_list"]) == 1:
-            print(f"{len(tournament['player_list'])} joueur ajouté")
-        elif len(tournament["player_list"]) == 8:
-            print(
-                f"{len(tournament['player_list'])} joueurs ajouté tournoi prêt à commencer"
-            )
-        elif len(tournament["player_list"]) == 8 and tournament["status"] == "in progress":
-            print("Tournoi en cours")
+        if not tournament['end_date']:
+            if len(tournament["player_list"]) == 0:
+                print("Aucun joueur ajouté", end="\n")
+            elif len(tournament["player_list"]) == 1:
+                print(f"{len(tournament['player_list'])} joueur ajouté")
+            elif len(tournament["player_list"]) == 8:
+                print(
+                    f"{len(tournament['player_list'])} joueurs ajouté tournoi prêt à commencer"
+                )
+            elif len(tournament["player_list"]) == 8 and tournament["status"] == "in progress":
+                print("Tournoi en cours")
+            else:
+                print(f"{len(tournament['player_list'])} joueurs ajouté")
         else:
-            print(f"{len(tournament['player_list'])} joueurs ajouté")
-
+            print("Tournoi terminé")
     choice = input(
         """
         Quel tournoi voulez-vous charger ?
@@ -94,7 +94,11 @@ def load_one_tournament_view(tournament_dict):
         print("Pas commencé", end=" | ")
     else:
         print(f"Commencé le : {tournament_dict['start_date']}", end=" | ")
-    print(f"Terminé le{tournament_dict['end_date']}", end=" | ")
+    if not tournament_dict["end_date"]:
+        print("")
+    else:
+        print(f"Terminé le : {tournament_dict['end_date']}", end=" | ")
+    print(f"Terminé le :{tournament_dict['end_date']}", end=" | ")
     print(f"Ronde actuelle : {tournament_dict['id_current_round']}", end=" | ")
     print(f"Rondes prévues : {tournament_dict['total_rounds']}", end=" | ")
     print(f"{tournament_dict['description']}", end=" | ")
@@ -170,8 +174,9 @@ def start_tournament_view(tournament):
     return choice
 
 
-def get_scores_first_round_view(current_round):
+def get_scores_view(current_round):
     """Get the scores of all games"""
+    print(current_round)
     print("Entrer les scores des différents match avant de passé à la ronde suivante")
     print(f"\nMatch 1 : {current_round['game_list'][0]}")
     print("")
@@ -256,6 +261,17 @@ def get_scores_first_round_view(current_round):
     return game_1, game_2, game_3, game_4
 
 
+def end_round_view():
+    """all rounds after the first round"""
+    choice = input(
+        f"""
+        Voulez-vous finir cette ronde ?
+        y -> [oui] ou n -> [non] 
+        --> """
+    )
+    return choice
+
+
 def next_round_view():
     """all rounds after the first round"""
     choice = input(
@@ -267,87 +283,6 @@ def next_round_view():
     return choice
 
 
-def get_scores_next_round_view(current_round):
-    """Get the scores of all games"""
-    print("Entrer les scores des différents match avant de passé à la ronde suivante")
-    print(f"\n{current_round['game_list']}")
-    print(f"\nMatch 1 : {current_round['game_list'][0]}")
-    print("")
-    print(f"Match 2 : {current_round['game_list'][1]}")
-    print("")
-    print(f"Match 3 : {current_round['game_list'][2]}")
-    print("")
-    print(f"Match 4 : {current_round['game_list'][3]}")
-    print("")
-    print("1 = Victoire du joueur 1")
-    print("2 = Victoire du joueur 2")
-    print("3 = Match nul")
-    player_id_1 = current_round['game_list'][0][0][0]
-    player_id_2 = current_round['game_list'][0][1][0]
-
-    game_1 = input(
-        """  
-        Match 1    
-        --> """
-    )
-
-    game_2 = input(
-        """  
-        Match 2    
-        --> """
-    )
-
-    game_3 = input(
-        """  
-        Match 3    
-        --> """
-    )
-
-    game_4 = input(
-        """  
-        Match 4    
-        --> """
-    )
-
-    if game_1 == "1":
-        game_1 = [(player_id_1, 1), (player_id_2, 0)]
-
-    elif game_1 == "2":
-        game_1 = [(player_id_1, 0), (player_id_2, 1)]
-
-    elif game_1 == "3":
-        game_1 = [(player_id_1, 0.5), (player_id_2, 0.5)]
-
-    if game_2 == "1":
-        game_2 = [(player_id_1, 1), (player_id_2, 0)]
-
-    elif game_2 == "2":
-        game_2 = [(player_id_1, 0), (player_id_2, 1)]
-
-    elif game_2 == "3":
-        game_2 = [(player_id_1, 0.5), (player_id_2, 0.5)]
-
-    if game_3 == "1":
-        game_3 = [(player_id_1, 1), (player_id_2, 0)]
-
-    elif game_3 == "2":
-        game_3 = [(player_id_1, 0), (player_id_2, 1)]
-
-    elif game_3 == "3":
-        game_3 = [(player_id_1, 0.5), (player_id_2, 0.5)]
-
-    if game_4 == "1":
-        game_4 = [(player_id_1, 1), (player_id_2, 0)]
-
-    elif game_4 == "2":
-        game_4 = [(player_id_1, 0), (player_id_2, 1)]
-
-    elif game_4 == "3":
-        game_4 = [(player_id_1, 0.5), (player_id_2, 0.5)]
-
-    return [game_1, game_2, game_3, game_4]
-
-
 def end_tournament_view():
     """End of the tournament"""
-    print("Fin du tournoi")
+    print("Fin du tournoi merci")

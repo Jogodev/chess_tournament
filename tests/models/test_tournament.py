@@ -26,6 +26,7 @@ def test_add_player():
 
     # init 2 fale plaue
     p_list = [Player(player_id=secrets.token_hex(2)) for _ in range(n)]
+
     assert len(p_list) == n
 
     # created in db

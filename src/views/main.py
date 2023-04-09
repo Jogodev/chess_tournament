@@ -8,6 +8,7 @@ def main_menu_view():
     txt = """
          [1] - Joueur 
          [2] - Tournoi
+         [3] - Rapports
         """
     print(title)
     print(txt)
