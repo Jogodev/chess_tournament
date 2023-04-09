@@ -160,7 +160,6 @@ class Tournament:
         self.status = "live"
         if len(self.player_list) != 8:
             raise AttributeError("8 joueurs necessaire")
-        self.id_current_round = 0
         self.first_round()
         self.update_start_date()
 
@@ -179,15 +178,7 @@ class Tournament:
             self.round_list.append(current_round.round_id)
             current_round.create()
             self.update()
-
-    def next_round(self):
-        """All rounds after the first"""
-        if self.id_current_round > self.total_rounds:
-            self.status = "closed"
-            self.update()
-            return logging.warning("Tournoi terminé")
-
-        scores = self.scores
+            self.update_current_round()
 
     @property
     def ranking(self):
@@ -225,6 +216,7 @@ class Tournament:
 
     def have_already_played(self, player_id_1, player_id_2):
         """Return true if 2 players already play together"""
+
         all_round_game_list = []
         for round_id in self.round_list:
             round_find = Round.find(round_id)
@@ -271,6 +263,7 @@ class Tournament:
         players_selected = []
         self.player_list = self.ranking
         players_not_selected = [player for player in self.player_list]
+        print(players_not_selected)
 
         index = 0
         while len(players_not_selected) != 0:
@@ -283,8 +276,10 @@ class Tournament:
                 if player_1 == player_id:
                     continue
 
-                already_played = self.have_already_played(player_1, player_id)
+                if player_id in players_selected:
+                    continue
 
+                already_played = self.have_already_played(player_1, player_id)
                 if not already_played:
                     break
 
@@ -306,11 +301,15 @@ class Tournament:
         current_round.update()
 
         self.id_current_round += 1
-
+        self.update_current_round()
         if len(self.round_list) == 4:
             logging.warning("Les 4 rondes ont été jouées, fin du tournoi")
             self.status = "closed"
+            self.update()
             return self.scores
+
+    def next_round(self):
+        """All the rounds after the first"""
 
         game_list = self.compute_round()
 
@@ -320,8 +319,11 @@ class Tournament:
             game_list=game_list,
         )
         new_round.create()
+        new_round.update()
+        self.round_list.append(new_round.round_id)
         self.update()
 
     def end_tournament(self):
         """End of a tournament"""
-        pass
+        self.end_date = get_datetime()
+        self.update_end_date()

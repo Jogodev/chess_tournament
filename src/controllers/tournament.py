@@ -12,9 +12,9 @@ from src.views.tournament import (
     load_one_tournament_view,
     load_one_tournament_ready_view,
     start_tournament_view,
-    get_scores_first_round_view,
-    get_scores_next_round_view,
-    next_round_view,
+    get_scores_view,
+    end_round_view,
+    next_round_view
 )
 
 
@@ -26,8 +26,6 @@ def menu_tournament_controller(data_dict):
         return "create_tournament", data_dict
     elif choice == "2":
         return "load_tournaments", data_dict
-    elif choice == "2":
-        return "add_players_now", data_dict
     elif choice == "b":
         return "main_menu", data_dict
     else:
@@ -70,8 +68,8 @@ def load_one_tournament_controller(data_dict):
     status = data_dict.status
     if status == "ready":
         return "load_one_tournament_ready", data_dict
-    elif status == "in progress" and tournament.id_current_round >= 1:
-        return "next_round", data_dict
+    elif status == "live" and tournament.id_current_round >= 0:
+        return "end_round", data_dict
     choice = load_one_tournament_view(tournament.serialize())
 
     if choice == "y":
@@ -119,7 +117,7 @@ def start_tournament_controller(data_dict):
     choice = start_tournament_view(tournament.serialize())
 
     if choice == "y":
-        return "get_scores_first", data_dict
+        return "get_scores", data_dict
     elif choice == "n":
         return "menu_tournament", data_dict
     else:
@@ -127,26 +125,47 @@ def start_tournament_controller(data_dict):
         return "start_tournament", data_dict
 
 
-def get_scores_first_round_controller(data_dict):
+def get_scores_controller(data_dict):
     """Get score of the game"""
-    round_find = Round.find(data_dict.round_list[0])
+    tournament = data_dict
+    round_find = Round.find(tournament.round_list[tournament.id_current_round])
     current_round = round_find[0]
     updated_game_list = []
-    game_score = get_scores_first_round_view(current_round.serialize())
+    game_score = get_scores_view(current_round.serialize())
     updated_game_list.append(game_score)
+    print(len(updated_game_list))
     current_round.game_list = updated_game_list
     current_round.update()
     logging.warning("Scores des 4 matchs enregistré en base")
-    return "next_round", data_dict
+    return "end_round", data_dict
+
+
+def end_round_controller(data_dict):
+    """All round after the first"""
+    tournament = data_dict
+    if len() != 1:
+        return "get_scores", data_dict
+    if len(tournament.round_list) == 4:
+        tournament.end_round()
+        return "end_tournament", data_dict
+    choice = end_round_view()
+    if choice == "y":
+        tournament.end_round()
+        return "next_round", data_dict
+    elif choice == "n":
+        return "menu_tournament", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "end_round", data_dict
 
 
 def next_round_controller(data_dict):
-    """All round after the first"""
+    """All the rounds after the first"""
     tournament = data_dict
     choice = next_round_view()
     if choice == "y":
         tournament.next_round()
-        return "", data_dict
+        return "get_scores", data_dict
     elif choice == "n":
         return "menu_tournament", data_dict
     else:
@@ -154,22 +173,8 @@ def next_round_controller(data_dict):
         return "next_round", data_dict
 
 
-def get_scores_next_round_controller(data_dict):
-    """Get scores for all rounds after the first"""
-    tournament = data_dict
-    round_find = Round.find(tournament.round_list[0])
-    current_round = round_find[0]
-    updated_game_list = []
-    game_score = get_scores_next_round_view(current_round.serialize())
-    updated_game_list.append(game_score)
-    current_round.game_list = updated_game_list
-    current_round.update()
-    if tournament.id_current_round < tournament.total_rounds:
-        return "next_round", data_dict
-    elif tournament.id_current_round == tournament.total_rounds:
-        return "tournament_end", data_dict
-
-
-def end_tournament_controller():
+def end_tournament_controller(data_dict):
     """End of th tournament controller"""
-    pass
+    tournament = data_dict
+    tournament.end_tournament()
+    return "menu_tournament", data_dict
