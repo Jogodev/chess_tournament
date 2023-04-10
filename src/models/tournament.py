@@ -1,6 +1,7 @@
 """Tournament model"""
 
 import logging
+import secrets
 
 from tinydb import TinyDB, Query
 
@@ -172,7 +173,7 @@ class Tournament:
             game_list = self.compute_round()
             current_round = Round(
                 tournament_id=self.tournament_id,
-                round_name="round",
+                round_name=secrets.token_hex(4),
                 game_list=game_list,
             )
             self.round_list.append(current_round.round_id)
@@ -202,16 +203,23 @@ class Tournament:
         elif self.status == "live" and not self.round_list:
             return scores
 
-        games = []
+        # games = []
+        # for round_id in self.round_list:
+        #     round_find = Round.find(round_id)
+        #     current_round = round_find[0]
+        #     for game in current_round.game_list[0]:
+        #         games.append(game[0])
+        #         games.append(game[1])
+        #
+        # for game in games:
+        #     scores[game[0]] += game[1]
         for round_id in self.round_list:
             round_find = Round.find(round_id)
             current_round = round_find[0]
-            for game in current_round.game_list[0]:
-                games.append(game[0])
-                games.append(game[1])
-
-        for game in games:
-            scores[game[0]] += game[1]
+            game_list = current_round.game_list
+            for game in game_list[0]:
+                scores[game[0][0]] += game[0][1]
+                scores[game[1][0]] += game[1][1]
         return scores
 
     def have_already_played(self, player_id_1, player_id_2):
@@ -241,6 +249,8 @@ class Tournament:
         logging.warning("compute_round called")
         if not self.id_current_round:
             logging.warning("not self.id_current_round")
+            # SHUFFLE
+
 
             game_list = []
             players_selected = []

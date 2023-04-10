@@ -70,6 +70,9 @@ def load_one_tournament_controller(data_dict):
         return "load_one_tournament_ready", data_dict
     elif status == "live" and tournament.id_current_round >= 0:
         return "end_round", data_dict
+    elif status == "closed":
+        logging.warning("Tournoi terminé charger un autre tournoi")
+        return "load_tournaments", data_dict
     choice = load_one_tournament_view(tournament.serialize())
 
     if choice == "y":
@@ -133,7 +136,6 @@ def get_scores_controller(data_dict):
     updated_game_list = []
     game_score = get_scores_view(current_round.serialize())
     updated_game_list.append(game_score)
-    print(len(updated_game_list))
     current_round.game_list = updated_game_list
     current_round.update()
     logging.warning("Scores des 4 matchs enregistré en base")
@@ -143,8 +145,6 @@ def get_scores_controller(data_dict):
 def end_round_controller(data_dict):
     """All round after the first"""
     tournament = data_dict
-    if len() != 1:
-        return "get_scores", data_dict
     if len(tournament.round_list) == 4:
         tournament.end_round()
         return "end_tournament", data_dict
