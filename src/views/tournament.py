@@ -146,7 +146,6 @@ def load_one_tournament_ready_view(tournament_dict):
         print(f"Commencé le : {tournament_dict['start_date']}", end=" | ")
     print(f"{tournament_dict['end_date']}", end=" | ")
     print(f"Ronde actuelle : {tournament_dict['id_current_round']}", end=" | ")
-    print(f"Id ronde : {tournament_dict['round_list']}", end=" | ")
     print(f"Rondes prévues : {tournament_dict['total_rounds']}", end=" | ")
     print(f"{tournament_dict['description']}", end=" | ")
     print(f"{tournament_dict['player_list']}", end="\n")
@@ -221,15 +220,15 @@ def get_scores_view(current_round):
         Match 4    
         --> """
     )
+    while game_1 in ["1", "2", "3"]:
+        if game_1 == "1":
+            game_1 = [(player_id_1, 1), (player_id_2, 0)]
 
-    if game_1 == "1":
-        game_1 = [(player_id_1, 1), (player_id_2, 0)]
+        elif game_1 == "2":
+            game_1 = [(player_id_1, 0), (player_id_2, 1)]
 
-    elif game_1 == "2":
-        game_1 = [(player_id_1, 0), (player_id_2, 1)]
-
-    elif game_1 == "3":
-        game_1 = [(player_id_1, 0.5), (player_id_2, 0.5)]
+        elif game_1 == "3":
+            game_1 = [(player_id_1, 0.5), (player_id_2, 0.5)]
 
     if game_2 == "1":
         game_2 = [(player_id_3, 1), (player_id_4, 0)]
