@@ -7,6 +7,7 @@ from src.controllers.tournament import menu_tournament_controller, create_tourna
     load_tournaments_controller, add_players_controller, load_one_tournament_controller, \
     start_tournament_controller, load_one_tournament_ready_controller, end_round_controller, \
     end_tournament_controller, get_scores_controller, next_round_controller
+from src.controllers.report import all_players_report_controller, menu_report_controller
 
 controller_dict = {
     # Main menu
@@ -31,6 +32,9 @@ controller_dict = {
     "end_round": end_round_controller,
     "next_round": next_round_controller,
     "end_tournament": end_tournament_controller,
+    # Reports
+    "menu_report": menu_report_controller,
+    "all_players_report": all_players_report_controller,
 }
 
 

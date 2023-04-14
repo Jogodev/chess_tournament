@@ -137,3 +137,5 @@ class Player:
             )
             player.create()
             logging.info("La base de test à été créé avec succès")
+
+
