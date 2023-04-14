@@ -58,7 +58,7 @@ class Tournament:
         db.update(
             {"tournament_id": str(self.tournament_id)}, doc_ids=[self.tournament_id]
         )
-        logging.info(f"Tournoi {self.name} créé à {self.location}")
+        print(f"Tournoi {self.name} créé à {self.location}")
 
     def update(self):
         """Update tournament"""
@@ -108,7 +108,6 @@ class Tournament:
         tournament_list = [tournament for tournament in db.all()]
         if not tournament_list:
             print("Aucun tournoi dans la base de données, [b] pour revenir au menu principal")
-        logging.info(tournament_list)
         return tournament_list
 
     @classmethod
@@ -133,17 +132,17 @@ class Tournament:
         if (player_id not in self.player_list) and (self.status == "created"):
             self.player_list.append(player_id)
             self.update()
-            logging.warning("Joueur ajouté au tournoi")
+            print("Joueur ajouté au tournoi")
         elif player_id in self.player_list:
-            logging.warning("Ce joueur est déjà dans ce tournoi")
+            print("Ce joueur est déjà dans ce tournoi")
         else:
-            logging.warning(
+            print(
                 f"Ce tournoi est en status {self.status} et n'accepte plus de joueur"
             )
 
         if len(self.player_list) == 8:
-            logging.warning(
-                "ON A 8 JOUEURS == > CLOTURE DES INSCRIPTION VERSION de TEST"
+            print(
+                "8 JOUEURS == > CLOTURE DES INSCRIPTION"
             )
             self.status = "ready"
             self.update()
@@ -239,33 +238,25 @@ class Tournament:
         """Define the rounds"""
 
         # SHUFFLE
-        if self.id_current_round == 0:
+        if not self.id_current_round:
+            print("1ère ronde")
             random.shuffle(self.player_list)
-            print(self.player_list)
-            game_1 = (f"{self.player_list[0]}", 0), (f"{self.player_list[1]}", 0)
-            game_2 = (f"{self.player_list[2]}", 0), (f"{self.player_list[3]}", 0)
-            game_3 = (f"{self.player_list[4]}", 0), (f"{self.player_list[5]}", 0)
-            game_4 = (f"{self.player_list[6]}", 0), (f"{self.player_list[7]}", 0)
-            game_list = [game_1, game_2, game_3, game_4]
+            game_list = []
+            players_selected = []
+            players_not_selected = [player for player in self.player_list]
+
+            while len(players_not_selected) != 0:
+                player_1 = players_not_selected[0]
+                player_2 = players_not_selected[1]
+
+                game = [(player_1, 0), (player_2, 0)]
+                game_list.append(game)
+
+                players_selected.extend([player_1, player_2])
+                players_not_selected.remove(player_1)
+                players_not_selected.remove(player_2)
 
             return game_list
-
-        game_list = []
-        players_selected = []
-        players_not_selected = [player for player in self.player_list]
-
-        while len(players_not_selected) != 0:
-            player_1 = players_not_selected[0]
-            player_2 = players_not_selected[1]
-
-            game = [(player_1, 0), (player_2, 0)]
-            game_list.append(game)
-
-            players_selected.extend([player_1, player_2])
-            players_not_selected.remove(player_1)
-            players_not_selected.remove(player_2)
-
-        return game_list
 
         game_list = []
         players_selected = []
@@ -310,10 +301,10 @@ class Tournament:
         self.id_current_round += 1
         self.update_current_round()
         if len(self.round_list) == 4:
-            logging.warning("Les 4 rondes ont été jouées, fin du tournoi")
+            print("Les 4 rondes ont été jouées, fin du tournoi")
             self.status = "closed"
             self.update()
-            logging.info(f"Résultats du tournoi{self.scores}")
+            print(f"Résultats du tournoi{self.scores}")
             return self.scores
 
     def next_round(self):
@@ -335,3 +326,4 @@ class Tournament:
         """End of a tournament"""
         self.end_date = get_datetime()
         self.update_end_date()
+

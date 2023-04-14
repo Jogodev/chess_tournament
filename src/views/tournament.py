@@ -126,7 +126,7 @@ def add_players_view(player_list_db):
 
     player = input(
         """
-        Ajouter un joueur 
+        Ajouter un joueur supplémentaire
         b --> [retour au menu principal]
         --> """
     )
@@ -159,23 +159,8 @@ def load_one_tournament_ready_view(tournament_dict):
     return choice
 
 
-def start_tournament_view(tournament):
-    """"""
-    print(f"Ronde N°{tournament['id_current_round']} du tournoi {tournament['name']}")
-
-    choice = input(
-        """
-        Entrer les scores des matchs ?
-        y -> [oui] ou n -> [non] 
-        --> """
-    )
-
-    return choice
-
-
 def get_scores_view(current_round):
     """Get the scores of all games"""
-    print(current_round)
     print("Entrer les scores des différents match avant de passé à la ronde suivante")
     print(f"\nMatch 1 : {current_round['game_list'][0]}")
     print("")
@@ -280,8 +265,3 @@ def next_round_view():
         --> """
     )
     return choice
-
-
-def end_tournament_view():
-    """End of the tournament"""
-    print("Fin du tournoi merci")
