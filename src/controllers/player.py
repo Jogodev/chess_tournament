@@ -14,7 +14,7 @@ from src.views.player import (
 
 
 def menu_player_controller(data_dict):
-    """"""
+    """Menu of the players"""
     choice = menu_player_view()
 
     if choice == "1":
