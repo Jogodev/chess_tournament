@@ -51,7 +51,7 @@ class Round:
 
         db = self.table()
         db.insert(self.serialize())
-        logging.warning(f"Ronde {self.round_id} créer")
+        print(f"Ronde {self.round_id} créer")
 
     def delete(self):
         """delete a specific round"""
@@ -60,7 +60,7 @@ class Round:
         query = Query()
         kwargs = {"round_id": self.round_id}
         db.remove(query.fragment(kwargs))
-        logging.warning(f"Round {self.round_id} supprimé")
+        print(f"Round {self.round_id} supprimé")
 
     def update(self):
         """Update round"""
@@ -93,7 +93,7 @@ class Round:
         """delete all"""
 
         round_db = cls.table()
-        logging.warning("la base des rondes a été supprimée")
+        print("la base des rondes a été supprimée")
         return round_db.truncate()
 
     def round_in_list(self):
