@@ -1,6 +1,6 @@
-# Chess tournament project
+# Projet gestion de tournoi d'échecs
 
-## first clone the project
+## Cloner le projet
 
 
 ````bash
@@ -8,13 +8,13 @@ $ git clone https://github.com/Jogodev/chess_tournament.git
 $ cd chess_tournament
 ````
 
-### Create the virtual environment
+### Créer l'environnement virtuel
 
 ````bash
 $ python -m venv env
 ````
 
-### Activate the virtual environment
+### Activater l'environnement virtuel
 
 #### Windows
 ````bash
@@ -29,14 +29,22 @@ $ source env\scripts\activate
 $ source env\scripts\activate 
 ````
 
-### Install the requirements
+### Installer les paquets
 
 ````bash
 $ pip install -r requirements.txt
 ````
 
-### Start
+### Lancer le programme
 
+Dans le dossier du programme éxecuter :
 ````bash
 $ python main.py
+````
+
+### Rapports flake 8
+
+Se positionner dans le dossier du projet dans le terminal et executer :
+````bash
+$ flake8 --format=html --htmldir=flake8-report
 ````

@@ -11,8 +11,7 @@ def main_menu_controller(data_dict):
     elif choice == "2":
         return "menu_tournament", data_dict
     elif choice == "3":
-        return "menu_tournament", data_dict
-
+        return "menu_report", data_dict
     else:
         print("\nSaisie non valide\n")
         return "main_menu", data_dict

@@ -1,6 +1,7 @@
 """Tournament model"""
 
 import logging
+import random
 import secrets
 
 from tinydb import TinyDB, Query
@@ -28,7 +29,7 @@ class Tournament:
             description: str = "-",
             status: str = "created",
     ) -> None:
-        self.tournament_id = tournament_id
+        self.tournament_id = tournament_id if tournament_id else secrets.token_hex(2)
         self.name = name.upper()
         self.location = location.capitalize()
         self.start_date = start_date
@@ -203,16 +204,6 @@ class Tournament:
         elif self.status == "live" and not self.round_list:
             return scores
 
-        # games = []
-        # for round_id in self.round_list:
-        #     round_find = Round.find(round_id)
-        #     current_round = round_find[0]
-        #     for game in current_round.game_list[0]:
-        #         games.append(game[0])
-        #         games.append(game[1])
-        #
-        # for game in games:
-        #     scores[game[0]] += game[1]
         for round_id in self.round_list:
             round_find = Round.find(round_id)
             current_round = round_find[0]
@@ -246,34 +237,40 @@ class Tournament:
 
     def compute_round(self):
         """Define the rounds"""
-        logging.warning("compute_round called")
-        if not self.id_current_round:
-            logging.warning("not self.id_current_round")
-            # SHUFFLE
 
-
-            game_list = []
-            players_selected = []
-            players_not_selected = [player for player in self.player_list]
-
-            while len(players_not_selected) != 0:
-                player_1 = players_not_selected[0]
-                player_2 = players_not_selected[1]
-
-                game = [(player_1, 0), (player_2, 0)]
-                game_list.append(game)
-
-                players_selected.extend([player_1, player_2])
-                players_not_selected.remove(player_1)
-                players_not_selected.remove(player_2)
+        # SHUFFLE
+        if self.id_current_round == 0:
+            random.shuffle(self.player_list)
+            print(self.player_list)
+            game_1 = (f"{self.player_list[0]}", 0), (f"{self.player_list[1]}", 0)
+            game_2 = (f"{self.player_list[2]}", 0), (f"{self.player_list[3]}", 0)
+            game_3 = (f"{self.player_list[4]}", 0), (f"{self.player_list[5]}", 0)
+            game_4 = (f"{self.player_list[6]}", 0), (f"{self.player_list[7]}", 0)
+            game_list = [game_1, game_2, game_3, game_4]
 
             return game_list
 
         game_list = []
         players_selected = []
+        players_not_selected = [player for player in self.player_list]
+
+        while len(players_not_selected) != 0:
+            player_1 = players_not_selected[0]
+            player_2 = players_not_selected[1]
+
+            game = [(player_1, 0), (player_2, 0)]
+            game_list.append(game)
+
+            players_selected.extend([player_1, player_2])
+            players_not_selected.remove(player_1)
+            players_not_selected.remove(player_2)
+
+        return game_list
+
+        game_list = []
+        players_selected = []
         self.player_list = self.ranking
         players_not_selected = [player for player in self.player_list]
-        print(players_not_selected)
 
         index = 0
         while len(players_not_selected) != 0:
@@ -316,6 +313,7 @@ class Tournament:
             logging.warning("Les 4 rondes ont été jouées, fin du tournoi")
             self.status = "closed"
             self.update()
+            logging.info(f"Résultats du tournoi{self.scores}")
             return self.scores
 
     def next_round(self):
@@ -325,7 +323,7 @@ class Tournament:
 
         new_round = Round(
             tournament_id=self.tournament_id,
-            round_name="round",
+            round_name=secrets.token_hex(4),
             game_list=game_list,
         )
         new_round.create()
