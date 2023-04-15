@@ -4,8 +4,8 @@ from src.models.player import Player
 from src.models.tournament import Tournament
 from src.views.report import (
     menu_report_view,
-    all_players_view, all_tournaments_view, one_tournament_report_view, players_in_tournament_view, \
-    rounds_and_games_tournament_view
+    all_players_view, all_tournaments_view, players_in_tournament_view,
+    rounds_and_games_tournament_view, one_tournament_choice_view, report_choice_view
 )
 
 
@@ -18,7 +18,7 @@ def menu_report_controller(data_dict):
     elif choice == "2":
         return "all_tournaments_report", data_dict
     elif choice == "3":
-        return "", data_dict
+        return "one_tournament_choice", data_dict
     elif choice == "4":
         return "", data_dict
     elif choice == "5":
@@ -50,10 +50,35 @@ def all_tournaments_report_controller(data_dict):
         return "all_tournaments_report", data_dict
 
 
-def one_tournament_report_controller(data_dict):
+def one_tournament_choice_controller(data_dict):
     """Name and dates of a tournament"""
-    choice = one_tournament_report_view()
+    tournaments = Tournament.load_tournaments()
+    tournament_id = one_tournament_choice_view(tournaments)
+    tournament = Tournament.find(tournament_id)
+    data_dict = tournament
+    if tournament:
+        return "report_choice", data_dict
+    elif tournament_id == "b":
+        return "menu_report", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "all_tournaments_report", data_dict
 
+
+def report_choice_controller(data_dict):
+    """Choice between some reports"""
+    tournament = data_dict[0]
+    print(tournament)
+    choice = report_choice_view(tournament.serialize())
+    if choice == "1":
+        return "players_in_tournaments", data_dict
+    elif choice == "2":
+        return "rounds_and_games", data_dict
+    elif choice == "b":
+        return "all_tournaments_report", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "all_tournaments_report", data_dict
 
 def players_in_tournament_controller(data_dict):
     """Players in a tournament sort by last name"""

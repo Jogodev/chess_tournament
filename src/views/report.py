@@ -8,9 +8,7 @@ def menu_report_view():
     txt = """ 
     [1] - Tous les joueurs
     [2] - Tous les tournois
-    [3] - Nom et dates d'un tournoi
-    [4] - Joueurs d'un tournoi
-    [5] - 
+    [3] - Rapports d'un tournoi  
     [b] - Retour au menu principal
     """
 
@@ -47,7 +45,7 @@ def all_tournaments_view(tournaments):
     """all tournaments in database"""
     print("----------TOUT LES TOURNOIS----------")
     table = PrettyTable()
-    table.field_names = ["ID", "Nom", "Lieu", "Date de début", "Date de fin", "Description"]
+    table.field_names = ["ID", "Nom", "Lieu", "Débuté le", "Fini le", "Commentaire"]
     for tournament in tournaments:
         table.add_row([
             tournament["tournament_id"],
@@ -66,10 +64,43 @@ def all_tournaments_view(tournaments):
     return choice
 
 
-def one_tournament_report_view():
+def one_tournament_choice_view(tournaments):
     """View of on tournament"""
-    pass
+    for tournament in tournaments:
+        print(f"[{tournament['tournament_id']}]", end=" | ")
+        print(f"{tournament['name']}")
 
+    choice = input(
+        """
+        De quel tournoi voulez-vous les rapports ?
+        --> """
+    )
+
+    return choice
+
+
+def report_choice_view(tournament):
+    """Choice between some reports"""
+    table = PrettyTable()
+    table.clear()
+    table.field_names = ["ID", "Nom", "Débuté le", "Fini le", "Commentaire"]
+    table.add_row([
+        tournament["tournament_id"],
+        tournament["name"],
+        tournament["start_date"],
+        tournament["end_date"],
+        tournament["description"],
+    ])
+    print(table)
+    choice = input(
+        """
+        Quel rapport voulez-vous consultez ?
+        [1] - Joueurs par ordre alphabétiques
+        [2] - Rondes et matchs
+        [b] - Retour au menu 
+        --> """
+    )
+    return choice
 
 def players_in_tournament_view(tournament):
     """players in tournament sort by last name"""
