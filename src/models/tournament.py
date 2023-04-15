@@ -8,6 +8,7 @@ from tinydb import TinyDB, Query
 
 from helpers.time import get_datetime
 from src.models.round import Round
+from src.models.player import Player
 
 
 class Tournament:
@@ -326,4 +327,29 @@ class Tournament:
         """End of a tournament"""
         self.end_date = get_datetime()
         self.update_end_date()
+
+    def all_players_attributes(self):
+        """Attributes of players in player list ids"""
+        players = self.player_list
+        players_list = []
+        for player in players:
+            player_find = Player.find(player)[0]
+            players_list.append(player_find.serialize())
+        players_list_sorted = sorted(players_list, key=lambda player: player["last_name"])
+        return players_list_sorted
+
+    def all_rounds(self):
+        """all rounds of a tournament"""
+        rounds = self.round_list
+        players = self.player_list
+        rounds_list = []
+        players_list = []
+        for current_round in rounds:
+            round_find = Round.find(current_round)[0]
+            rounds_list.append(round_find.serialize())
+        for player in players:
+            player_find = Player.find(player)[0]
+            players_list.append(player_find.serialize())
+        return [rounds_list, players_list, self.scores]
+
 

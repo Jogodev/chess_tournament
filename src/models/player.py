@@ -86,6 +86,7 @@ class Player:
         query = Query()
         player_find = db.search(query.select_id == select_id)
         player_list = [Player(**dict(player)) for player in player_find]
+        print(player_list)
         return player_list
 
     @classmethod
@@ -107,7 +108,7 @@ class Player:
 
     @classmethod
     def boot(cls):
-        """"""
+        """Init a test db"""
 
         list_to_create = [
             ("AB12341", "Musk", "Elon", "01/01/1988", "h", randint(0, 50)),

@@ -68,10 +68,9 @@ def one_tournament_choice_controller(data_dict):
 def report_choice_controller(data_dict):
     """Choice between some reports"""
     tournament = data_dict[0]
-    print(tournament)
     choice = report_choice_view(tournament.serialize())
     if choice == "1":
-        return "players_in_tournaments", data_dict
+        return "players_in_tournament", data_dict
     elif choice == "2":
         return "rounds_and_games", data_dict
     elif choice == "b":
@@ -80,11 +79,28 @@ def report_choice_controller(data_dict):
         print("\nSaisie non valide")
         return "all_tournaments_report", data_dict
 
+
 def players_in_tournament_controller(data_dict):
     """Players in a tournament sort by last name"""
-    choice = players_in_tournament_view(tournament)
+    tournament = data_dict[0]
+    players = tournament.all_players_attributes()
+    choice = players_in_tournament_view(players)
+    if choice == "b":
+        return "report_choice", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "players_in_tournament", data_dict
 
 
 def rounds_and_games_tournament_controller(data_dict):
     """rounds and games of a tournament"""
-    choice = rounds_and_games_tournament_view()
+    tournament = data_dict[0]
+    rounds = tournament.all_rounds()[0]
+    players = tournament.all_rounds()[1]
+    results = tournament.all_rounds()[2]
+    choice = rounds_and_games_tournament_view(rounds, players, results)
+    if choice == "b":
+        return "report_choice", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "rounds_and_games", data_dict
