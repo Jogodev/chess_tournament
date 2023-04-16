@@ -2,8 +2,8 @@
 
 
 def menu_tournament_view():
-    """"""
-    title = "----------MENU TOURNOI----------"
+    """Menu of tournaments"""
+    title = "\n----------MENU TOURNOI----------"
     txt = """ 
     [1] - Créer un nouveau tournoi
     [2] - Charger un tournoi
@@ -18,8 +18,8 @@ def menu_tournament_view():
 
 
 def create_tournament_view():
-    """"""
-    title = "----------CRÉATION TOURNOI----------"
+    """Create tournament"""
+    title = "\n----------CRÉATION TOURNOI----------"
     print(title)
 
     name = input(
@@ -45,8 +45,9 @@ def create_tournament_view():
 
 def load_tournaments_view(tournament_list):
     """all tournaments"""
+    print("\n----------TOURNOI EN BASE----------")
     for tournament in tournament_list:
-        print(f"[{tournament['tournament_id']}]", end=" | ")
+        print(f"\n[{tournament['tournament_id']}]", end=" | ")
         print(f"{tournament['name']}", end=" | ")
         print(f"Lieu : {tournament['location']}", end=" | ")
         if not tournament["start_date"]:
@@ -86,6 +87,7 @@ def load_tournaments_view(tournament_list):
 
 def load_one_tournament_view(tournament_dict):
     """one tournament"""
+    print("\n")
     print("Vous avez chargé ce tournoi : ")
     print(f"{tournament_dict['tournament_id']}", end=" | ")
     print(f"{tournament_dict['name']}", end=" | ")
@@ -116,7 +118,7 @@ def load_one_tournament_view(tournament_dict):
 
 def add_players_view(player_list_db):
     """add players"""
-
+    print("\n")
     for player in player_list_db:
         print(f"[{player['player_id']}]", end=" | ")
         print(f"{player['last_name']} {player['first_name']}", end=" | ")
@@ -161,7 +163,7 @@ def load_one_tournament_ready_view(tournament_dict):
 
 def get_scores_view(current_round):
     """Get the scores of all games"""
-    print("Entrer les scores des différents match avant de passé à la ronde suivante")
+    print("\nEntrer les scores des différents match avant de passé à la ronde suivante")
     print(f"\nMatch 1 : {current_round['game_list'][0]}")
     print("")
     print(f"Match 2 : {current_round['game_list'][1]}")
@@ -247,6 +249,7 @@ def get_scores_view(current_round):
 
 def end_round_view():
     """all rounds after the first round"""
+    print("\n")
     choice = input(
         f"""
         Voulez-vous finir cette ronde ?

@@ -69,7 +69,7 @@ def load_one_tournament_controller(data_dict):
     elif status == "live" and tournament.id_current_round >= 0:
         return "end_round", data_dict
     elif status == "closed":
-        print("Tournoi terminé charger un autre tournoi")
+        print("\nTournoi terminé charger un autre tournoi ! ! !")
         return "load_tournaments", data_dict
     choice = load_one_tournament_view(tournament.serialize())
 

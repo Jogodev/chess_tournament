@@ -3,7 +3,7 @@
 
 def menu_player_view():
     """Menu player"""
-    title = "-----------------------MENU JOUEUR---------------------------"
+    title = "\n-----------------------MENU JOUEUR---------------------------"
     txt = """
             [1] - Ajouter un joueur 
             [2] - Modifier un joueur 
@@ -22,7 +22,7 @@ def menu_player_view():
 
 def create_player_view():
     """Menu create player"""
-    title = "----------CRÉER UN JOUEUR----------"
+    title = "\n----------CRÉER UN JOUEUR----------"
     print(title)
 
     player_id = input(
@@ -64,7 +64,7 @@ def create_player_view():
     elo = input(
         """
          Classement ? 
-        --> """
+        --> \n"""
     )
 
     return {
@@ -80,7 +80,7 @@ def create_player_view():
 
 def update_player_view():
     """update player view"""
-    title = "----------MODIFIER UN JOUEUR----------"
+    title = "\n----------MODIFIER UN JOUEUR----------"
     print(title)
 
     player_id = input(
@@ -94,7 +94,7 @@ def update_player_view():
 
 def update_player_view_field(player_dict):
     """Update player view"""
-    title = "----------MODIFIER UN JOUEUR----------"
+    title = "\n----------MODIFIER UN JOUEUR----------"
     print(title)
     print(f"Vous allez modifier ce joueur : {player_dict}")
 
@@ -115,7 +115,7 @@ def update_player_view_field(player_dict):
 
 def delete_player_view():
     """delete player view"""
-    title = "----------SUPPRIMER UN JOUEUR----------"
+    title = "\n----------SUPPRIMER UN JOUEUR----------"
     print(title)
 
     player_id = input(
@@ -129,7 +129,7 @@ def delete_player_view():
 
 def delete_player_view_confirmation(player):
     """Delete player view confirmation"""
-    title = "----------SUPPRIMER UN JOUEUR----------"
+    title = "\n----------SUPPRIMER UN JOUEUR----------"
     print(title)
     print(f"Vous allez supprimer ce joueur : {player}")
 
@@ -145,7 +145,7 @@ def delete_player_view_confirmation(player):
 
 def list_all_players_db_view(all_players):
     """all players"""
-    print("----------LISTE DE TOUT LES JOUEURS----------")
+    print("\n----------LISTE DE TOUT LES JOUEURS----------")
     txt = """
     [b] - retour au menu joueur
     [m] - retour au menu principal
@@ -169,7 +169,7 @@ def list_all_players_db_view(all_players):
 def delete_all_players_db_view():
     """"""
     print(
-        "Vous avez la possibilité de supprimer tout les joueurs"
+        "\nVous avez la possibilité de supprimer tout les joueurs"
         "!!!ATTENTION CETTE ACTION EST IRRÉVERSIBLE!!!"
     )
 
@@ -191,7 +191,7 @@ def delete_all_players_db_view():
 
 def players_db_test_view():
     """"""
-    print("----------CRÉATION BASE DE TEST----------")
+    print("\n----------CRÉATION BASE DE TEST----------")
     txt = """
     [y] - Créer la base
     [b] - retour au menu joueur

@@ -11,7 +11,6 @@ def menu_report_view():
     [3] - Rapports d'un tournoi  
     [b] - Retour au menu principal
     """
-
     print(title)
     print(txt)
     choice = input("Faites votre choix : ")
@@ -20,7 +19,7 @@ def menu_report_view():
 
 def all_players_view(sort_players):
     """Player sort by last name"""
-    print("----------TOUT LES JOUEURS----------")
+    print("\n----------TOUT LES JOUEURS----------")
     table = PrettyTable()
     table.field_names = ["ID", "Nom", "Prénom", "Sexe", "Date de naissance"]
     for player in sort_players:
@@ -42,7 +41,7 @@ def all_players_view(sort_players):
 
 def all_tournaments_view(tournaments):
     """all tournaments in database"""
-    print("----------TOUT LES TOURNOIS----------")
+    print("\n----------TOUT LES TOURNOIS----------")
     table = PrettyTable()
     table.field_names = ["ID", "Nom", "Lieu", "Débuté le", "Fini le", "Commentaire"]
     for tournament in tournaments:
@@ -65,6 +64,7 @@ def all_tournaments_view(tournaments):
 
 def one_tournament_choice_view(tournaments):
     """View of on tournament"""
+    print("\n----------TOURNOIS----------")
     for tournament in tournaments:
         print(f"[{tournament['tournament_id']}]", end=" | ")
         print(f"{tournament['name']}")
@@ -80,6 +80,7 @@ def one_tournament_choice_view(tournaments):
 
 def report_choice_view(tournament):
     """Choice between some reports"""
+    print("\n----------RAPPORT D'UN TOURNOI----------")
     table = PrettyTable()
     table.field_names = ["ID", "Nom", "Débuté le", "Fini le", "Commentaire"]
     table.add_row([
@@ -104,6 +105,7 @@ def report_choice_view(tournament):
 
 def players_in_tournament_view(players):
     """players in tournament sort by last name"""
+    print("\n----------JOUEURS DU TOURNOI----------")
     table = PrettyTable()
     table.field_names = ["ID", "Nom", "Prénom", "Date de naissance", "Sexe"]
     for player in players:
@@ -127,6 +129,7 @@ def players_in_tournament_view(players):
 
 def rounds_and_games_tournament_view(rounds, results, players):
     """view of rounds and games of a tournament"""
+    print("\n----------RONDES ET MATCHS DU TOURNOI----------")
     table = PrettyTable()
     table.field_names = ["ID", "Nom", "Commencé le", "Fini le", "Matchs"]
     for current_round in rounds:
@@ -137,15 +140,16 @@ def rounds_and_games_tournament_view(rounds, results, players):
             current_round["end_datetime"],
             current_round["game_list"],
         ])
-    print("----------Résultats----------")
+
     result_table = PrettyTable()
     result_table.field_names = ["Joueur", "Score"]
     for player in players.items():
         result_table.add_row([
-            player[],
-            player[],
+            player[0],
+            player[1],
         ])
     print(f"\n{table}\n")
+    print("\n----------Résultats----------\n")
     print(f"\n{result_table}\n")
     choice = input(
         """
