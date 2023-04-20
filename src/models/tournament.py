@@ -1,6 +1,5 @@
 """Tournament model"""
 
-import logging
 import random
 import secrets
 
@@ -27,7 +26,7 @@ class Tournament:
             round_list: list = [],
             total_rounds: int = 4,
             player_list: list = [],
-            description: str = "-",
+            description: str = "",
             status: str = "created",
     ) -> None:
         self.tournament_id = tournament_id if tournament_id else secrets.token_hex(2)
@@ -299,7 +298,6 @@ class Tournament:
         current_round.end_datetime = get_datetime()
         current_round.update()
 
-        self.id_current_round += 1
         self.update_current_round()
         if len(self.round_list) == 4:
             print("Les 4 rondes ont été jouées, fin du tournoi")
@@ -321,6 +319,8 @@ class Tournament:
         new_round.create()
         new_round.update()
         self.round_list.append(new_round.round_id)
+        self.id_current_round += 1
+        self.update_current_round()
         self.update()
 
     def end_tournament(self):
@@ -329,7 +329,7 @@ class Tournament:
         self.update_end_date()
 
     def all_players_attributes(self):
-        """Attributes of players in player list ids"""
+        """Attributes of players in player list ids for the reports"""
         players = self.player_list
         players_list = []
         for player in players:
@@ -339,7 +339,7 @@ class Tournament:
         return players_list_sorted
 
     def all_rounds(self):
-        """all rounds of a tournament"""
+        """all rounds of a tournament for the reports"""
         rounds = self.round_list
         players = self.player_list
         rounds_list = []
@@ -351,5 +351,3 @@ class Tournament:
             player_find = Player.find(player)[0]
             players_list.append(player_find.serialize())
         return [rounds_list, players_list, self.scores]
-
-

@@ -40,9 +40,10 @@ def create_player_controller(data_dict):
     """Insert a player in db"""
     player_dict = create_player_view()
     player = Player(**player_dict)
-    player_insert_in_db = player.create()
+    player.create()
     print(
-        f"{player.last_name} {player.first_name} ajouté à la base de données avec l'id {player.player_id}"
+        f"{player.last_name} {player.first_name} "
+        f"ajouté à la base de données avec l'id {player.player_id}"
     )
     return "menu_player", data_dict
 

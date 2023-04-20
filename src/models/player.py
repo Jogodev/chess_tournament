@@ -1,5 +1,4 @@
 """Player model"""
-import logging
 from random import randint
 
 from tinydb import TinyDB, Query
@@ -13,10 +12,10 @@ class Player:
     def __init__(
             self,
             player_id: str,
-            last_name: str = "-",
-            first_name: str = "-",
-            birthday: str = "-",
-            gender: str = "-",
+            last_name: str,
+            first_name: str,
+            birthday: str,
+            gender: str,
             elo: int = 0,
             score: float = 0.0,
     ) -> None:
@@ -49,7 +48,7 @@ class Player:
 
         db = self.table()
         db.insert(self.serialize())
-        logging.info(f"Joueur {self.player_id} créer")
+        print(f"Joueur {self.player_id} créer")
 
     def update(self, kwargs=None):
         """Update player"""
@@ -66,7 +65,7 @@ class Player:
         query = Query()
         kwargs = {"player_id": self.player_id}
         db.remove(query.fragment(kwargs))
-        logging.warning(f"Joueur {self.player_id} supprimé")
+        print(f"Joueur {self.player_id} supprimé")
 
     @classmethod
     def find(cls, player_id):
@@ -103,7 +102,7 @@ class Player:
     def delete_all(cls):
         """delete all"""
         players_db = cls.table()
-        logging.warning("la base a été supprimée")
+        print("la base a été supprimée")
         return players_db.truncate()
 
     @classmethod
@@ -137,6 +136,4 @@ class Player:
                 elo=int(elo),
             )
             player.create()
-            logging.info("La base de test à été créé avec succès")
-
-
+            print("La base de test à été créé avec succès")

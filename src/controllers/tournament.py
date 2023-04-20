@@ -66,8 +66,16 @@ def load_one_tournament_controller(data_dict):
     status = data_dict.status
     if status == "ready":
         return "load_one_tournament_ready", data_dict
-    elif status == "live" and tournament.id_current_round >= 0:
+    elif (status == "live")\
+            and (tournament.id_current_round >= 0)\
+            and \
+            (Round.find(tournament.round_list[tournament.id_current_round])[0].end_datetime == ""):
         return "end_round", data_dict
+    elif (status == "live")\
+            and (tournament.id_current_round >= 0)\
+            and \
+            (Round.find(tournament.round_list[tournament.id_current_round])[0].end_datetime != ""):
+        return "next_round", data_dict
     elif status == "closed":
         print("\nTournoi terminé charger un autre tournoi ! ! !")
         return "load_tournaments", data_dict
@@ -132,6 +140,20 @@ def get_scores_controller(data_dict):
     return "end_round", data_dict
 
 
+def next_round_controller(data_dict):
+    """All the rounds after the first"""
+    tournament = data_dict
+    choice = next_round_view()
+    if choice == "y":
+        tournament.next_round()
+        return "get_scores", data_dict
+    elif choice == "n":
+        return "menu_tournament", data_dict
+    else:
+        print("\nSaisie non valide")
+        return "next_round", data_dict
+
+
 def end_round_controller(data_dict):
     """All round after the first"""
     tournament = data_dict
@@ -147,20 +169,6 @@ def end_round_controller(data_dict):
     else:
         print("\nSaisie non valide")
         return "end_round", data_dict
-
-
-def next_round_controller(data_dict):
-    """All the rounds after the first"""
-    tournament = data_dict
-    choice = next_round_view()
-    if choice == "y":
-        tournament.next_round()
-        return "get_scores", data_dict
-    elif choice == "n":
-        return "menu_tournament", data_dict
-    else:
-        print("\nSaisie non valide")
-        return "next_round", data_dict
 
 
 def end_tournament_controller(data_dict):

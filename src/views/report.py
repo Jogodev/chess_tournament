@@ -5,10 +5,10 @@ from prettytable import PrettyTable
 def menu_report_view():
     """Menu of the reports"""
     title = "----------RAPPORTS----------"
-    txt = """ 
+    txt = """
     [1] - Tous les joueurs
     [2] - Tous les tournois
-    [3] - Rapports d'un tournoi  
+    [3] - Rapports d'un tournoi
     [b] - Retour au menu principal
     """
     print(title)
@@ -96,7 +96,7 @@ def report_choice_view(tournament):
         Quel rapport voulez-vous consultez ?
         [1] - Joueurs par ordre alphabétiques
         [2] - Rondes et matchs
-        [b] - Retour au menu 
+        [b] - Retour au menu
         --> """
     )
 
@@ -107,7 +107,7 @@ def players_in_tournament_view(players):
     """players in tournament sort by last name"""
     print("\n----------JOUEURS DU TOURNOI----------")
     table = PrettyTable()
-    table.field_names = ["ID", "Nom", "Prénom", "Date de naissance", "Sexe"]
+    table.field_names = ["ID", "Nom", "Prénom", "Sexe", "Date de naissance"]
     for player in players:
         table.add_row([
             player["player_id"],

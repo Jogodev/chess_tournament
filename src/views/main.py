@@ -6,7 +6,7 @@ def main_menu_view():
 
     title = "----------BIENVENUE AU TOURNOI D'ECHECS----------"
     txt = """
-         [1] - Joueur 
+         [1] - Joueur
          [2] - Tournoi
          [3] - Rapports
         """

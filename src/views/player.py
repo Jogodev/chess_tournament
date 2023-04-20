@@ -5,9 +5,9 @@ def menu_player_view():
     """Menu player"""
     title = "\n-----------------------MENU JOUEUR---------------------------"
     txt = """
-            [1] - Ajouter un joueur 
-            [2] - Modifier un joueur 
-            [3] - Supprimer un joueur 
+            [1] - Ajouter un joueur
+            [2] - Modifier un joueur
+            [3] - Supprimer un joueur
             [4] - Liste de tous les joueurs
             [5] - Supprimer tous les joueurs
             [6] - Créer la base test
@@ -33,37 +33,37 @@ def create_player_view():
 
     last_name = input(
         """
-         Nom ? 
+         Nom ?
         --> """
     )
 
     first_name = input(
         """
-         Prénom ? 
+         Prénom ?
         --> """
     )
 
     birthday = input(
         """
-         Date de naissance ? 
+         Date de naissance ?
         --> """
     )
 
     gender = input(
         """
-         Sexe ? 
+         Sexe ?
         --> """
     )
 
     score = input(
         """
-         Score ? 
+         Score ?
         --> """
     )
 
     elo = input(
         """
-         Classement ? 
+         Classement ?
         --> \n"""
     )
 
@@ -176,14 +176,14 @@ def delete_all_players_db_view():
     input(
         """
         Voulez-vous supprimer la base de données ?
-        y -> [oui] ou n -> [non] 
+        y -> [oui] ou n -> [non]
         --> """
     )
 
     choice = input(
         """
         Êtes-vous vraiment sûr ?
-        y -> [oui] ou n -> [non] 
+        y -> [oui] ou n -> [non]
         --> """
     )
     return choice

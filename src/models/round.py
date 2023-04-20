@@ -1,5 +1,4 @@
 """Class Round"""
-import logging
 import secrets
 
 from tinydb import TinyDB, Query
@@ -105,5 +104,3 @@ class Round:
             self.start_datetime,
             self.end_datetime,
         ]
-
-

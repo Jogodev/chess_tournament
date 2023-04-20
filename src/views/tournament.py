@@ -4,7 +4,7 @@
 def menu_tournament_view():
     """Menu of tournaments"""
     title = "\n----------MENU TOURNOI----------"
-    txt = """ 
+    txt = """
     [1] - Créer un nouveau tournoi
     [2] - Charger un tournoi
     [b] - Retour au menu principal
@@ -110,7 +110,7 @@ def load_one_tournament_view(tournament_dict):
     choice = input(
         """
         Ajouter les joueurs ?
-        y -> [oui] ou n -> [non] 
+        y -> [oui] ou n -> [non]
         --> """
     )
     return choice
@@ -154,8 +154,8 @@ def load_one_tournament_ready_view(tournament_dict):
 
     choice = input(
         """
-        Ce tournoi est prêt voulez-vous commencer la 1ère ronde?
-        y -> [oui] ou n -> [non] 
+        Ce tournoi est prêt voulez-vous commencer la 1ère ronde ?
+        y -> [oui] ou n -> [non]
         --> """
     )
     return choice
@@ -185,37 +185,37 @@ def get_scores_view(current_round):
     player_id_8 = current_round['game_list'][3][1][0]
 
     game_1 = input(
-        """  
-        Match 1    
+        """
+        Match 1
         --> """
     )
 
     game_2 = input(
-        """  
-        Match 2    
+        """
+        Match 2
         --> """
     )
 
     game_3 = input(
-        """  
-        Match 3    
+        """
+        Match 3
         --> """
     )
 
     game_4 = input(
-        """  
-        Match 4    
+        """
+        Match 4
         --> """
     )
-    while game_1 in ["1", "2", "3"]:
-        if game_1 == "1":
-            game_1 = [(player_id_1, 1), (player_id_2, 0)]
 
-        elif game_1 == "2":
-            game_1 = [(player_id_1, 0), (player_id_2, 1)]
+    if game_1 == "1":
+        game_1 = [(player_id_1, 1), (player_id_2, 0)]
 
-        elif game_1 == "3":
-            game_1 = [(player_id_1, 0.5), (player_id_2, 0.5)]
+    elif game_1 == "2":
+        game_1 = [(player_id_1, 0), (player_id_2, 1)]
+
+    elif game_1 == "3":
+        game_1 = [(player_id_1, 0.5), (player_id_2, 0.5)]
 
     if game_2 == "1":
         game_2 = [(player_id_3, 1), (player_id_4, 0)]
@@ -251,9 +251,9 @@ def end_round_view():
     """all rounds after the first round"""
     print("\n")
     choice = input(
-        f"""
+        """
         Voulez-vous finir cette ronde ?
-        y -> [oui] ou n -> [non] 
+        y -> [oui] ou n -> [non]
         --> """
     )
     return choice
@@ -262,9 +262,9 @@ def end_round_view():
 def next_round_view():
     """all rounds after the first round"""
     choice = input(
-        f"""
+        """
         Voulez-vous lancer la prochaine ronde de ce tournoi ?
-        y -> [oui] ou n -> [non] 
+        y -> [oui] ou n -> [non]
         --> """
     )
     return choice
