@@ -342,12 +342,22 @@ class Tournament:
         """all rounds of a tournament for the reports"""
         rounds = self.round_list
         players = self.player_list
+        results = self.scores
         rounds_list = []
         players_list = []
+        results_list = []
+        game_list = []
         for current_round in rounds:
             round_find = Round.find(current_round)[0]
-            rounds_list.append(round_find.serialize())
+            for game in round_find.game_list[0]:
+                player_game_1 = Player.find(game[0][0])
+                player_game_2 = Player.find(game[1][0])
+                game_list.append([[player_game_1, game[0][1]], [player_game_2, game[1][1]]])
+                rounds_list.append(round_find.serialize())
         for player in players:
             player_find = Player.find(player)[0]
             players_list.append(player_find.serialize())
-        return [rounds_list, players_list, self.scores]
+        for player_id in results.items():
+            player_id_find = Player.find(player_id[0])
+            results_list.append([player_id_find[0], player_id[1]])
+        return [rounds_list, players_list, results_list, game_list]

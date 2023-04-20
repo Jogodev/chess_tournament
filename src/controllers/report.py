@@ -98,7 +98,8 @@ def rounds_and_games_tournament_controller(data_dict):
     rounds = tournament.all_rounds()[0]
     players = tournament.all_rounds()[1]
     results = tournament.all_rounds()[2]
-    choice = rounds_and_games_tournament_view(rounds, players, results)
+    game_list = tournament.all_rounds()[3]
+    choice = rounds_and_games_tournament_view(rounds, players, results, game_list)
     if choice == "b":
         return "report_choice", data_dict
     else:
