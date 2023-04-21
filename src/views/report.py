@@ -139,8 +139,8 @@ def rounds_and_games_tournament_view(rounds, players, results, game_list):
             current_round['end_datetime'],
             current_round['game_list'],
         ])
-        result_table = PrettyTable()
-        result_table.field_names = ["Nom", "Prénom", "Score"]
+    result_table = PrettyTable()
+    result_table.field_names = ["Nom", "Prénom", "Score"]
     for result in results:
         result_table.add_row([
             result[0].last_name,
