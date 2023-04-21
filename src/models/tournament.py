@@ -349,11 +349,12 @@ class Tournament:
         game_list = []
         for current_round in rounds:
             round_find = Round.find(current_round)[0]
+            rounds_list.append(round_find.serialize())
             for game in round_find.game_list[0]:
                 player_game_1 = Player.find(game[0][0])
                 player_game_2 = Player.find(game[1][0])
                 game_list.append([[player_game_1, game[0][1]], [player_game_2, game[1][1]]])
-                rounds_list.append(round_find.serialize())
+
         for player in players:
             player_find = Player.find(player)[0]
             players_list.append(player_find.serialize())

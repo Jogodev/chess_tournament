@@ -74,7 +74,7 @@ def report_choice_controller(data_dict):
     elif choice == "2":
         return "rounds_and_games", data_dict
     elif choice == "b":
-        return "all_tournaments_report", data_dict
+        return "one_tournament_choice", data_dict
     else:
         print("\nSaisie non valide")
         return "all_tournaments_report", data_dict

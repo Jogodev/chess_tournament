@@ -131,18 +131,16 @@ def rounds_and_games_tournament_view(rounds, players, results, game_list):
     """view of rounds and games of a tournament"""
     print("\n----------RONDES ET MATCHS DU TOURNOI----------")
     table = PrettyTable()
-    table.field_names = ["ID", "Nom", "Commencé le", "Fini le", "Matchs"]
-    print(game_list)
+    table.field_names = ["ID", "Commencé le", "Fini le", "Matchs"]
     for current_round in rounds:
         table.add_row([
-            current_round["round_id"],
-            current_round["round_name"],
-            current_round["start_datetime"],
-            current_round["end_datetime"],
-            current_round["game_list"],
+            current_round['round_id'],
+            current_round['start_datetime'],
+            current_round['end_datetime'],
+            current_round['game_list'],
         ])
-    result_table = PrettyTable()
-    result_table.field_names = ["Nom", "Prénom", "Score"]
+        result_table = PrettyTable()
+        result_table.field_names = ["Nom", "Prénom", "Score"]
     for result in results:
         result_table.add_row([
             result[0].last_name,
