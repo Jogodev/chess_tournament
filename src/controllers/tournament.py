@@ -99,8 +99,11 @@ def add_players_controller(data_dict):
     if choice == "b":
         return "menu_tournament", data_dict
     player_find = Player.find(player_choose)
-    player = player_find[0]
-    tournament.add_player(player.serialize())
+    if not player_find:
+        print('Aucun joueur avec cette id dans la base')
+    else:
+        player = player_find[0]
+        tournament.add_player(player.serialize())
     if tournament.status == "ready":
         return "load_one_tournament_ready", data_dict
 

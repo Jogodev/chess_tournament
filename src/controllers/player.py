@@ -52,7 +52,6 @@ def update_player_controller(data_dict):
     """Update any fields of a player"""
     player_id = update_player_view()
     player_list = Player.find(player_id)
-    assert len(player_list) == 1
     player = player_list[0]
     player_field_update = update_player_view_field(player.serialize())
     player.update(player_field_update)
@@ -71,6 +70,7 @@ def delete_player_controller(data_dict):
 
     if choice == "y":
         player.delete()
+        return "menu_player", data_dict
     elif choice == "n":
         return "menu_player", data_dict
     else:
@@ -98,6 +98,7 @@ def delete_all_players_controller(data_dict):
 
     if choice == "y":
         Player.delete_all()
+        return "menu_player", data_dict
     elif choice == "n":
         return "menu_player", data_dict
     else:
@@ -111,6 +112,7 @@ def players_db_test_controller(data_dict):
 
     if choice == "y":
         Player.boot()
+        return "menu_player", data_dict
     elif choice == "b":
         return "menu_player", data_dict
     elif choice == "m":

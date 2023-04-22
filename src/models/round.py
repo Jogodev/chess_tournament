@@ -76,7 +76,7 @@ class Round:
         db = cls.table()
         query = Query()
         round_find = db.search(query.round_id == round_id)
-        round_list = [Round(**dict(round)) for round in round_find]
+        round_list = [Round(**dict(current_round)) for current_round in round_find]
         return round_list
 
     @classmethod
@@ -84,7 +84,7 @@ class Round:
         """return list of dict with all entries"""
 
         round_list = cls.table().all()
-        round_list = [Round(**dict(round)) for round in round_list]
+        round_list = [Round(**dict(current_round)) for current_round in round_list]
         return round_list
 
     @classmethod
@@ -94,13 +94,3 @@ class Round:
         round_db = cls.table()
         print("la base des rondes a été supprimée")
         return round_db.truncate()
-
-    def round_in_list(self):
-        """Round info"""
-        return [
-            self.round_id,
-            self.round_name,
-            self.game_list,
-            self.start_datetime,
-            self.end_datetime,
-        ]
