@@ -77,7 +77,7 @@ def report_choice_controller(data_dict):
         return "one_tournament_choice", data_dict
     else:
         print("\nSaisie non valide")
-        return "all_tournaments_report", data_dict
+        return "report_choice", data_dict
 
 
 def players_in_tournament_controller(data_dict):
