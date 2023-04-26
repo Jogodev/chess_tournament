@@ -1,0 +1,74 @@
+{
+    "_default": {
+        "1": {
+            "tournament_id": "1",
+            "name": "FIRST",
+            "location": "Paris",
+            "start_date": "2023-04-22 18:32:4",
+            "end_date": "2023-04-22 18:35:1",
+            "id_current_round": 3,
+            "round_list": [
+                "7586",
+                "a0ec",
+                "106c",
+                "fafa"
+            ],
+            "total_rounds": 4,
+            "player_list": [
+                "AB12345",
+                "AB12343",
+                "AB12347",
+                "AB12342",
+                "AB12341",
+                "AB12344",
+                "AB12346",
+                "AB12348"
+            ],
+            "description": "Go",
+            "status": "closed"
+        },
+        "2": {
+            "tournament_id": "2",
+            "name": "SECOND",
+            "location": "Lyon",
+            "start_date": "",
+            "end_date": "",
+            "id_current_round": -1,
+            "round_list": [],
+            "total_rounds": 4,
+            "player_list": [
+                "AB12341",
+                "AB12342"
+            ],
+            "description": "hey",
+            "status": "created"
+        },
+        "3": {
+            "tournament_id": "3",
+            "name": "GO",
+            "location": "Marseille",
+            "start_date": "2023-04-23 14:40:1",
+            "end_date": "2023-04-23 14:43:0",
+            "id_current_round": 3,
+            "round_list": [
+                "51a7",
+                "b6ab",
+                "7ee9",
+                "2aba"
+            ],
+            "total_rounds": 4,
+            "player_list": [
+                "AB12343",
+                "AB12345",
+                "AB12344",
+                "AB12341",
+                "AB12348",
+                "AB12347",
+                "AB12342",
+                "AB12346"
+            ],
+            "description": "hey",
+            "status": "closed"
+        }
+    }
+}
