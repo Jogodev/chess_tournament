@@ -134,7 +134,6 @@ dmypy.json
 
 
 *.csv
-*.json
 *.sqlite3
 *.pk
 >>>>>>> 1a93263a4d657d04e28c4441a425b3ec972f6f19
