@@ -7,7 +7,7 @@
             "birthday": "01/01/1988",
             "gender": "h",
             "score": 0.0,
-            "elo": 27
+            "elo": 23
         },
         "2": {
             "player_id": "AB12342",
@@ -16,7 +16,7 @@
             "birthday": "01/01/1988",
             "gender": "f",
             "score": 0.0,
-            "elo": 8
+            "elo": 38
         },
         "3": {
             "player_id": "AB12343",
@@ -25,7 +25,7 @@
             "birthday": "01/01/1988",
             "gender": "h",
             "score": 0.0,
-            "elo": 12
+            "elo": 32
         },
         "4": {
             "player_id": "AB12344",
@@ -34,7 +34,16 @@
             "birthday": "01/01/1988",
             "gender": "h",
             "score": 0.0,
-            "elo": 11
+            "elo": 3
+        },
+        "5": {
+            "player_id": "AB12345",
+            "last_name": "VILAR",
+            "first_name": "Jean",
+            "birthday": "01/01/1988",
+            "gender": "h",
+            "score": 0.0,
+            "elo": 45
         },
         "6": {
             "player_id": "AB12346",
@@ -43,7 +52,7 @@
             "birthday": "01/01/1988",
             "gender": "h",
             "score": 0.0,
-            "elo": 48
+            "elo": 35
         },
         "7": {
             "player_id": "AB12347",
@@ -52,7 +61,7 @@
             "birthday": "01/01/1988",
             "gender": "h",
             "score": 0.0,
-            "elo": 43
+            "elo": 23
         },
         "8": {
             "player_id": "AB12348",
@@ -61,33 +70,15 @@
             "birthday": "01/01/1988",
             "gender": "f",
             "score": 0.0,
-            "elo": 30
+            "elo": 17
         },
-        "10": {
-            "player_id": "AB12345",
-            "last_name": "VILAR",
-            "first_name": "Jean",
-            "birthday": "11/03/1985",
-            "gender": "h",
-            "score": 0.0,
-            "elo": 9
-        },
-        "11": {
-            "player_id": "AZ12347",
-            "last_name": "Rizet",
-            "first_name": "Alain",
-            "birthday": "01/03/1975",
-            "gender": "h",
-            "score": "0.0",
-            "elo": ""
-        },
-        "12": {
-            "player_id": "AZ12345",
-            "last_name": "Didi",
-            "first_name": "Jo",
-            "birthday": "18/02/1978",
-            "gender": "h",
-            "score": "0.0",
+        "9": {
+            "player_id": "AZ12341",
+            "last_name": "BOURRENS",
+            "first_name": "Didier",
+            "birthday": "21/02/1978",
+            "gender": "H",
+            "score": "",
             "elo": ""
         }
     }
