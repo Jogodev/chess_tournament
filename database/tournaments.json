@@ -26,6 +26,33 @@
             ],
             "description": "go",
             "status": "closed"
+        },
+        "2": {
+            "tournament_id": "2",
+            "name": "DEMO2",
+            "location": "Lyon",
+            "start_date": "2023-04-28 09:15:1",
+            "end_date": "2023-04-28 09:17:4",
+            "id_current_round": 3,
+            "round_list": [
+                "a58a",
+                "c439",
+                "61ef",
+                "2ad2"
+            ],
+            "total_rounds": 4,
+            "player_list": [
+                "AB12341",
+                "AB12342",
+                "AB12345",
+                "AB12348",
+                "AB12347",
+                "AB12343",
+                "AB12344",
+                "AB12346"
+            ],
+            "description": "Hey",
+            "status": "closed"
         }
     }
 }
