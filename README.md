@@ -14,7 +14,7 @@ $ cd chess_tournament
 $ python -m venv env
 ````
 
-### Activater l'environnement virtuel
+### Activer l'environnement virtuel
 
 #### Windows
 ````bash
